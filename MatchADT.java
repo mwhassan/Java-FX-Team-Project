@@ -57,8 +57,9 @@ public interface MatchADT <T, S extends Comparable<S>> {
      * @param scoreTeamOne - score of team one.  
      * @param scoreTeamTwo - score of team two
      * @return - returns the winner of the match (type T)
+     * @throws IllegalArgumentException if the score is tied
      */
-    public T setFinalScore(S scoreTeamOne, S scoreTeamTwo); //Set score, allow override?
+    public T setFinalScore(S scoreTeamOne, S scoreTeamTwo) throws IllegalArgumentException; //Set score, allow override?
     
     /**
      * T getWinner()
@@ -68,8 +69,7 @@ public interface MatchADT <T, S extends Comparable<S>> {
      *
      * @return eturns the team of type T that won the match (highest 'score')
      * @throws IllegalStateException if no scores have been set
-     * @throws IllegalArgumentException if the score is tied
      */
-    public T getWinner() throws IllegalStateException, IllegalArgumentException; 
+    public T getWinner() throws IllegalStateException; 
     
 }
