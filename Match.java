@@ -19,8 +19,8 @@ public class Match<T, S extends Comparable<S> > implements MatchADT <T, S>  {
 	/**********************
 	 * Private Class Fields
 	 **********************/
-	private T teamOne;
-	private T teamTwo;
+	public T teamOne;
+	public T teamTwo;
 	
 	private S teamOneScore;
 	private S teamTwoScore;
