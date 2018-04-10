@@ -6,10 +6,10 @@ package application;
  * 
  * @author hayesbirchle
  *
- * @param <T> - Generic team type
+ * @param <Team> - Generic team type
  * @param <S> - Generic score type
  */
-public class Match<T, S extends Comparable<S> > implements MatchADT <T, S>  {
+public class Match<S extends Comparable<S> > implements MatchADT <S>  {
 
 	/**********************
 	 * Private Constants
@@ -19,8 +19,8 @@ public class Match<T, S extends Comparable<S> > implements MatchADT <T, S>  {
 	/**********************
 	 * Private Class Fields
 	 **********************/
-	public T teamOne;
-	public T teamTwo;
+	private Team teamOne;
+	private Team teamTwo;
 	
 	private S teamOneScore;
 	private S teamTwoScore;
@@ -40,7 +40,7 @@ public class Match<T, S extends Comparable<S> > implements MatchADT <T, S>  {
      * @param teamTwo - team in socket two of match
      */
 	@Override
-	public void setTeams(T teamOne, T teamTwo) {
+	public void setTeams(Team teamOne, Team teamTwo) {
 		this.teamOne = teamOne;
 		this.teamTwo = teamTwo;
 	}
@@ -50,10 +50,9 @@ public class Match<T, S extends Comparable<S> > implements MatchADT <T, S>  {
 	 * @return both teams as an array
 	 */
 	@Override
-	public T[] getTeams() {
-		T[] teams = (T[]) new Object[NUM_TEAMS];
+	public Team[] getTeams() {
+		Team[] teams = new Team[NUM_TEAMS];
 		
-		System.out.println(teamSpot.TeamOne.ordinal());
 		teams[teamSpot.TeamOne.ordinal()] = this.teamOne;
 		teams[teamSpot.TeamTwo.ordinal()] = this.teamTwo;
 		
@@ -77,7 +76,7 @@ public class Match<T, S extends Comparable<S> > implements MatchADT <T, S>  {
      * @throws IllegalArgumentException if the score is tied
      */
 	@Override
-	public T setFinalScore(S teamOneScore, S teamTwoScore) throws IllegalArgumentException {
+	public Team setFinalScore(S teamOneScore, S teamTwoScore) throws IllegalArgumentException {
 		if (teamOneScore == null || teamTwoScore == null) throw new 
 							IllegalArgumentException ("Can not have null scores");
 			
@@ -95,11 +94,11 @@ public class Match<T, S extends Comparable<S> > implements MatchADT <T, S>  {
      * NOTES:  Do we want to allow override of scores, i.e if they are already set can they 
      *         be adjusted?
      *
-     * @return eturns the team of type T that won the match (highest 'score')
+     * @return returns the team of type T that won the match (highest 'score')
      * @throws IllegalStateException if no scores have been set
      */
 	@Override
-	public T getWinner() throws IllegalStateException {
+	public Team getWinner() throws IllegalStateException {
 		if (teamOneScore == null || teamTwoScore == null) throw new 
 									IllegalStateException ("Scores not set");
 		if (teamOneScore.compareTo(teamTwoScore) > 0) {

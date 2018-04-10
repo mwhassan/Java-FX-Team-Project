@@ -1,14 +1,14 @@
 package application;
 
-import java.io.File;
+
 import java.io.IOException;
 
 /**
  * Assumptions:
  * 
- * 1) Items are reffered to as follows.  This shows for an 8 team bracket, but general principal
+ * 1) Items are referred to as follows.  This shows for an 8 team bracket, but general principal
  *    holds that you work your way from top to bottom of round a then left to right on rounds 
- *    themeselves when you number.  Matches continue to increment regardless of round, slots
+ *    themselves when you number.  Matches continue to increment regardless of round, slots
  *    restart every round.  
  * Round 1  Round 2   Round 3
  * ________
@@ -66,14 +66,14 @@ public interface BracketADT <S> {
     //Match specific information
     
     //Find index given round and slot
-    public void getMatchIndex(int round, int slot); 
+    public int getMatchIndex(int round, int slot); 
     
     public String getMatchWinner(int matchIndex); //Return the winner of a match given an index
     public String getMatchTeam(int matchIndex, MatchADT.teamSpot team); //Return the winner of a match given an index
     
     
     //Genealogy
-    public int[] getPrevMatchs(int matchIndex); //Returns the index of the match that follows
+    public int[] getPrevMatches(int matchIndex); //Returns the index of the match that follows
     public int getNextMatch(int matchIndex); //Returns the index of the match that follows
     
     //Set match scores for each team
