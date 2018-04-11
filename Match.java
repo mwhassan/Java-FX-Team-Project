@@ -30,9 +30,9 @@ public class Match<S extends Comparable<S> > implements MatchADT <S>  {
 	 **********************/
 	
 	/**
-     * void setTeams(T,T)
+     * void setTeams(Team,Team)
      * 
-     * Allows utilizer to set two teams of type T
+     * Allows utilizer to set two teams of type Team
      * NOTES:  Do we want to allow override of teams, i.e if they are already set can they 
      *         be adjusted?
      *
@@ -43,6 +43,19 @@ public class Match<S extends Comparable<S> > implements MatchADT <S>  {
 	public void setTeams(Team teamOne, Team teamTwo) {
 		this.teamOne = teamOne;
 		this.teamTwo = teamTwo;
+	}
+	
+	/**
+	 * void addTeam(Team)
+	 * 
+	 * Adds a team to the match.
+	 * @throws IllegalStateException
+	 * @param Team team
+	 */
+	public void addTeam(Team team) {
+		if(teamOne == null) teamOne = team;
+		else if(teamTwo == null) teamTwo = team;
+		else throw new IllegalStateException("Match is already full.");
 	}
 
 	/**
@@ -61,7 +74,7 @@ public class Match<S extends Comparable<S> > implements MatchADT <S>  {
 
 	
 	/**
-     * T setFinalScore(S, S)
+     * Team setFinalScore(S, S)
      * 
      * Allows user to set final score, returns the winner.
      * I think it makes sense to keep score generic but make it extend Comparable.  It is fairly
@@ -72,7 +85,7 @@ public class Match<S extends Comparable<S> > implements MatchADT <S>  {
      * 
      * @param scoreTeamOne - score of team one.  
      * @param scoreTeamTwo - score of team two
-     * @return - returns the winner of the match (type T)
+     * @return - returns the winner of the match (type Team)
      * @throws IllegalArgumentException if the score is tied
      */
 	@Override
@@ -82,14 +95,15 @@ public class Match<S extends Comparable<S> > implements MatchADT <S>  {
 			
 		if (teamOneScore.equals(teamTwoScore)) throw new 
 											IllegalArgumentException ("Can not have ties in bracket");
-		
+		if (this.teamOneScore != null || this.teamTwoScore != null) throw new
+											IllegalStateException("Cannot override existing score.");
 		this.teamOneScore = teamOneScore;
 		this.teamTwoScore = teamTwoScore;
 		return getWinner();
 	}
 
 	/**
-     * T getWinner()
+     * Team getWinner()
      * returns the winner of the match
      * NOTES:  Do we want to allow override of scores, i.e if they are already set can they 
      *         be adjusted?

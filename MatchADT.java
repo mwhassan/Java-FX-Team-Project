@@ -25,9 +25,9 @@ public interface MatchADT <S extends Comparable<S>> {
     
     
     /**
-     * void setTeams(T,T)
+     * void setTeams(Team,Team)
      * 
-     * Allows utilizer to set two teams of type T
+     * Allows utilizer to set two teams of type Team
      * NOTES:  Do we want to allow override of teams, i.e if they are already set can they 
      *         be adjusted?
      *
@@ -35,6 +35,16 @@ public interface MatchADT <S extends Comparable<S>> {
      * @param teamTwo - team in socket two of match
      */
     public void setTeams(Team teamOne, Team teamTwo);
+    
+    /**
+     * void addTeam(Team)
+     * 
+     * Adds a single team to the match.
+     * 
+     * @throws IllegalStateException() if match is already full.
+     * @param Team team
+     */
+    public void addTeam(Team team);
     
     
     /**
@@ -45,7 +55,7 @@ public interface MatchADT <S extends Comparable<S>> {
     
     
     /**
-     * T setFinalScore(S, S)
+     * Team setFinalScore(S, S)
      * 
      * Allows user to set final score, returns the winner.
      * I think it makes sense to keep score generic but make it extend Comparable.  It is fairly
@@ -56,18 +66,18 @@ public interface MatchADT <S extends Comparable<S>> {
      * 
      * @param scoreTeamOne - score of team one.  
      * @param scoreTeamTwo - score of team two
-     * @return - returns the winner of the match (type T)
+     * @return - returns the winner of the match (type Team)
      * @throws IllegalArgumentException if the score is tied
      */
     public Team setFinalScore(S scoreTeamOne, S scoreTeamTwo) throws IllegalArgumentException; //Set score, allow override?
     
     /**
-     * T getWinner()
+     * Team getWinner()
      * returns the winner of the match
      * NOTES:  Do we want to allow override of scores, i.e if they are already set can they 
      *         be adjusted?
      *
-     * @return returns the team of type T that won the match (highest 'score')
+     * @return returns the team of type Team that won the match (highest 'score')
      * @throws IllegalStateException if no scores have been set
      */
     public Team getWinner() throws IllegalStateException; 

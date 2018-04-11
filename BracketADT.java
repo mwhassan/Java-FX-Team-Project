@@ -67,20 +67,25 @@ public interface BracketADT <S> {
     
     //Find index given round and slot
     public int getMatchIndex(int round, int slot); 
+    public int getMatchRound(int matchIndex);
+    public int getMatchSlot(int matchIndex);
     
     public String getMatchWinner(int matchIndex); //Return the winner of a match given an index
     public String getMatchTeam(int matchIndex, MatchADT.teamSpot team); //Return the winner of a match given an index
     
     
     //Genealogy
-    public int[] getPrevMatches(int matchIndex); //Returns the index of the match that follows
     public int getNextMatch(int matchIndex); //Returns the index of the match that follows
     
     //Set match scores for each team
     public void setMatchScore(int matchIndex, S scoreTeamOne, S scoreTeamTwo);
     
+    //Get champion
+    public Team getChampion();
+    
     
 //    //Wishlist - might be nice for fun design layout options on view
+//    public int[] getPrevMatches(int matchIndex); //Returns the index of the previous match
 //    public String[] teams(); //Return a list of all teams
 //    public String[] teamsOut(); //return a list of teams that are out
 //    public String[] teamsIn(); //Return a list of teams that are in

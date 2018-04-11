@@ -15,7 +15,7 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 	 **********************/
 	private Match<S>[] matches;												// array of matches
 	private ArrayList<Team> teams = new ArrayList<Team>();					// used as temporary storage
-	private int round = 0;													// round number
+	private Team champion;													// winner of the Bracket
 
 	/**
 	 * Constructor
@@ -53,13 +53,11 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 			return;
 		}
 		else if(size() == 1) {
-			round++; // there is one round
 			System.out.println(teams.get(size()).getName() + " is the only challenger, hence the only champion.");
 			return;
 		}
 		else {
-			round++; // entering first round
-			matches =  (Match<S>[]) new Match[size()];
+			matches =  (Match<S>[]) new Match[matches()];
 		}
 		for(int i = 1; i < matches.length; i++) {
 			matches[i] = new Match<S>();
@@ -137,32 +135,81 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 	@Override
 	/**
 	 * return a team name in a given spot of a match
+	 * returns null if no team yet
 	 */
 	public String getMatchTeam(int matchIndex, teamSpot team) {
-		return matches[matchIndex].getTeams()[team.ordinal()].getName();
+		try {
+			return matches[matchIndex].getTeams()[team.ordinal()].getName();
+		}catch(NullPointerException e) {
+			return null;
+		}
 	}
 	
 	@Override
+	/**
+	 * Set the match score and add winner to next match.
+	 * @throws IllegalArgumentException if null score passed or if tie is entered
+	 * @throws IllegalStateException if overriding a previously determined score
+	 */
 	public void setMatchScore(int matchIndex, S teamOneScore, S teamTwoScore) {
-		matches[matchIndex].setFinalScore(teamOneScore, teamTwoScore);
+		Team winner = matches[matchIndex].setFinalScore(teamOneScore, teamTwoScore);
+		int nextIndex = getNextMatch(matchIndex);
+		
+		if(nextIndex == -1) champion = winner;
+		else matches[nextIndex].addTeam(winner);
 	}
 
 	@Override
+	/**
+	 * Returns the index of a match
+	 */
 	public int getMatchIndex(int round, int slot) {
-		int m = matches(); // get number of matches
-		return 2*m - (int)(m/Math.pow(0.5, round)) + slot; // account for previous rounds
+		int rounds = rounds();
+		if(round < 0 || round > rounds) throw new IllegalArgumentException("No such round in Bracket");
+		
+		int k = (int)(Math.log(size())/Math.log(2)); // log_2(# of teams)
+		return (int)(Math.pow(2, k) - Math.pow(2, k-round) + slot);
 	}
 
 	@Override
-	public int[] getPrevMatches(int matchIndex) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Return the round of a match
+	 */
+    public int getMatchRound(int matchIndex) {
+		int k = (int)(Math.log(size())/Math.log(2)); // log_2(# of teams)
+		int log = (int)(Math.log(size() - matchIndex)/Math.log(2)); // log_2(# of teams - matchIndex)
+		
+		return k - log - 1;
+    }
+	
+	@Override
+	/**
+	 * Return the slot of a match in its round.
+	 */
+    public int getMatchSlot(int matchIndex) {
+		return (int)(matchIndex - size() + size()/Math.pow(2, getMatchRound(matchIndex)));
 	}
 
 	@Override
+	/**
+	 * Calculate the index of the match to which the winner will advance.
+	 * Returns -1 if this is the championship match.
+	 */
 	public int getNextMatch(int matchIndex) {
-		// TODO Auto-generated method stub
-		return 0;
+		int currRound = getMatchRound(matchIndex);
+		int currSlot = getMatchSlot(matchIndex);
+		
+		if(currRound == rounds()) return -1;
+		
+		int newRound = currRound + 1;
+		int newSlot = (currSlot-1)/2;
+		
+		return getMatchIndex(newRound, newSlot);
+	}
+
+	@Override
+	public Team getChampion() {
+		return champion;
 	}
 	
 }
