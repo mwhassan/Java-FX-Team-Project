@@ -106,9 +106,8 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 		// if no teams, return 0
 		if(size == 0) return 0;
 		
-		// otherwise, return log_2(size) + 1
-		double log = Math.log((double)size)/Math.log(2.0);
-		return (int) log + 1;
+		// otherwise, return log_2(size)
+		return (int) (Math.log((double)size)/Math.log(2.0));
 	}
 
 	@Override
@@ -176,10 +175,7 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 	 * Return the round of a match
 	 */
     public int getMatchRound(int matchIndex) {
-		int k = (int)(Math.log(size())/Math.log(2)); // log_2(# of teams)
-		int log = (int)(Math.log(size() - matchIndex)/Math.log(2)); // log_2(# of teams - matchIndex)
-		
-		return k - log - 1;
+		return 1 + (int)(Math.log(size() - matchIndex)/Math.log(2)); // 1 + log_2(# of teams - matchIndex)
     }
 	
 	@Override
@@ -187,7 +183,7 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 	 * Return the slot of a match in its round.
 	 */
     public int getMatchSlot(int matchIndex) {
-		return (int)(matchIndex - size() + size()/Math.pow(2, getMatchRound(matchIndex)));
+		return (int)(matchIndex - size() + Math.pow(2, getMatchRound(matchIndex)));
 	}
 
 	@Override
@@ -202,7 +198,7 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 		if(currRound == rounds()) return -1;
 		
 		int newRound = currRound + 1;
-		int newSlot = (currSlot-1)/2;
+		int newSlot = (currSlot+1)/2;
 		
 		return getMatchIndex(newRound, newSlot);
 	}
