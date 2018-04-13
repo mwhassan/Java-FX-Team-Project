@@ -80,6 +80,8 @@ public interface MatchADT <S extends Comparable<S>> {
      * @return returns the team of type Team that won the match (highest 'score')
      * @throws IllegalStateException if no scores have been set
      */
-    public Team getWinner() throws IllegalStateException; 
+    public Team getWinner() throws IllegalStateException;
+
+    public S[] getFinalScores(); 
     
 }
