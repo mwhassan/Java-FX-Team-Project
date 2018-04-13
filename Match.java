@@ -38,9 +38,13 @@ public class Match<S extends Comparable<S> > implements MatchADT <S>  {
      *
      * @param teamOne - team in socket one of match
      * @param teamTwo - team in socket two of match
+     * @throws IllegalArgumentException if either team is null
      */
 	@Override
-	public void setTeams(Team teamOne, Team teamTwo) {
+	public void setTeams(Team teamOne, Team teamTwo) throws IllegalArgumentException{
+	    if (teamOne == null || teamTwo == null) 
+	        throw new IllegalArgumentException("You can not set a null team");
+	    
 		this.teamOne = teamOne;
 		this.teamTwo = teamTwo;
 	}
@@ -49,11 +53,15 @@ public class Match<S extends Comparable<S> > implements MatchADT <S>  {
 	 * void addTeam(Team)
 	 * 
 	 * Adds a team to the match.
-	 * @throws IllegalStateException
+	 * @throws IllegalStateException if match is already full
+	 * @throws IllegalArgumentException if team is null
 	 * @param Team team
 	 */
-	public void addTeam(Team team) {
-		if(teamOne == null) teamOne = team;
+	public void addTeam(Team team) throws IllegalArgumentException, IllegalStateException{
+	    if (team == null) 
+            throw new IllegalArgumentException("You can not add a null team");
+	    
+	    if(teamOne == null) teamOne = team;
 		else if(teamTwo == null) teamTwo = team;
 		else throw new IllegalStateException("Match is already full.");
 	}
@@ -63,7 +71,7 @@ public class Match<S extends Comparable<S> > implements MatchADT <S>  {
 	 * @return both teams as an array
 	 */
 	@Override
-	public Team[] getTeams() {
+	public Team[] getTeams(){
 		Team[] teams = new Team[NUM_TEAMS];
 		
 		teams[teamSpot.TeamOne.ordinal()] = this.teamOne;
@@ -93,15 +101,31 @@ public class Match<S extends Comparable<S> > implements MatchADT <S>  {
 		if (teamOneScore == null || teamTwoScore == null) throw new 
 							IllegalArgumentException ("Can not have null scores");
 			
-		if (teamOneScore.equals(teamTwoScore)) throw new 
-											IllegalArgumentException ("Can not have ties in bracket");
-		if (this.teamOneScore != null || this.teamTwoScore != null) throw new
-											IllegalStateException("Cannot override existing score.");
+		if (teamOneScore.equals(teamTwoScore)) 
+		    throw new IllegalArgumentException ("Can not have ties in bracket");
+		if (this.teamOneScore != null || this.teamTwoScore != null) 
+		    throw new IllegalStateException("Cannot override existing score.");
+		
 		this.teamOneScore = teamOneScore;
 		this.teamTwoScore = teamTwoScore;
 		return getWinner();
 	}
 
+	/**
+     * Return both teams as an array with teamOne in spot 0 and teamTwo in spot 1
+     * @return both teams as an array
+     */
+	@Override
+    public S[] getFinalScores(){
+        @SuppressWarnings("unchecked")
+        S[] scores = (S[]) new Object[NUM_TEAMS];
+        
+        scores[teamSpot.TeamOne.ordinal()] = this.teamOneScore;
+        scores[teamSpot.TeamTwo.ordinal()] = this.teamTwoScore;
+        
+        return scores;
+    }
+    
 	/**
      * Team getWinner()
      * returns the winner of the match
@@ -120,6 +144,21 @@ public class Match<S extends Comparable<S> > implements MatchADT <S>  {
 		}else { 
 			return teamTwo;
 		}
+	}
+	
+	@Override
+	public String toString(){
+	    String mReturn = "";
+	    
+	    mReturn += "Match\n";
+	    mReturn += "   Team One : " + this.teamOne + "\n";
+	    mReturn += "   Team Two : " + this.teamTwo + "\n";
+	    if (this.teamOneScore != null && this.teamTwoScore != null)
+	        mReturn += "   Final Score : (T1) " + this.teamOneScore + " to (T2) " + this.teamTwoScore;
+	    else
+	        mReturn += "   No score set";
+	                    
+	    return mReturn;
 	}
 
 }
