@@ -50,6 +50,7 @@ public class Subunit extends GridPane {
 		
 		// Add winner box
 		winner = new Label("Pending");
+		winner.setStyle("-fx-font-size: 12pt; -fx-text-fill: #FFFFFF; -fx-font-weight: bold");
 		this.add(winner, 2, 1, 1, 2);
 		
 		/*
@@ -69,6 +70,8 @@ public class Subunit extends GridPane {
 				throw new NumberFormatException("Please enter an integer score!");
 			} 
 		});
+		
+		this.setStyle("-fx-background-color: #383838");
 	}
 	
 	/**

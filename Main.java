@@ -13,7 +13,6 @@ public class Main extends Application {
 	
 	private Stage stage;					// The stage
 	private Scene scene;					// The scene
-	private int width,height;				// Width and height of scene, number of rounds and columns
 	private int rounds,columns;				// Number of rounds and number of columns (for convenience)
 	private HBox primaryLayout;				// Primary bracket layout
 	private VBox[] sublayouts;				// Sub-layouts for each round
@@ -33,8 +32,6 @@ public class Main extends Application {
 	 */
 	private void init (int width, int height, int rounds) {
 		// Parameters from bracket
-		this.width = width;
-		this.height = height;
 		this.rounds = rounds;
 		this.columns = 2*rounds-1;
 		
@@ -47,7 +44,7 @@ public class Main extends Application {
 //		for(VBox box : sublayouts) {
 //			primaryLayout.getChildren().add(box);
 //		}
-		primaryLayout.getChildren().add(new Subunit(1,"Hi","Hello"));
+		primaryLayout.getChildren().add(new Subunit(1,"Team Biscuits","Team Crackers"));
 		scene = new Scene(primaryLayout,width,height);
 		stage = new Stage();
 		stage.setScene(scene);
@@ -61,6 +58,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		// TODO start a bracket from command line argument and replace test values in init()
-		init(300,300,2);
+		init(300,100,2);
 	}
 }
