@@ -70,8 +70,8 @@ public class Main extends Application{
         
         System.out.println("Bracket size = " + bracket.size());
         System.out.println("Bracket rounds = " + bracket.rounds());
-        System.out.println("Bracket match one team one = " + bracket.getMatchTeam(0, teamSpot.TeamOne));
-        System.out.println("Bracket match one team two = " + bracket.getMatchTeam(0, teamSpot.TeamTwo));
+        System.out.println("Bracket match one team one = " + bracket.getMatchTeam(1, teamSpot.TeamOne));
+        System.out.println("Bracket match one team two = " + bracket.getMatchTeam(1, teamSpot.TeamTwo));
         System.out.println("Bracket match team on direct = " + bracket.getMatch(1));
         System.out.println("Bracket match team on direct = " + bracket.getMatch(2));
     }
@@ -103,12 +103,17 @@ public class Main extends Application{
         round = new VBox();
         matchPanes.add(new MatchPane<Integer>(1, bracket.getMatch(1), this));
         matchPanes.add(new MatchPane<Integer>(1, bracket.getMatch(2), this));
+        matchPanes.add(new MatchPane<Integer>(1, bracket.getMatch(3), this));
+        matchPanes.add(new MatchPane<Integer>(1, bracket.getMatch(4), this));
         
-        //bracket.getMatch(1).setFinalScores((Integer) 10, (Integer) 15);
+  
         
         //round.getChildren().add(new MatchPane<Integer,Match<Integer>>(1,bracket.getMatch(1)));
         round.getChildren().add(matchPanes.get(0));
         round.getChildren().add(matchPanes.get(1));
+        round.getChildren().add(matchPanes.get(2));
+        round.getChildren().add(matchPanes.get(3));
+        
         
         
 

@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * 
  * @author hayesbirchle
  *
- * @param <Team> - Generic team type
  * @param <S> - Generic score type
  */
 public class Match<S extends Comparable<S>> implements MatchADT <S>  {
@@ -104,8 +103,10 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 			
 		if (teamOneScore.equals(teamTwoScore)) 
 		    throw new IllegalArgumentException ("Can not have ties in bracket");
-		if (this.teamOneScore != null || this.teamTwoScore != null) 
+		if (this.teamOneScore != null || this.teamTwoScore != null) {
+			System.out.println("TeamOneScore = " + this.teamOneScore);
 		    throw new IllegalStateException("Cannot override existing score.");
+		}
 		
 		this.teamOneScore = teamOneScore;
 		this.teamTwoScore = teamTwoScore;

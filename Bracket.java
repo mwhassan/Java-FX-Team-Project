@@ -68,6 +68,7 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 		else {
 			matches =  (Match<S>[]) new Match[matches()];
 		}
+		
 		for(int i = 1; i < matches.length; i++) {
 			matches[i] = new Match<S>();
 		}
@@ -167,9 +168,14 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 		else matches[nextIndex].addTeam(winner);
 	}
 	
+	
+	
 	public Match<S> getMatch(int matchIndex) {
 	    return matches[matchIndex];
 	}
+	
+	
+	
 
 	@Override
 	/**

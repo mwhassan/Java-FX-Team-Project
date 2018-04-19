@@ -10,7 +10,7 @@ import javafx.scene.layout.GridPane;
 /**
  * This class represents the data for a single match on the GUI.
  */
-public class MatchPane<S extends Comparable<S>> extends GridPane {
+public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 
 
     /*******************
@@ -140,7 +140,7 @@ public class MatchPane<S extends Comparable<S>> extends GridPane {
     /*******************
      * Private Control Fields
      *******************/
-    private Match<S> match;
+    private Match<Integer> match;
     private int matchNum;
     private Object callingClass;
     
@@ -151,7 +151,7 @@ public class MatchPane<S extends Comparable<S>> extends GridPane {
     /**
      * Constructor: initializes all components
      */
-    public MatchPane(int matchNum, Match<S> match, Object callingClass) {
+    public MatchPane(int matchNum, Match<Integer> match, Object callingClass) {
 
         
         // Set pane specific fields
@@ -160,6 +160,8 @@ public class MatchPane<S extends Comparable<S>> extends GridPane {
         this.setHgap(MV_PANE_HORZ_GAP);
 
 
+        //this.match = match;
+        
         //Setup control fields
         initMatchController(matchNum, match, callingClass);
         
@@ -192,7 +194,7 @@ public class MatchPane<S extends Comparable<S>> extends GridPane {
      * Private Helper Classes
      *******************/
     
-    private void initMatchController(int matchNum, Match<S> match, Object callingClass) {
+    private void initMatchController(int matchNum, Match<Integer> match, Object callingClass) {
         this.matchNum = matchNum;
         this.match = match;
         this.callingClass = callingClass;
@@ -209,13 +211,13 @@ public class MatchPane<S extends Comparable<S>> extends GridPane {
         
         String team1Name, team2Name;
         try {
-            team1Name = match.getTeams()[MV_TEAM1].getName();
+            team1Name = " " + match.getTeams()[MV_TEAM1].toString();
         } catch (NullPointerException e) {
             team1Name = "";
         }
         
         try {
-            team2Name = match.getTeams()[MV_TEAM2].getName();
+            team2Name = " " + match.getTeams()[MV_TEAM2].toString();
         } catch (NullPointerException e) {
             team2Name = "";
         }
@@ -226,13 +228,15 @@ public class MatchPane<S extends Comparable<S>> extends GridPane {
         lblTeam1 = new Label(String.format("%-" + MC_TEAM_SPACING + "s", team1Name));
         lblTeam1.getStyleClass().add("label-team");
         lblTeam1.setMaxWidth(MV_TEAM_MAXWIDTH);
+        lblTeam1.setMinWidth(MV_TEAM_MAXWIDTH);
         this.add(lblTeam1, MV_TEAM1_COL_IND, MV_TEAM1_ROW_IND, MV_TEAM1_COL_SPAN,
                         MV_TEAM1_ROW_SPAN);
 
         // Add team 2
         lblTeam2 = new Label(String.format("%-" + MC_TEAM_SPACING + "s", team2Name));
         lblTeam2.getStyleClass().add("label-team");
-        lblTeam1.setMaxWidth(MV_TEAM_MAXWIDTH);
+        lblTeam2.setMaxWidth(MV_TEAM_MAXWIDTH);
+        lblTeam2.setMinWidth(MV_TEAM_MAXWIDTH);
         this.add(lblTeam2, MV_TEAM2_COL_IND, MV_TEAM2_ROW_IND, MV_TEAM2_COL_SPAN,
                         MV_TEAM2_ROW_SPAN);
 
@@ -307,7 +311,19 @@ public class MatchPane<S extends Comparable<S>> extends GridPane {
 
                 txtScore1.setEditable(false);
                 txtScore2.setEditable(false);
-                match.setFinalScore(s1, s2);
+                
+                //Change winner view
+                Label winner = ((s1 > s2) ? lblTeam1: lblTeam2);
+                TextField winnerScore = ((s1 > s2) ? txtScore1: txtScore2);
+                winner.setId("teamWon");
+                winnerScore.setId("teamWon");
+                btnSubmit.setId("teamWon");
+                
+                //Change looser view
+                Label loser = ((s1 > s2) ? lblTeam2 : lblTeam1);
+                TextField loserScore = ((s1 > s2) ? txtScore2: txtScore1);
+                loser.setId("teamLost");
+                loserScore.setId("teamLost");
                 
                     try {
                         callingClass.getClass().getDeclaredMethod("matchPaneCallBack").invoke(callingClass);
