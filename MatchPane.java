@@ -113,6 +113,8 @@ public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends G
     private static final String MV_LBL_SUBMIT = "Set\nScore"; 
 
 
+    private static final Integer MV_TEAM1 = 0;
+    private static final Integer MV_TEAM2 = 1;
 
     /*******************
      * Private View Fields
@@ -138,7 +140,7 @@ public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends G
      * Private Control Fields
      *******************/
     private M match;
-
+    private int matchNum;
 
     /*******************
      * Constructors
@@ -149,6 +151,7 @@ public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends G
      */
     public MatchPane(int matchNum, M match) {
 
+        
         // Set pane specific fields
         this.setPadding(new Insets(MV_PANE_INSETS, MV_PANE_INSETS, MV_PANE_INSETS, MV_PANE_INSETS));
         this.setVgap(MV_PANE_VERT_GAP);
@@ -156,7 +159,7 @@ public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends G
 
 
         //Setup control fields
-        initMatchController(match);
+        initMatchController(matchNum, match);
         
         //Setup view fields
         initMatchView();
@@ -187,7 +190,8 @@ public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends G
      * Private Helper Classes
      *******************/
     
-    private void initMatchController(M match) {
+    private void initMatchController(int matchNum, M match) {
+        this.matchNum = matchNum;
         this.match = match;
     }
 
@@ -197,15 +201,33 @@ public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends G
          * Team Name Information
          *-----*/
 
+        //Get teams names
+
+        
+        String team1Name, team2Name;
+        try {
+            team1Name = match.getTeams()[MV_TEAM1].getName();
+        } catch (NullPointerException e) {
+            team1Name = "";
+        }
+        
+        try {
+            team2Name = match.getTeams()[MV_TEAM2].getName();
+        } catch (NullPointerException e) {
+            team2Name = "";
+        }
+        
+        
         // Add team 1
-        lblTeam1 = new Label(String.format("%-" + MC_TEAM_SPACING + "s", " " + name1));
+        
+        lblTeam1 = new Label(String.format("%-" + MC_TEAM_SPACING + "s", team1Name));
         lblTeam1.getStyleClass().add("label-team");
         lblTeam1.setMaxWidth(MV_TEAM_MAXWIDTH);
         this.add(lblTeam1, MV_TEAM1_COL_IND, MV_TEAM1_ROW_IND, MV_TEAM1_COL_SPAN,
                         MV_TEAM1_ROW_SPAN);
 
         // Add team 2
-        lblTeam2 = new Label(String.format("%-" + MC_TEAM_SPACING + "s", " " + name2));
+        lblTeam2 = new Label(String.format("%-" + MC_TEAM_SPACING + "s", team2Name));
         lblTeam2.getStyleClass().add("label-team");
         lblTeam1.setMaxWidth(MV_TEAM_MAXWIDTH);
         this.add(lblTeam2, MV_TEAM2_COL_IND, MV_TEAM2_ROW_IND, MV_TEAM2_COL_SPAN,

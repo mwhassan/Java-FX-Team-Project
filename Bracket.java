@@ -157,6 +157,10 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 		if(nextIndex == -1) champion = winner;
 		else matches[nextIndex].addTeam(winner);
 	}
+	
+	public Match<S> getMatch(int matchIndex) {
+	    return matches[matchIndex];
+	}
 
 	@Override
 	/**

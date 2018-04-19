@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import application.MatchADT.teamSpot;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -13,13 +14,20 @@ import javafx.scene.layout.HBox;
 public class Main extends Application{
 
     /*******************
+     * Private Constants
+     *******************/
+    private static final Integer STAGE_WIDTH = 375;
+    private static final Integer STAGE_HEIGHT = 300;
+    
+    
+    /*******************
      * Private View Variables
      *******************/
     private Stage stage;                    // The stage
     private Scene scene;                    // The scene
     
     private VBox round;              // Sub-layouts for each round
-    private MatchPane[] matchPanes;               // Groups submit buttons with scores and team label
+    private ArrayList<MatchPane<Integer, Match<Integer>>> matchPanes; // Groups submit buttons with scores and team label
   
     /*******************
      * Private Control Variables
@@ -44,23 +52,27 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) {
         // TODO start a bracket from command line argument and replace test values in init()
-        initControlObjects();
-        initViewObjects(375,115);
+        
+        try {
+            initControlObjects();
+        } catch (IOException e) {
+            System.err.println("The provided file could not be loaded - exiting program");
+            System.exit(0);
+        }
+        initViewObjects(STAGE_WIDTH,STAGE_HEIGHT);
     }
     
-    private void initControlObjects() {
-        try {
-            bracket = new Bracket<Integer>("TeamList.txt");
-        } catch (IOException e) {
-            System.err.println("The provided file could not be loaded");
-        }
+    private void initControlObjects() throws IOException {
+        bracket = new Bracket<Integer>("src/application/TeamList.txt");
+        
         
         
         System.out.println("Bracket size = " + bracket.size());
         System.out.println("Bracket rounds = " + bracket.rounds());
         System.out.println("Bracket match one team one = " + bracket.getMatchTeam(0, teamSpot.TeamOne));
         System.out.println("Bracket match one team two = " + bracket.getMatchTeam(0, teamSpot.TeamTwo));
-        
+        System.out.println("Bracket match team on direct = " + bracket.getMatch(1));
+        System.out.println("Bracket match team on direct = " + bracket.getMatch(2));
     }
     
     
@@ -78,16 +90,27 @@ public class Main extends Application{
      */
     private void initViewObjects (int width, int height) {
         // Parameters from bracket
+        matchPanes = new ArrayList<MatchPane<Integer, Match<Integer>>>();
+                        
+                        
         int numRounds = bracket.rounds();
         
+                        
         this.columns = 2*numRounds-1;
         
         
-        round = new VBox;
-        matchPanes = new MatchPane[(int)Math.pow(2, numRounds)-1];
+        round = new VBox();
+        matchPanes.add(new MatchPane<Integer, Match<Integer>>(1, bracket.getMatch(1)));
+        matchPanes.add(new MatchPane<Integer, Match<Integer>>(1, bracket.getMatch(2)));
+        
+        //round.getChildren().add(new MatchPane<Integer,Match<Integer>>(1,bracket.getMatch(1)));
+        round.getChildren().add(matchPanes.get(0));
+        round.getChildren().add(matchPanes.get(1));
+        
+        
 
-        primaryLayout.getChildren().add(new MatchPane(1,"Team Biscuits","Team Crackers"));
-        scene = new Scene(primaryLayout,width,height);
+        //primaryLayout.getChildren().add(new MatchPane(1,"Team Biscuits","Team Crackers"));
+        scene = new Scene(round,width,height);
         scene.getStylesheets().add("/application/application.css");
         stage = new Stage();
         stage.setScene(scene);
