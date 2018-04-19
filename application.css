@@ -1,0 +1,38 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root{
+	-fx-background-color: #383838;
+}
+
+.label{
+	-fx-text-fill: #e8e8e8;
+	-fx-font-size: 10.0pt;
+}
+
+.text-field{
+	-fx-font-size: 9.0pt;
+	-fx-font-weight: bold; 
+	-fx-text-fill: black;
+	-fx-prompt-text-fill: ghostwhite ;
+	-fx-border-color: #AB4642;
+	-fx-background-color: pink;
+	-fx-focus-traversable: true;
+}
+
+.button{
+	-fx-background-color: #AB4642; 
+	-fx-background-radius: 0.0pt;
+	-fx-font-size: 10.0pt;
+	-fx-text-alignment: center;
+	-fx-focus-traversable: true;
+}
+
+.label-team{
+	-fx-text-fill: #e8e8e8;
+	-fx-background-color: #AB4642;
+	-fx-font-size: 12.0pt;
+}
+
+#teamWon{
+	-fx-background-color: aliceblue;
+}

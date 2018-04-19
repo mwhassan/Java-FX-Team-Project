@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @param <Team> - Generic team type
  * @param <S> - Generic score type
  */
-public class Match<S extends Comparable<S> > implements MatchADT <S>  {
+public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 
 	/**********************
 	 * Private Constants
