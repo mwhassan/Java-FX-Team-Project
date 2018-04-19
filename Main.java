@@ -27,8 +27,9 @@ public class Main extends Application{
     private Scene scene;                    // The scene
     
     private VBox round;              // Sub-layouts for each round
-    private ArrayList<MatchPane<Integer, Match<Integer>>> matchPanes; // Groups submit buttons with scores and team label
+    private ArrayList<MatchPane<Integer>> matchPanes; // Groups submit buttons with scores and team label
   
+    
     /*******************
      * Private Control Variables
      *******************/
@@ -90,7 +91,7 @@ public class Main extends Application{
      */
     private void initViewObjects (int width, int height) {
         // Parameters from bracket
-        matchPanes = new ArrayList<MatchPane<Integer, Match<Integer>>>();
+        matchPanes = new ArrayList<MatchPane<Integer>>();
                         
                         
         int numRounds = bracket.rounds();
@@ -100,8 +101,10 @@ public class Main extends Application{
         
         
         round = new VBox();
-        matchPanes.add(new MatchPane<Integer, Match<Integer>>(1, bracket.getMatch(1)));
-        matchPanes.add(new MatchPane<Integer, Match<Integer>>(1, bracket.getMatch(2)));
+        matchPanes.add(new MatchPane<Integer>(1, bracket.getMatch(1), this));
+        matchPanes.add(new MatchPane<Integer>(1, bracket.getMatch(2), this));
+        
+        //bracket.getMatch(1).setFinalScores((Integer) 10, (Integer) 15);
         
         //round.getChildren().add(new MatchPane<Integer,Match<Integer>>(1,bracket.getMatch(1)));
         round.getChildren().add(matchPanes.get(0));
@@ -121,6 +124,14 @@ public class Main extends Application{
     /*******************
      * Getters and Setters
      *******************/
+    
+    public void matchPaneCallBack() {
+        System.out.println("--------------------------");
+        System.out.println("-Called me back");
+        System.out.println("--------------------------");
+        System.out.println(bracket);
+        
+    }
 
 }
 

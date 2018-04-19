@@ -20,6 +20,10 @@ public class Team {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return this.name + " (" + this.seed + ")"; 
+    }
     /**********************
      * Setters and Getters
      **********************/

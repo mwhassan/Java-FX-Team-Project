@@ -1,5 +1,6 @@
 package application;
 
+import java.lang.reflect.InvocationTargetException;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,7 +10,7 @@ import javafx.scene.layout.GridPane;
 /**
  * This class represents the data for a single match on the GUI.
  */
-public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends GridPane {
+public class MatchPane<S extends Comparable<S>> extends GridPane {
 
 
     /*******************
@@ -139,9 +140,10 @@ public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends G
     /*******************
      * Private Control Fields
      *******************/
-    private M match;
+    private Match<S> match;
     private int matchNum;
-
+    private Object callingClass;
+    
     /*******************
      * Constructors
      *******************/
@@ -149,7 +151,7 @@ public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends G
     /**
      * Constructor: initializes all components
      */
-    public MatchPane(int matchNum, M match) {
+    public MatchPane(int matchNum, Match<S> match, Object callingClass) {
 
         
         // Set pane specific fields
@@ -159,7 +161,7 @@ public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends G
 
 
         //Setup control fields
-        initMatchController(matchNum, match);
+        initMatchController(matchNum, match, callingClass);
         
         //Setup view fields
         initMatchView();
@@ -190,9 +192,10 @@ public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends G
      * Private Helper Classes
      *******************/
     
-    private void initMatchController(int matchNum, M match) {
+    private void initMatchController(int matchNum, Match<S> match, Object callingClass) {
         this.matchNum = matchNum;
         this.match = match;
+        this.callingClass = callingClass;
     }
 
     private void initMatchView() {
@@ -292,8 +295,8 @@ public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends G
     private void btnSubmit_setOnAction() {
         btnSubmit.setOnAction(event -> {
             try {
-                int s1 = Integer.parseInt(txtScore1.getText());
-                int s2 = Integer.parseInt(txtScore2.getText());
+                Integer s1 = Integer.parseInt(txtScore1.getText());
+                Integer s2 = Integer.parseInt(txtScore2.getText());
                 if (s1 == s2)
                     throw new IllegalStateException("No ties allowed in bracket.");
                 winnerStr = String.format("%-" + MV_DISP_SPACING + "s", (MV_LBL_WINNER_STATUS
@@ -304,6 +307,18 @@ public class MatchPane<S extends Comparable<S>, M extends MatchADT<S>> extends G
 
                 txtScore1.setEditable(false);
                 txtScore2.setEditable(false);
+                match.setFinalScore(s1, s2);
+                
+                    try {
+                        callingClass.getClass().getDeclaredMethod("matchPaneCallBack").invoke(callingClass);
+                    } catch (IllegalAccessException | IllegalArgumentException
+                                    | InvocationTargetException | NoSuchMethodException
+                                    | SecurityException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                
+                
             } catch (NumberFormatException exception) {
                 lblWinnerStatus.setText("You must first enter a score!");
                 throw new NumberFormatException("Please enter an integer score!");
