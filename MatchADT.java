@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 /********************************************
  * Model
  *      n/a only data fed in from user
@@ -82,6 +84,7 @@ public interface MatchADT <S extends Comparable<S>> {
      */
     public Team getWinner() throws IllegalStateException;
 
-    public S[] getFinalScores(); 
+    
+    public ArrayList<S>  getFinalScores(); 
     
 }

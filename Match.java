@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 
 /**
  * Match object used for bracket class.  Contains information about a specific match
@@ -116,12 +117,13 @@ public class Match<S extends Comparable<S> > implements MatchADT <S>  {
      * @return both teams as an array
      */
 	@Override
-    public S[] getFinalScores(){
+    public ArrayList<S> getFinalScores(){
         @SuppressWarnings("unchecked")
-        S[] scores = (S[]) new Object[NUM_TEAMS];
+        //S[] scores = (S[])new Comparable[NUM_TEAMS];
+        ArrayList<S> scores = new ArrayList<S>();
         
-        scores[teamSpot.TeamOne.ordinal()] = this.teamOneScore;
-        scores[teamSpot.TeamTwo.ordinal()] = this.teamTwoScore;
+        scores.add(this.teamOneScore);
+        scores.add(this.teamTwoScore);
         
         return scores;
     }
@@ -151,8 +153,16 @@ public class Match<S extends Comparable<S> > implements MatchADT <S>  {
 	    String mReturn = "";
 	    
 	    mReturn += "Match\n";
-	    mReturn += "   Team One : " + this.teamOne + "\n";
-	    mReturn += "   Team Two : " + this.teamTwo + "\n";
+	    if (this.teamOne != null)
+	    	mReturn += "   Team One : " + this.teamOne.getName() + this.teamOne.getSeed() + "\n";
+	    else 
+	    	mReturn += "    <team one not set>\n";
+	    
+	    if (this.teamTwo != null) 
+	    	mReturn += "   Team Two : " + this.teamTwo.getName() + this.teamTwo.getSeed() + "\n";
+	    else 
+	    	mReturn += "    <team two not set>\n";
+	    
 	    if (this.teamOneScore != null && this.teamTwoScore != null)
 	        mReturn += "   Final Score : (T1) " + this.teamOneScore + " to (T2) " + this.teamTwoScore;
 	    else

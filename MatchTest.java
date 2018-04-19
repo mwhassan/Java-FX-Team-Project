@@ -10,8 +10,8 @@ import org.junit.Test;
 public class MatchTest {
 
     private static Match<Integer> match;
-    private static String teamOneName = "teamOne";
-    private static String teamTwoName = "teamTwo";
+    private static String teamOne = "teamOne";
+    private static String teamTwo = "teamTwo";
     private static String teamOneSeeded = "teamOne (1)";
     private static String teamTwoSeeded = "teamTwo (2)";
     private static int TEAM_ONE = 0;
@@ -52,8 +52,8 @@ public class MatchTest {
         mOut += "\n" + (" - Test team names set as expected");
         mOut += "\n" + ("----------------\n");
         mOut += "\n" + (match);
-        mOut += "\n" + (match.getTeams()[TEAM_ONE]);
-        mOut += "\n" + (match.getTeams()[TEAM_TWO]);
+        mOut += "\n" + ("team 1 = " + match.getTeams()[TEAM_ONE].getName());
+        mOut += "\n" + ("team 2 = " + match.getTeams()[TEAM_TWO].getName());
         mOut += "\n" + ("****************\n");
         
         
@@ -61,11 +61,11 @@ public class MatchTest {
         
         
         assertEquals(String.format("Team One returned as %s instead of %s", 
-                                   match.getTeams()[TEAM_ONE], teamOneSeeded),
-                        teamOneSeeded, match.getTeams()[TEAM_ONE].toString());
+                                   match.getTeams()[TEAM_ONE], teamOne),
+        			teamOne, match.getTeams()[TEAM_ONE].getName());
         
         assertEquals(String.format("Team Two returned as %s", match.getTeams()[TEAM_TWO]),
-                        teamTwoSeeded, match.getTeams()[TEAM_TWO].toString());
+                        teamTwo, match.getTeams()[TEAM_TWO].getName());
         
     }
     
@@ -102,7 +102,7 @@ public class MatchTest {
         mOut += "\n" + ("Test 03");
         mOut += "\n" + (" - test addTeam adds as expected");
         mOut += "\n" + ("----------------");
-        mOut += "\n Starting " + (match);
+        mOut += "\n Starting " + (match.toString());
         if (SHOW_ALL_RESULTS) System.out.println(mOut);
         mOut = "";
         
@@ -111,22 +111,22 @@ public class MatchTest {
         
                 
         match.addTeam(new Team("teamOne",1));
-        mOut += "\n team one set to : " + (match.getTeams()[TEAM_ONE]);
+        mOut += "\n team one set to : " + (match.getTeams()[TEAM_ONE].getName());
         if (SHOW_ALL_RESULTS) System.out.println(mOut);
         mOut = "";
         assertEquals(String.format("Team One returned as %s instead of %s", 
-                        match.getTeams()[TEAM_ONE], teamOneSeeded),
-             teamOneSeeded, match.getTeams()[TEAM_ONE].toString());
+                        match.getTeams()[TEAM_ONE].getName(), teamOne),
+             teamOne, match.getTeams()[TEAM_ONE].getName());
         
 
         
         
         match.addTeam(new Team("teamTwo",2));
-        mOut += "\n team two set to : " + (match.getTeams()[TEAM_TWO]);
+        mOut += "\n team two set to : " + (match.getTeams()[TEAM_TWO].getName());
         if (SHOW_ALL_RESULTS) System.out.println(mOut);
         mOut = "";
-        assertEquals(String.format("Team Two returned as %s", match.getTeams()[TEAM_TWO]),
-                     teamTwoSeeded, match.getTeams()[TEAM_TWO].toString());
+        assertEquals(String.format("Team Two returned as %s", match.getTeams()[TEAM_TWO].getName()),
+                     teamTwo, match.getTeams()[TEAM_TWO].getName());
         
         mOut += "\n Final " + (match);
         mOut += "\n" + ("****************\n");
@@ -194,13 +194,13 @@ public class MatchTest {
         if (SHOW_ALL_RESULTS) System.out.println(mOut);
         
         assertEquals(String.format("Team One returned as %s instead of %s", 
-                                    match.getTeams()[TEAM_ONE], teamOneSeeded),
-                     teamOneSeeded, match.getTeams()[TEAM_ONE].toString());
+                                    match.getTeams()[TEAM_ONE].getName(), teamOne),
+                     teamOne, match.getTeams()[TEAM_ONE].getName());
 
         assertEquals(String.format("Team Two returned as %s", 
-                                    match.getTeams()[TEAM_TWO]),
-                     teamTwoSeeded, 
-                     match.getTeams()[TEAM_TWO].toString());
+                                    match.getTeams()[TEAM_TWO].getName()),
+                     teamTwo, 
+                     match.getTeams()[TEAM_TWO].getName());
 
     }
     
@@ -223,8 +223,6 @@ public class MatchTest {
         if (SHOW_ALL_RESULTS) System.out.println(mOut);
         mOut = "";
         
-
-        
         //Check team 1 is blank
         assertEquals(String.format("Team one did not return null"),
                         null, 
@@ -240,7 +238,8 @@ public class MatchTest {
     @Test
     public final void test07_CheckScoresAddedAndRemovedCorrectly() {
         String mOut = "";
-
+        final Integer TEAM_ONE_SCORE = 27;
+        final Integer TEAM_TWO_SCORE = 15;
         
         mOut += ("****************");
         mOut += "\n" + ("Test 07");
@@ -249,21 +248,164 @@ public class MatchTest {
         if (SHOW_ALL_RESULTS) System.out.println(mOut);
         mOut = "";
         
-        match.addTeam(new Team("teamOne",1));
-        match.addTeam(new Team("teamTwo",2));
         
-        match.setFinalScore(27, 15);
+        match.setFinalScore(TEAM_ONE_SCORE, TEAM_TWO_SCORE);
         
 
         mOut += match;
+        mOut += "\nattempting to get final score";
         if (SHOW_ALL_RESULTS) System.out.println(mOut);
+        
+        
+        mOut = "t1 score :" + match.getFinalScores().get(0); 
+        if (SHOW_ALL_RESULTS) System.out.println(mOut);
+        
+        mOut = "Trying for score two";
+        mOut = "t2 score :" + match.getFinalScores().get(1);
+        if (SHOW_ALL_RESULTS) System.out.println(mOut);
+        
+
+        
+        //Check team 1 has score of 27
+        assertEquals(String.format("Team ones score was not " + TEAM_ONE_SCORE),
+        		TEAM_ONE_SCORE, 
+                (Integer) match.getFinalScores().get(TEAM_ONE));
+
+        //Check team 2 is blank
+        assertEquals(String.format("Team ones score was not " + TEAM_TWO_SCORE),
+        		TEAM_TWO_SCORE, 
+                (Integer) match.getFinalScores().get(TEAM_TWO));
+        
     }
     
     //  8) Check that setFinalScore throws illArgExc if a score is null
-    //  9) Check that setFinalScore throws illArgExc if score is tied
-    //  10) Check that setFinalScore throws IllStatException if score is already set
-    //  11) Check that getFinalScore correctly returns team scores
-    //  12) Check that getWinner returns the winning team
-    //  13) Check that getWinner throws illegalStateException if no score set
+    @Test
+    public final void test08_CheckIllArgExcOnSetFinalScoreNull() {
+        String mOut = "";
+        final Integer TEAM_ONE_SCORE = 27;
+        final Integer TEAM_TWO_SCORE = null;
+        
+        mOut += ("****************");
+        mOut += "\n" + ("Test 08");
+        mOut += "\n" + (" - Test thaat setFinalScore throws illegal arg exc if score is null");
+        mOut += "\n" + ("----------------");
+        if (SHOW_ALL_RESULTS) System.out.println(mOut);
+        		
+        match.addTeam(new Team("teamOne",1));
+        match.addTeam(new Team("teamTwo",2));
+        
+        
+        
+        try{
+        	match.setFinalScore(TEAM_ONE_SCORE, TEAM_TWO_SCORE);
+            assertEquals(String.format("Allowed null score to be added"), true, false);
+        } catch (IllegalArgumentException e) {
+            mOut += "The following error was returned as expected : " + e.getMessage();
+        }
+        
+    }	
     
+    //  9) Check that setFinalScore throws illArgExc if score is tied
+    @Test
+    public final void test09_CheckIllArgExcOnSetFinalScoreTied() {
+        String mOut = "";
+        final Integer TEAM_ONE_SCORE = 27;
+        final Integer TEAM_TWO_SCORE = 27;
+        
+        mOut += ("****************");
+        mOut += "\n" + ("Test 09");
+        mOut += "\n" + (" - Test that setFinalScore throws illegal arg exc if score is tied");
+        mOut += "\n" + ("----------------");
+        if (SHOW_ALL_RESULTS) System.out.println(mOut);
+        		
+        match.addTeam(new Team("teamOne",1));
+        match.addTeam(new Team("teamTwo",2));
+        
+        
+        
+        try{
+        	match.setFinalScore(TEAM_ONE_SCORE, TEAM_TWO_SCORE);
+            assertEquals(String.format("Allowed tied score to be added"), true, false);
+        } catch (IllegalArgumentException e) {
+            mOut += "The following error was returned as expected : " + e.getMessage();
+        }
+        
+    }
+    
+    //  10) Check that setFinalScore throws IllStatException if score is already set
+    @Test
+    public final void test10_CheckIllStateExcOnReSetFinalScoreTied() {
+        String mOut = "";
+        final Integer TEAM_ONE_SCORE = 27;
+        final Integer TEAM_TWO_SCORE = 15;
+        
+        mOut += ("****************");
+        mOut += "\n" + ("Test 10");
+        mOut += "\n" + (" - Test thaat setFinalScore throws illegal state exc if score is already set");
+        mOut += "\n" + ("----------------");
+        if (SHOW_ALL_RESULTS) System.out.println(mOut);
+        		
+        match.addTeam(new Team("teamOne",1));
+        match.addTeam(new Team("teamTwo",2));
+        match.setFinalScore(TEAM_ONE_SCORE, TEAM_TWO_SCORE);
+        
+        
+        try{
+        	match.setFinalScore(TEAM_ONE_SCORE, TEAM_TWO_SCORE);
+            assertEquals(String.format("Allowed second score to be added"), true, false);
+        } catch (IllegalStateException e) {
+            mOut += "The following error was returned as expected : " + e.getMessage();
+        }
+        
+    }
+
+    //  12) Check that getWinner returns the winning team
+    @Test
+    public final void test12_CheckGetWinnerReturnsCorrectTeam() {
+        String mOut = "";
+        final Integer TEAM_ONE_SCORE = 27;
+        final Integer TEAM_TWO_SCORE = 15;
+        
+        mOut += ("****************");
+        mOut += "\n" + ("Test 12");
+        mOut += "\n" + (" - Test thaat getWinner returns correct team");
+        mOut += "\n" + ("----------------");
+        if (SHOW_ALL_RESULTS) System.out.println(mOut);
+        		
+        match.addTeam(new Team("teamOne",1));
+        match.addTeam(new Team("teamTwo",2));
+        match.setFinalScore(TEAM_ONE_SCORE, TEAM_TWO_SCORE);
+        
+        
+        assertEquals(String.format("Wrong Team Returned"), "teamOne", match.getWinner().getName());
+        
+        
+    }
+    
+    //  13) Check that getWinner throws illegalStateException if no score set
+    @Test
+    public final void test13_CheckIllStateExcOnGetWinnerNoScore() {
+        String mOut = "";
+        final Integer TEAM_ONE_SCORE = 27;
+        final Integer TEAM_TWO_SCORE = 15;
+        
+        mOut += ("****************");
+        mOut += "\n" + ("Test 13");
+        mOut += "\n" + (" - Test that getWinner throws illegal state exc if no score set");
+        mOut += "\n" + ("----------------");
+        if (SHOW_ALL_RESULTS) System.out.println(mOut);
+        		
+        match.addTeam(new Team("teamOne",1));
+        match.addTeam(new Team("teamTwo",2));
+        
+        
+        
+        try{
+        	System.out.println("Match winner was " + match.getWinner());
+            assertEquals(String.format("Returned score despite no scores set"), true, false);
+        } catch (IllegalStateException e) {
+            mOut += "The following error was returned as expected : " + e.getMessage();
+        }
+        
+    }
 }
