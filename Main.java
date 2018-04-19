@@ -16,7 +16,7 @@ public class Main extends Application {
 	private int rounds,columns;				// Number of rounds and number of columns (for convenience)
 	private HBox primaryLayout;				// Primary bracket layout
 	private VBox[] sublayouts;				// Sub-layouts for each round
-	private Subunit[] subunits;				// Groups submit buttons with scores and team label
+	private MatchPane[] subunits;			// Groups submit buttons with scores and team label
 	private Button[] submitButtons;			// Buttons to submit match scores
 	private Label title;					// Title of bracket
 	private Label[] teams;					// Team names
@@ -38,13 +38,13 @@ public class Main extends Application {
 		// Primary layout
 		primaryLayout = new HBox(columns);
 		sublayouts = new VBox[columns];
-		subunits = new Subunit[(int)Math.pow(2, rounds)-1];
+		subunits = new MatchPane[(int)Math.pow(2, rounds)-1];
 //		int counter = rounds;		// tracks which round we are adding
 //		int add = -1;				// add to counter
 //		for(VBox box : sublayouts) {
 //			primaryLayout.getChildren().add(box);
 //		}
-		primaryLayout.getChildren().add(new Subunit(1,"Team Biscuits","Team Crackers"));
+		primaryLayout.getChildren().add(new MatchPane(1,"Team Biscuits","Team Crackers"));
 		scene = new Scene(primaryLayout,width,height);
 		stage = new Stage();
 		stage.setScene(scene);
