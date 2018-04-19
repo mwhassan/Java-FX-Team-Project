@@ -32,3 +32,7 @@
 	-fx-background-color: #AB4642;
 	-fx-font-size: 12.0pt;
 }
+
+#teamWon{
+	-fx-background-color: aliceblue;
+}
