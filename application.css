@@ -43,5 +43,5 @@
 #teamLost{
 	-fx-background-color: #AB4642; 
 	-fx-border-color: #AB4642;
-	
+	-fx-text-fill: rgb(128,0,0);
 }

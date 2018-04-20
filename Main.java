@@ -65,6 +65,7 @@ public class Main extends Application{
     
     private void initControlObjects() throws IOException {
         bracket = new Bracket<Integer>("src/application/TeamList.txt");
+        //TODO: file should be first command line argument!!  not hard coded;
         
         
         

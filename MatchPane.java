@@ -9,13 +9,26 @@ import javafx.scene.layout.GridPane;
 
 /**
  * This class represents the data for a single match on the GUI.
+ * 
+ * TODO: Add the following
+ * 	1) 	Lock things down
+ * 		a. 	Add event handlers to score boxes to make sure scores are valid
+ * 			before we have to send them in
+ * 		b. 	Make sure set score and scores are disabled after being set
+ * 		c.	Dont allow scores to be entered if no teams
+ * 	2)	Make view Reversable so we can do it on both sides
+ * 	3)	Add dialog box warnings instead of status warnings
+ * 	4)	Clean up view - make match and status columns not rows, maybe add a box
+ * 		make it look nice
+ * 	5)	Clean up code 
+ * 	6)  Clean up constants
  */
 public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 
 
-    /*******************
+    /***********************************************************
      * Private Constants
-     *******************/
+     ***********************************************************/
 
     // GridPane specific
     private static final Integer MV_PANE_INSETS = 10; // Insets amount
@@ -29,7 +42,6 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      *-----*/
 
     // **Team Information**
-
     private static final Integer MC_TEAM_SPACING = 43;
     private static final Integer MV_TEAM_MAXWIDTH = 300;
 
@@ -53,9 +65,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     /*------
      * Internal match information 
      *-----*/
-
     private static final Integer MV_DISP_SPACING = MC_TEAM_SPACING; // number of spaces avail for
-                                                                    // status
 
     // lblMatch specific
     private static final Integer MV_MATCH_COL_IND = 0;
@@ -64,7 +74,6 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     private static final Integer MV_MATCH_ROW_IND = 1;
     private static final Integer MV_MATCH_ROW_SPAN = 1;
 
-
     // lblWinner (Status) specific
     private static final Integer MV_WINNER_COL_IND = 0;
     private static final Integer MV_WINNER_COL_SPAN = 2;
@@ -72,12 +81,9 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     private static final Integer MV_WINNER_ROW_IND = 2;
     private static final Integer MV_WINNER_ROW_SPAN = 1;
 
-
-
     /*------
      * Score and Submit 
      *-----*/
-
     private static final Double MV_SCORE_WIDTH = 73.0;
 
     // txtScore1 specific
@@ -94,14 +100,12 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     private static final Integer MV_SCORE_T2_ROW_IND = MV_TEAM2_ROW_IND;
     private static final Integer MV_SCORE_T2_ROW_SPAN = 1;
 
-
     // btnSubmit specific
     private static final Integer MV_SUBMIT_COL_IND = 2;
     private static final Integer MV_SUBMIT_COL_SPAN = 1;
 
     private static final Integer MV_SUBMIT_ROW_IND = 1;
     private static final Integer MV_SUBMIT_ROW_SPAN = 2;
-
 
     /*------
      * Default labels and values 
@@ -113,13 +117,12 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     private static final String MV_LBL_WINNER_RESULT = "Scores Not Submitted";
     private static final String MV_LBL_SUBMIT = "Set\nScore"; 
 
-
     private static final Integer MV_TEAM1 = 0;
     private static final Integer MV_TEAM2 = 1;
 
-    /*******************
+    /***********************************************************
      * Private View Fields
-     *******************/
+     ***********************************************************/
     
     private Label lblMatch, 
                   lblWinnerStatus, 
@@ -330,7 +333,6 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
                     } catch (IllegalAccessException | IllegalArgumentException
                                     | InvocationTargetException | NoSuchMethodException
                                     | SecurityException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 
