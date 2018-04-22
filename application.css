@@ -1,6 +1,12 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
-
 .root{
+	-fx-background-color: #383838;
+}
+
+.scroll-bar{
+	-fx-background-color: #383838;
+}
+
+.scroll-pane .corner{
 	-fx-background-color: #383838;
 }
 
@@ -15,13 +21,13 @@
 	-fx-alignment: center; 
 	-fx-text-fill: black;
 	-fx-prompt-text-fill: ghostwhite ;
-	-fx-border-color: #AB4642;
-	-fx-background-color: rgb(128,128,255);
+	-fx-border-color: #000000;
+	-fx-background-color: rgb(128,128,128);
 	-fx-focus-traversable: true;
 }
 
 .button{
-	-fx-background-color: rgb(0,128,192); 
+	-fx-background-color: rgb(128,128,128); 
 	-fx-background-radius: 0.0pt;
 	-fx-font-size: 10.0pt;
 	-fx-text-alignment: center;
@@ -29,8 +35,8 @@
 }
 
 .label-team{
-	-fx-text-fill: #e8e8e8;
-	-fx-background-color: rgb(0,128,192);
+	-fx-text-fill: #000000;
+	-fx-background-color: rgb(128,128,128);
 	-fx-font-size: 12.0pt;
 }
 

@@ -7,11 +7,16 @@ import java.util.List;
 import application.MatchADT.teamSpot;
 import javafx.application.Application;
 import javafx.application.Application.Parameters;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 public class Main extends Application{
@@ -19,9 +24,11 @@ public class Main extends Application{
     /*******************
      * Private Constants
      *******************/
-    private static final Integer STAGE_WIDTH = 375;
-    private static final Integer STAGE_HEIGHT = 300;
+    private static final Integer STAGE_WIDTH = 900;
+    private static final Integer STAGE_HEIGHT = 500;
     
+    private static final Integer HORIZONTAL_PADDING = 10;
+    private static final Integer VERTICAL_PADDING = 5;
     
     /*******************
      * Private View Variables
@@ -29,15 +36,15 @@ public class Main extends Application{
     private Stage stage;                    // The stage
     private Scene scene;                    // The scene
     
-    private VBox round;              // Sub-layouts for each round
-    private ArrayList<MatchPane<Integer>> matchPanes; // Groups submit buttons with scores and team label
+    private BorderPane[] roundPanes;		// Displays teams for each round
+    private VBox[] columnPanes;				// Displays each column (half-round)
+    private MatchPane[] matchPanes;			// Groups submit buttons with scores and team labels
   
     
     /*******************
      * Private Control Variables
      *******************/
-    private Bracket<Integer> bracket;
-    private int columns;             // Number of rounds and number of columns (for convenience)
+    private Bracket<Integer> bracket;		// Bracket to build and display
     
     
     /*******************
@@ -45,10 +52,6 @@ public class Main extends Application{
      *******************/
 
     public static void main(String[] args) {
-        
-     // deleting these running on Linux Machine
-        args = new String[1];
-        args[0] = "src/application/TeamList.txt";
         launch(args);
     }
     
@@ -59,33 +62,23 @@ public class Main extends Application{
     
     @Override
     public void start(Stage primaryStage) {
-        // TODO start a bracket from command line argument and replace test values in init()
-        
         try {
             initControlObjects();
         } catch (IOException e) {
             System.err.println("The provided file could not be loaded - exiting program");
             System.exit(0);
         }
-        initViewObjects(STAGE_WIDTH,STAGE_HEIGHT);
+        initViewObjects(primaryStage);
     }
     
     private void initControlObjects() throws IOException {
-        //bracket = new Bracket<Integer>("src/application/TeamList.txt");
         
+    	// get command line arguments
         Parameters parameters = getParameters();
         List<String> params = parameters.getRaw();
+        
+        // set parameters
         bracket = new Bracket<Integer>(params.get(0));
-        //TODO: file should be first command line argument!!  not hard coded;
-        
-        
-        
-        System.out.println("Bracket size = " + bracket.size());
-        System.out.println("Bracket rounds = " + bracket.rounds());
-        System.out.println("Bracket match one team one = " + bracket.getMatchTeam(1, teamSpot.TeamOne));
-        System.out.println("Bracket match one team two = " + bracket.getMatchTeam(1, teamSpot.TeamTwo));
-        System.out.println("Bracket match team on direct = " + bracket.getMatch(1));
-        System.out.println("Bracket match team on direct = " + bracket.getMatch(2));
     }
     
     
@@ -101,40 +94,67 @@ public class Main extends Application{
      * @param height
      * @param numRounds
      */
-    private void initViewObjects (int width, int height) {
+    private void initViewObjects (Stage stage) {
         // Parameters from bracket
-        matchPanes = new ArrayList<MatchPane<Integer>>();
-                        
-                        
-        int numRounds = bracket.rounds();
+    	int rounds = bracket.rounds();
+    	
+    	roundPanes = new BorderPane[rounds + 1];						// indexing starts at 1
+    	columnPanes = new VBox[2*rounds];								// indexing starts at 1
+        matchPanes = new MatchPane[bracket.matches()];					// indexing starts at 1
         
-                        
-        this.columns = 2*numRounds-1;
+        // initialize roundPanes
+        for(int i = 1; i <= rounds; i++) {
+        	roundPanes[i] = new BorderPane();
+        	roundPanes[i].setPadding(new Insets(0,HORIZONTAL_PADDING,0,HORIZONTAL_PADDING));
+        }
         
+        // initialize columnPanes
+        for(int i = 1; i < 2*rounds; i++) {
+        	columnPanes[i] = new VBox(VERTICAL_PADDING);
+        	columnPanes[i].setAlignment(Pos.CENTER);
+        }
         
-        round = new VBox();
-        matchPanes.add(new MatchPane<Integer>(1, bracket.getMatch(1), this));
-        matchPanes.add(new MatchPane<Integer>(1, bracket.getMatch(2), this));
-        matchPanes.add(new MatchPane<Integer>(1, bracket.getMatch(3), this));
-        matchPanes.add(new MatchPane<Integer>(1, bracket.getMatch(4), this));
+        // initialize match panes and build scene
+        int matchIndex = 1; // keeps track of next match to be added
+        for(int i = 1; i < rounds; i++) {
+        	roundPanes[i].setCenter(roundPanes[i+1]);
+        	
+        	for(int j = 1; j <= Math.pow(2, rounds-i-1); j++) {
+        		matchPanes[matchIndex] = new MatchPane<Integer>
+        			(matchIndex, bracket.getMatch(matchIndex), this);
+        		columnPanes[2*i - 1].getChildren().add(matchPanes[matchIndex]);
+        		matchIndex++;
+        		
+        		matchPanes[matchIndex] = new MatchPane<Integer>
+    				(matchIndex, bracket.getMatch(matchIndex), this);
+        		columnPanes[2*i].getChildren().add(matchPanes[matchIndex]);
+        		matchIndex++;
+        	}
+        	
+        	roundPanes[i].setRight(columnPanes[2*i - 1]);
+        	roundPanes[i].setLeft(columnPanes[2*i]);
+        }
         
-  
+        // add championship match
+        columnPanes[2*rounds - 1].getChildren().add(new MatchPane<Integer>
+        		(matchIndex, bracket.getMatch(matchIndex), this));
+        roundPanes[rounds].setCenter(columnPanes[2*rounds - 1]);
         
-        //round.getChildren().add(new MatchPane<Integer,Match<Integer>>(1,bracket.getMatch(1)));
-        round.getChildren().add(matchPanes.get(0));
-        round.getChildren().add(matchPanes.get(1));
-        round.getChildren().add(matchPanes.get(2));
-        round.getChildren().add(matchPanes.get(3));
+        HBox box = new HBox();
+        box.setStyle("-fx-background-color: #383838");
+        box.setAlignment(Pos.CENTER);
+        box.getChildren().add(roundPanes[1]);
         
-        
-        
+        ScrollPane sp = new ScrollPane();
+        sp.setFitToHeight(true);
+        sp.setFitToWidth(true);
+        sp.setContent(box);
 
-        //primaryLayout.getChildren().add(new MatchPane(1,"Team Biscuits","Team Crackers"));
-        scene = new Scene(round,width,height);
+        scene = new Scene(sp,STAGE_WIDTH,STAGE_HEIGHT);
         scene.getStylesheets().add("/application/application.css");
-        stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
+        this.stage = stage;
+        this.stage.setScene(scene);
+        this.stage.show();
     }
     
     

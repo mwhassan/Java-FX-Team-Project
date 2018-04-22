@@ -154,7 +154,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     /**
      * Constructor: initializes all components
      */
-    public MatchPane(int matchNum, Match<Integer> match, Object callingClass) {
+    public MatchPane(int matchNum, Match<Integer> match, Object caller) {
 
         
         // Set pane specific fields
@@ -166,7 +166,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         //this.match = match;
         
         //Setup control fields
-        initMatchController(matchNum, match, callingClass);
+        initMatchController(matchNum, match, caller);
         
         //Setup view fields
         initMatchView();
@@ -197,10 +197,10 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * Private Helper Classes
      *******************/
     
-    private void initMatchController(int matchNum, Match<Integer> match, Object callingClass) {
+    private void initMatchController(int matchNum, Match<Integer> match, Object caller) {
         this.matchNum = matchNum;
         this.match = match;
-        this.callingClass = callingClass;
+        this.callingClass = caller;
     }
 
     private void initMatchView() {
