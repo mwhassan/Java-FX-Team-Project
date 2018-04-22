@@ -2,8 +2,11 @@ package application;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 import application.MatchADT.teamSpot;
 import javafx.application.Application;
+import javafx.application.Application.Parameters;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -42,6 +45,10 @@ public class Main extends Application{
      *******************/
 
     public static void main(String[] args) {
+        
+     // deleting these running on Linux Machine
+        args = new String[1];
+        args[0] = "src/application/TeamList.txt";
         launch(args);
     }
     
@@ -64,7 +71,11 @@ public class Main extends Application{
     }
     
     private void initControlObjects() throws IOException {
-        bracket = new Bracket<Integer>("src/application/TeamList.txt");
+        //bracket = new Bracket<Integer>("src/application/TeamList.txt");
+        
+        Parameters parameters = getParameters();
+        List<String> params = parameters.getRaw();
+        bracket = new Bracket<Integer>(params.get(0));
         //TODO: file should be first command line argument!!  not hard coded;
         
         

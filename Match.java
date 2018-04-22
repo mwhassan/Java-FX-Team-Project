@@ -97,7 +97,8 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
      * @throws IllegalArgumentException if the score is tied
      */
 	@Override
-	public Team setFinalScore(S teamOneScore, S teamTwoScore) throws IllegalArgumentException {
+	public Team setFinalScore(S teamOneScore, S teamTwoScore) 
+	        throws IllegalArgumentException, IllegalStateException {
 		if (teamOneScore == null || teamTwoScore == null) throw new 
 							IllegalArgumentException ("Can not have null scores");
 			
@@ -171,5 +172,22 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 	                    
 	    return mReturn;
 	}
+	
+	/*******************
+     * Getter for Testing
+     *******************/
+    public String teamOne() {
+        if(teamOne != null)
+            return teamOne.getName();
+        else
+            return "";
+    }
+    
+    public String teamTwo() {
+        if(teamTwo != null)
+            return teamTwo.getName();
+        else
+            return "";
+    }
 
 }
