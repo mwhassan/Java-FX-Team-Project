@@ -115,29 +115,25 @@ public class Main extends Application{
         }
         
         // initialize match panes and build scene
-        int matchIndex = 1; // keeps track of next match to be added
         for(int i = 1; i < rounds; i++) {
         	roundPanes[i].setCenter(roundPanes[i+1]);
         	
-        	for(int j = 1; j <= Math.pow(2, rounds-i-1); j++) {
-        		matchPanes[matchIndex] = new MatchPane<Integer>
-        			(matchIndex, bracket.getMatch(matchIndex), this);
-        		columnPanes[2*i - 1].getChildren().add(matchPanes[matchIndex]);
-        		matchIndex++;
-        		
-        		matchPanes[matchIndex] = new MatchPane<Integer>
-    				(matchIndex, bracket.getMatch(matchIndex), this);
-        		columnPanes[2*i].getChildren().add(matchPanes[matchIndex]);
-        		matchIndex++;
+        	for(int slot = 1; slot <= Math.pow(2, rounds-i); slot++) {
+        		int index = bracket.getMatchIndex(i, slot);
+    			matchPanes[index] = new MatchPane<Integer>
+    				(index, bracket.getMatch(index), this);
+    			
+        		if(slot <= Math.pow(2, rounds-i-1)) columnPanes[2*i - 1].getChildren().add(matchPanes[index]);
+        		else columnPanes[2*i].getChildren().add(matchPanes[index]);
         	}
         	
-        	roundPanes[i].setRight(columnPanes[2*i - 1]);
-        	roundPanes[i].setLeft(columnPanes[2*i]);
+        	roundPanes[i].setLeft(columnPanes[2*i - 1]);
+        	roundPanes[i].setRight(columnPanes[2*i]);
         }
         
         // add championship match
         columnPanes[2*rounds - 1].getChildren().add(new MatchPane<Integer>
-        		(matchIndex, bracket.getMatch(matchIndex), this));
+        		(bracket.matches(), bracket.getMatch(bracket.matches()), this));
         roundPanes[rounds].setCenter(columnPanes[2*rounds - 1]);
         
         HBox box = new HBox();
