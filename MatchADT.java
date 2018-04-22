@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public interface MatchADT <S extends Comparable<S>> {
     
-    public enum teamSpot {TeamOne, TeamTwo};//ID Team, might take out or turn to constants w\index
+    public enum TeamSpot {TeamOne, TeamTwo};//ID Team, might take out or turn to constants w\index
     
     
     /**

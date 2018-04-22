@@ -74,8 +74,8 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 	public Team[] getTeams(){
 		Team[] teams = new Team[NUM_TEAMS];
 		
-		teams[teamSpot.TeamOne.ordinal()] = this.teamOne;
-		teams[teamSpot.TeamTwo.ordinal()] = this.teamTwo;
+		teams[TeamSpot.TeamOne.ordinal()] = this.teamOne;
+		teams[TeamSpot.TeamTwo.ordinal()] = this.teamTwo;
 		
 		return teams;
 	}

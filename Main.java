@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.MatchADT.teamSpot;
+import application.MatchADT.TeamSpot;
 import javafx.application.Application;
 import javafx.application.Application.Parameters;
 import javafx.geometry.Insets;
@@ -190,7 +190,7 @@ public class Main extends Application {
      * Getters and Setters
      *******************/
     
-    public void matchPaneCallBack() {
+    public void matchPaneCallBack(Match match, TeamSpot spot) {
         System.out.println("--------------------------");
         System.out.println("-Called me back");
         System.out.println("--------------------------");

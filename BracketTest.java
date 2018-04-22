@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import application.MatchADT.teamSpot;
+import application.MatchADT.TeamSpot;
 
 public class BracketTest {
     
@@ -371,7 +371,7 @@ public class BracketTest {
     @Test
     public final void test38_getMatchTeam_null() {
         String expected = null;
-        String actual = bracket.getMatchTeam(0, teamSpot.TeamOne);
+        String actual = bracket.getMatchTeam(0, TeamSpot.TeamOne);
         assertEquals(expected, actual);
     }
     
@@ -379,7 +379,7 @@ public class BracketTest {
     public final void test39_getMatchTeam_null() throws IOException {
         bracket.seedBracket("ZeroTeam.txt");
         String expected = null;
-        String actual = bracket.getMatchTeam(0, teamSpot.TeamOne);
+        String actual = bracket.getMatchTeam(0, TeamSpot.TeamOne);
         assertEquals(expected, actual);
     }
     
@@ -387,7 +387,7 @@ public class BracketTest {
     public final void test40_getMatchTeam_Team2() throws IOException {
         bracket.seedBracket("TwoTeam.txt");
         String expected = "Team2";
-        String actual = bracket.getMatchTeam(1, teamSpot.TeamTwo);
+        String actual = bracket.getMatchTeam(1, TeamSpot.TeamTwo);
         assertEquals(expected, actual);
     }
     
@@ -395,7 +395,7 @@ public class BracketTest {
     public final void test41_getMatchTeam_Team2() throws IOException {
         bracket.seedBracket("EightTeam.txt");
         String expected = "Team7";
-        String actual = bracket.getMatchTeam(3, teamSpot.TeamTwo);
+        String actual = bracket.getMatchTeam(3, TeamSpot.TeamTwo);
         assertEquals(expected, actual);
     }
     
@@ -403,7 +403,7 @@ public class BracketTest {
     public final void test42_getMatchTeam_Team2() throws IOException {
         bracket.seedBracket("SixteenTeam.txt");
         String expected = "Team10";
-        String actual = bracket.getMatchTeam(6, teamSpot.TeamTwo);
+        String actual = bracket.getMatchTeam(6, TeamSpot.TeamTwo);
         assertEquals(expected, actual);
     }
     

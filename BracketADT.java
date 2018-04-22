@@ -71,7 +71,7 @@ public interface BracketADT <S> {
     public int getMatchSlot(int matchIndex);
     
     public String getMatchWinner(int matchIndex); //Return the winner of a match given an index
-    public String getMatchTeam(int matchIndex, MatchADT.teamSpot team); //Return the winner of a match given an index
+    public String getMatchTeam(int matchIndex, MatchADT.TeamSpot team); //Return the winner of a match given an index
     
     
     //Genealogy

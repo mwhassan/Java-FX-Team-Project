@@ -1,6 +1,6 @@
 package application;
 
-import java.lang.reflect.InvocationTargetException;
+import application.MatchADT.TeamSpot;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,8 +15,8 @@ import javafx.scene.layout.GridPane;
  * 		a. 	Add event handlers to score boxes to make sure scores are valid
  * 			before we have to send them in
  * 		b. 	Make sure set score and scores are disabled after being set
- * 		c.	Dont allow scores to be entered if no teams
- * 	2)	Make view Reversable so we can do it on both sides
+ * 		c.	Don't allow scores to be entered if no teams
+ * 	2)	Make view Reversible so we can do it on both sides
  * 	3)	Add dialog box warnings instead of status warnings
  * 	4)	Clean up view - make match and status columns not rows, maybe add a box
  * 		make it look nice
@@ -34,8 +34,6 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     private static final Integer MV_PANE_INSETS = 10; // Insets amount
     private static final Integer MV_PANE_VERT_GAP = 2; // Vertical gap
     private static final Integer MV_PANE_HORZ_GAP = 3; // Horizontal gap
-
-    // this.add(child, columnIndex, rowIndex, colspan, rowspan);
 
     /*------
      * Team Name Information
@@ -150,7 +148,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      *******************/
     private Match<Integer> match;
     private int matchNum;
-    private Object callingClass;
+    private Object caller;
     
     /*******************
      * Constructors
@@ -167,8 +165,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         this.setVgap(MV_PANE_VERT_GAP);
         this.setHgap(MV_PANE_HORZ_GAP);
 
-
-        //this.match = match;
+        this.match = match;
         
         //Setup control fields
         initMatchController(matchNum, match, caller);
@@ -205,7 +202,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     private void initMatchController(int matchNum, Match<Integer> match, Object caller) {
         this.matchNum = matchNum;
         this.match = match;
-        this.callingClass = caller;
+        this.caller = caller;
     }
 
     private void initMatchView() {
@@ -331,13 +328,8 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
                 loser.setId("teamLost");
                 loserScore.setId("teamLost");
                 
-                    try {
-                        callingClass.getClass().getDeclaredMethod("matchPaneCallBack").invoke(callingClass);
-                    } catch (IllegalAccessException | IllegalArgumentException
-                                    | InvocationTargetException | NoSuchMethodException
-                                    | SecurityException e) {
-                        e.printStackTrace();
-                    }
+                if(s1 > s2) ((Main) caller).matchPaneCallBack(match, TeamSpot.TeamOne);
+                else ((Main) caller).matchPaneCallBack(match, TeamSpot.TeamTwo);
                 
                 
             } catch (NumberFormatException exception) {

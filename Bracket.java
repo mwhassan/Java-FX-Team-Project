@@ -3,7 +3,7 @@ package application;
 import java.io.*;
 import java.util.ArrayList;
 
-import application.MatchADT.teamSpot;
+import application.MatchADT.TeamSpot;
 
 /**
  * This class handles seeding and keeping track of matches, teams, and scores.
@@ -157,7 +157,7 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 	 * return a team name in a given spot of a match
 	 * returns null if no team yet
 	 */
-	public String getMatchTeam(int matchIndex, teamSpot team) {
+	public String getMatchTeam(int matchIndex, TeamSpot team) {
 		try {
 			return matches[matchIndex].getTeams()[team.ordinal()].getName();
 		}catch(NullPointerException e) {
