@@ -18,8 +18,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;;
 
-public class Main extends Application{
+public class Main extends Application {
 
     /*******************
      * Private Constants
@@ -30,21 +32,25 @@ public class Main extends Application{
     private static final Integer HORIZONTAL_PADDING = 10;
     private static final Integer VERTICAL_PADDING = 5;
     
+    private static final String TOURNAMENT_TITLE = "Tournament Bracket";
+    private static final String NO_TEAMS_TITLE = "Empty Bracket";
+    private static final String NO_TEAMS_MESSAGE = "No teams and no tournament!";
+    
     /*******************
      * Private View Variables
      *******************/
-    private Stage stage;                    // The stage
-    private Scene scene;                    // The scene
+    private Stage stage;                    	// The stage
+    private Scene scene;                    	// The scene
     
-    private BorderPane[] roundPanes;		// Displays teams for each round
-    private VBox[] columnPanes;				// Displays each column (half-round)
-    private MatchPane[] matchPanes;			// Groups submit buttons with scores and team labels
+    private BorderPane[] roundPanes;			// Displays teams for each round
+    private VBox[] columnPanes;					// Displays each column (half-round)
+    private MatchPane<Integer>[] matchPanes;	// Groups submit buttons with scores and team labels
   
     
     /*******************
      * Private Control Variables
      *******************/
-    private Bracket<Integer> bracket;		// Bracket to build and display
+    private Bracket<Integer> bracket;			// Bracket to build and display
     
     
     /*******************
@@ -94,9 +100,32 @@ public class Main extends Application{
      * @param height
      * @param numRounds
      */
-    private void initViewObjects (Stage stage) {
+    @SuppressWarnings("unchecked")
+	private void initViewObjects (Stage stage) {
         // Parameters from bracket
     	int rounds = bracket.rounds();
+    	
+    	// Handle no teams
+    	if(rounds == 0) {
+    		Label msg = new Label(NO_TEAMS_MESSAGE);
+    		Button ok = new Button("OK");
+    		VBox display = new VBox(VERTICAL_PADDING);
+    		
+    		display.setAlignment(Pos.CENTER);
+    		display.getChildren().addAll(msg, ok);
+    		Scene scene = new Scene(display);
+    		scene.getStylesheets().add("/application/application.css");
+    		Stage alert = new Stage();
+    		
+    		alert.setWidth(STAGE_WIDTH);
+    		alert.setHeight(STAGE_HEIGHT);
+    		ok.setOnAction(e->alert.close());
+    		alert.setTitle(NO_TEAMS_TITLE);
+    		
+    		alert.setScene(scene);
+    		alert.showAndWait();
+    		return;
+    	}
     	
     	roundPanes = new BorderPane[rounds + 1];						// indexing starts at 1
     	columnPanes = new VBox[2*rounds];								// indexing starts at 1
@@ -150,6 +179,7 @@ public class Main extends Application{
         scene.getStylesheets().add("/application/application.css");
         this.stage = stage;
         this.stage.setScene(scene);
+        this.stage.setTitle(TOURNAMENT_TITLE);
         this.stage.show();
     }
     
@@ -167,4 +197,3 @@ public class Main extends Application{
     }
 
 }
-

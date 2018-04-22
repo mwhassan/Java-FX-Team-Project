@@ -85,6 +85,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * Score and Submit 
      *-----*/
     private static final Double MV_SCORE_WIDTH = 73.0;
+    private static final Double MV_SCORE_HEIGHT = 50.0;
 
     // txtScore1 specific
     private static final Integer MV_SCORE_T1_COL_IND = 2;
@@ -116,10 +117,14 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     private static final String MV_LBL_WINNER_STATUS = "   Status: ";
     private static final String MV_LBL_WINNER_RESULT = "Scores Not Submitted";
     private static final String MV_LBL_SUBMIT = "Set\nScore"; 
+    
+    private static final String TIE_ERROR_PROMPT = 
+    	String.format("%" + MV_INDENT + "s%s", "", "No ties are allowed!");
+    private static final String INVALID_INPUT_ERROR_PROMPT = 
+        	String.format("%" + MV_INDENT + "s%s", "", "You must first enter two integer scores!");
 
     private static final Integer MV_TEAM1 = 0;
     private static final Integer MV_TEAM2 = 1;
-
     /***********************************************************
      * Private View Fields
      ***********************************************************/
@@ -185,8 +190,8 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * will still function otherwise.
      */
     public void clear() {
-        txtScore1.setPromptText("Score");
-        txtScore2.setPromptText("Score");
+        txtScore1.setPromptText("<score>");
+        txtScore2.setPromptText("<score>");
 
         txtScore1.setEditable(true);
         txtScore2.setEditable(true);
@@ -251,12 +256,14 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 
         // Add match header
         lblMatch = new Label(MV_LBL_MATCH + matchNum);
+        lblMatch.getStyleClass().add("label-no-border");
         this.add(lblMatch, MV_MATCH_COL_IND, MV_MATCH_ROW_IND, MV_MATCH_COL_SPAN,
                         MV_MATCH_ROW_SPAN);
 
         // Add 'Submit Scores' button
         btnSubmit = new Button(MV_LBL_SUBMIT);
-        btnSubmit.setMinHeight(getHeight());
+        btnSubmit.setMaxHeight(MV_SCORE_HEIGHT);
+        btnSubmit.setMinHeight(MV_SCORE_HEIGHT);
         btnSubmit.setMaxWidth(MV_SCORE_WIDTH);
         btnSubmit.setMinWidth(MV_SCORE_WIDTH);
         this.add(btnSubmit, MV_SUBMIT_COL_IND, MV_SUBMIT_ROW_IND, MV_SUBMIT_COL_SPAN,
@@ -286,18 +293,14 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 
         // Add winner box
         lblWinnerStatus = new Label(winnerStr);
+        lblWinnerStatus.getStyleClass().add("label-no-border");
         this.add(lblWinnerStatus, MV_WINNER_COL_IND, MV_WINNER_ROW_IND, MV_WINNER_COL_SPAN,
                         MV_WINNER_ROW_SPAN);
 
-
-        
-        
-        
     }
     
     /**
-     * Update score when submit button is pressed Throw an exception if an invalid integer or a
-     * tie is entered
+     * Update score when submit button is pressed. Displays prompt if invalid scores entered.
      */
     private void btnSubmit_setOnAction() {
         btnSubmit.setOnAction(event -> {
@@ -338,8 +341,9 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
                 
                 
             } catch (NumberFormatException exception) {
-                lblWinnerStatus.setText("You must first enter a score!");
-                throw new NumberFormatException("Please enter an integer score!");
+                lblWinnerStatus.setText(INVALID_INPUT_ERROR_PROMPT);
+            } catch (IllegalStateException exception) {
+            	lblWinnerStatus.setText(TIE_ERROR_PROMPT);
             }
         });
     }

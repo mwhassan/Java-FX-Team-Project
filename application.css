@@ -13,6 +13,13 @@
 .label{
 	-fx-text-fill: #e8e8e8;
 	-fx-font-size: 10.0pt;
+	-fx-border-color: #000000;
+}
+
+.label-no-border{
+	-fx-text-fill: #e8e8e8;
+	-fx-font-size: 10.0pt;
+	-fx-border-color: none;
 }
 
 .text-field{
@@ -28,10 +35,11 @@
 
 .button{
 	-fx-background-color: rgb(128,128,128); 
-	-fx-background-radius: 0.0pt;
+	-fx-background-insets: 1px;
 	-fx-font-size: 10.0pt;
 	-fx-text-alignment: center;
 	-fx-focus-traversable: true;
+	-fx-border-color: #000000;
 }
 
 .label-team{
