@@ -151,6 +151,7 @@ public class Main extends Application {
         		int index = bracket.getMatchIndex(i, slot);
     			matchPanes[index] = new MatchPane<Integer>
     				(index, bracket.getMatch(index), this);
+    			if(i == 1) matchPanes[index].setDisable(false); // Enable first-round GUI functionality
     			
         		if(slot <= Math.pow(2, rounds-i-1)) columnPanes[2*i - 1].getChildren().add(matchPanes[index]);
         		else columnPanes[2*i].getChildren().add(matchPanes[index]);
@@ -180,6 +181,7 @@ public class Main extends Application {
         this.stage = stage;
         this.stage.setScene(scene);
         this.stage.setTitle(TOURNAMENT_TITLE);
+        this.stage.setMaximized(true);
         this.stage.show();
     }
     

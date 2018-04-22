@@ -125,6 +125,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 
     private static final Integer MV_TEAM1 = 0;
     private static final Integer MV_TEAM2 = 1;
+    
     /***********************************************************
      * Private View Fields
      ***********************************************************/
@@ -143,7 +144,6 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 
     private String winnerStr = String.format("%-" + MV_DISP_SPACING + "s",
                     MV_LBL_WINNER_STATUS + MV_LBL_WINNER_RESULT);
-
 
     /*******************
      * Private Control Fields
@@ -176,7 +176,8 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         //Setup view fields
         initMatchView();
         
-
+        //Should not be functional until populated
+        this.setDisable(true);
     }
     
     
@@ -186,13 +187,12 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     
 
     /**
-     * Clears entered scores Assumes no winner has been declared or displayed, although this method
-     * will still function otherwise.
+     * Enables MatchPane for editing.
      */
     public void clear() {
         txtScore1.setPromptText("<score>");
         txtScore2.setPromptText("<score>");
-
+        
         txtScore1.setEditable(true);
         txtScore2.setEditable(true);
     }
