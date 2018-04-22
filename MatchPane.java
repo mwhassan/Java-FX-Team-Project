@@ -2,6 +2,7 @@ package application;
 
 import application.MatchADT.TeamSpot;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -128,6 +129,8 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * Private View Fields
      ***********************************************************/
     
+    private int index; // Number of match in tournament
+    
     private Label lblMatch, 
                   lblWinnerStatus, 
                   lblTeam1, 
@@ -166,6 +169,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         this.setHgap(MV_PANE_HORZ_GAP);
 
         this.match = match;
+        this.index = matchNum;
         
         //Setup control fields
         initMatchController(matchNum, match, caller);
@@ -194,6 +198,28 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         txtScore2.setEditable(true);
     }
     
+    /**
+     * Re-populates the match labels.
+     */
+    public void refresh() {
+
+        String team1Name, team2Name;
+        try {
+            team1Name = " " + match.getTeams()[MV_TEAM1].toString();
+        } catch (NullPointerException e) {
+            team1Name = "";
+        }
+        
+        try {
+            team2Name = " " + match.getTeams()[MV_TEAM2].toString();
+        } catch (NullPointerException e) {
+            team2Name = "";
+        }
+        
+        lblTeam1.setText(String.format("%-" + MC_TEAM_SPACING + "s", team1Name));
+        lblTeam2.setText(String.format("%-" + MC_TEAM_SPACING + "s", team2Name));
+
+    }
     
     /*******************
      * Private Helper Classes
@@ -265,7 +291,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         btnSubmit.setMinWidth(MV_SCORE_WIDTH);
         this.add(btnSubmit, MV_SUBMIT_COL_IND, MV_SUBMIT_ROW_IND, MV_SUBMIT_COL_SPAN,
                         MV_SUBMIT_ROW_SPAN);
-        btnSubmit_setOnAction(); //Sets submit button on action
+        btnSubmit.setOnAction(e->action_handler());
 
         /*------
          * Score and Submit 
@@ -278,6 +304,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         txtScore1.setMinWidth(MV_SCORE_WIDTH);
         this.add(txtScore1, MV_SCORE_T1_COL_IND, MV_SCORE_T1_ROW_IND, MV_SCORE_T1_COL_SPAN,
                         MV_SCORE_T1_ROW_SPAN);
+        txtScore1.setOnAction(e->action_handler());
 
 
         // Add team 2 score
@@ -287,6 +314,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         txtScore2.setMinWidth(MV_SCORE_WIDTH);
         this.add(txtScore2, MV_SCORE_T2_COL_IND, MV_SCORE_T2_ROW_IND, MV_SCORE_T2_COL_SPAN,
                         MV_SCORE_T2_ROW_SPAN);
+        txtScore2.setOnAction(e->action_handler());
 
         // Add winner box
         lblWinnerStatus = new Label(winnerStr);
@@ -299,46 +327,43 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     /**
      * Update score when submit button is pressed. Displays prompt if invalid scores entered.
      */
-    private void btnSubmit_setOnAction() {
-        btnSubmit.setOnAction(event -> {
-            try {
-                Integer s1 = Integer.parseInt(txtScore1.getText());
-                Integer s2 = Integer.parseInt(txtScore2.getText());
-                if (s1 == s2)
-                    throw new IllegalStateException("No ties allowed in bracket.");
-                winnerStr = String.format("%-" + MV_DISP_SPACING + "s", (MV_LBL_WINNER_STATUS
-                                + " Winner = "
-                                + (s1 > s2 ? lblTeam1.getText() : lblTeam2.getText()).trim()));
+    private void action_handler() {
+    	try {
+    		Integer s1 = Integer.parseInt(txtScore1.getText());
+    		Integer s2 = Integer.parseInt(txtScore2.getText());
+    		if (s1 == s2)
+    			throw new IllegalStateException("No ties allowed in bracket.");
+    		winnerStr = String.format("%-" + MV_DISP_SPACING + "s", (MV_LBL_WINNER_STATUS
+    				+ " Winner = "
+    				+ (s1 > s2 ? lblTeam1.getText() : lblTeam2.getText()).trim()));
 
-                lblWinnerStatus.setText(winnerStr);
+    		lblWinnerStatus.setText(winnerStr);
 
-                txtScore1.setEditable(false);
-                txtScore2.setEditable(false);
-                
-                //Change winner view
-                Label winner = ((s1 > s2) ? lblTeam1: lblTeam2);
-                TextField winnerScore = ((s1 > s2) ? txtScore1: txtScore2);
-                winner.setId("teamWon");
-                winnerScore.setId("teamWon");
-                btnSubmit.setId("teamWon");
-                
-                //Change looser view
-                Label loser = ((s1 > s2) ? lblTeam2 : lblTeam1);
-                TextField loserScore = ((s1 > s2) ? txtScore2: txtScore1);
-                loser.setId("teamLost");
-                loserScore.setId("teamLost");
-                
-                if(s1 > s2) ((Main) caller).matchPaneCallBack(match, TeamSpot.TeamOne);
-                else ((Main) caller).matchPaneCallBack(match, TeamSpot.TeamTwo);
-                
-                
-            } catch (NumberFormatException exception) {
-                lblWinnerStatus.setText(INVALID_INPUT_ERROR_PROMPT);
-            } catch (IllegalStateException exception) {
-            	lblWinnerStatus.setText(TIE_ERROR_PROMPT);
-            }
-        });
+    		txtScore1.setEditable(false);
+    		txtScore2.setEditable(false);
+
+    		//Change winner view
+    		Label winner = ((s1 > s2) ? lblTeam1: lblTeam2);
+    		TextField winnerScore = ((s1 > s2) ? txtScore1: txtScore2);
+    		winner.setId("teamWon");
+    		winnerScore.setId("teamWon");
+    		btnSubmit.setId("teamWon");
+
+    		//Change looser view
+    		Label loser = ((s1 > s2) ? lblTeam2 : lblTeam1);
+    		TextField loserScore = ((s1 > s2) ? txtScore2: txtScore1);
+    		loser.setId("teamLost");
+    		loserScore.setId("teamLost");
+
+    		match.setFinalScore(s1, s2);
+
+    		((Main) caller).matchPaneCallBack(match, index);
+
+
+    	} catch (NumberFormatException exception) {
+    		lblWinnerStatus.setText(INVALID_INPUT_ERROR_PROMPT);
+    	} catch (IllegalStateException exception) {
+    		lblWinnerStatus.setText(TIE_ERROR_PROMPT);
+    	}
     }
-
 }
-

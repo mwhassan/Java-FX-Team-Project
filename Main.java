@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.event.ActionEvent;
@@ -35,6 +36,8 @@ public class Main extends Application {
     private static final String TOURNAMENT_TITLE = "Tournament Bracket";
     private static final String NO_TEAMS_TITLE = "Empty Bracket";
     private static final String NO_TEAMS_MESSAGE = "No teams and no tournament!";
+    private static final String ONE_TEAM_MESSAGE = "Only one team! The winner is ";
+    private static final String CHAMPION_MESSAGE = "And the winner is:\n";
     
     /*******************
      * Private View Variables
@@ -45,6 +48,8 @@ public class Main extends Application {
     private BorderPane[] roundPanes;			// Displays teams for each round
     private VBox[] columnPanes;					// Displays each column (half-round)
     private MatchPane<Integer>[] matchPanes;	// Groups submit buttons with scores and team labels
+    private Label championLabel_1;				// Label will display champion
+    private Label championLabel_2;				// Label will display champion
   
     
     /*******************
@@ -106,8 +111,9 @@ public class Main extends Application {
     	int rounds = bracket.rounds();
     	
     	// Handle no teams
-    	if(rounds == 0) {
+    	if(bracket.size() < 1) {
     		Label msg = new Label(NO_TEAMS_MESSAGE);
+    		msg.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
     		Button ok = new Button("OK");
     		VBox display = new VBox(VERTICAL_PADDING);
     		
@@ -123,13 +129,37 @@ public class Main extends Application {
     		alert.setTitle(NO_TEAMS_TITLE);
     		
     		alert.setScene(scene);
+    		alert.setMaximized(true);
     		alert.showAndWait();
     		return;
     	}
     	
+    	// Handle one team
+    	if(bracket.size() == 1) {
+    		Label msg = new Label(ONE_TEAM_MESSAGE + bracket.getMatch(1).getTeams()[0]);
+    		msg.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
+    		Button ok = new Button("OK");
+    		VBox display = new VBox(VERTICAL_PADDING);
+    		
+    		display.setAlignment(Pos.CENTER);
+    		display.getChildren().addAll(msg, ok);
+    		Scene scene = new Scene(display);
+    		scene.getStylesheets().add("/application/application.css");
+    		Stage alert = new Stage();
+    		
+    		alert.setWidth(STAGE_WIDTH);
+    		alert.setHeight(STAGE_HEIGHT);
+    		ok.setOnAction(e->alert.close());
+    		alert.setTitle(NO_TEAMS_TITLE);
+    		
+    		alert.setScene(scene);
+    		alert.setMaximized(true);
+    		alert.showAndWait();
+    		return;
+    	}
     	roundPanes = new BorderPane[rounds + 1];						// indexing starts at 1
     	columnPanes = new VBox[2*rounds];								// indexing starts at 1
-        matchPanes = new MatchPane[bracket.matches()];					// indexing starts at 1
+        matchPanes = new MatchPane[bracket.matches()+1];				// indexing starts at 1
         
         // initialize roundPanes
         for(int i = 1; i <= rounds; i++) {
@@ -162,9 +192,21 @@ public class Main extends Application {
         }
         
         // add championship match
-        columnPanes[2*rounds - 1].getChildren().add(new MatchPane<Integer>
-        		(bracket.matches(), bracket.getMatch(bracket.matches()), this));
+        matchPanes[bracket.matches()] = new MatchPane<Integer>
+        	(bracket.matches(), bracket.getMatch(bracket.matches()), this);
+        columnPanes[2*rounds - 1].getChildren().add(matchPanes[bracket.matches()]);
+        if(bracket.matches() == 1) matchPanes[bracket.matches()].setDisable(false);
         roundPanes[rounds].setCenter(columnPanes[2*rounds - 1]);
+        
+        // add champion labels
+        championLabel_1 = new Label();
+        championLabel_2 = new Label();
+        roundPanes[rounds].setTop(championLabel_1);
+        roundPanes[rounds].setBottom(championLabel_2);
+        BorderPane.setAlignment(championLabel_1, Pos.CENTER);
+        BorderPane.setAlignment(championLabel_2, Pos.CENTER);
+        championLabel_1.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
+        championLabel_2.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
         
         HBox box = new HBox();
         box.setStyle("-fx-background-color: #383838");
@@ -179,23 +221,33 @@ public class Main extends Application {
         scene = new Scene(sp,STAGE_WIDTH,STAGE_HEIGHT);
         scene.getStylesheets().add("/application/application.css");
         this.stage = stage;
+        this.stage.setMaximized(true);
         this.stage.setScene(scene);
         this.stage.setTitle(TOURNAMENT_TITLE);
-        this.stage.setMaximized(true);
         this.stage.show();
     }
     
-    
-    /*******************
-     * Getters and Setters
-     *******************/
-    
-    public void matchPaneCallBack(Match match, TeamSpot spot) {
-        System.out.println("--------------------------");
-        System.out.println("-Called me back");
-        System.out.println("--------------------------");
-        System.out.println(bracket);
-        
+    /**
+     * Is called from MatchPane, providing the match and match number to be processed.
+     * Populates champion label at the conclusion of the tournament.
+     * Adds teams to subsequent matches and enables them when both teams have been added.
+     */
+    public void matchPaneCallBack(Match<Integer> match, int index) {
+    	if(index == bracket.matches()) {
+    		championLabel_1.setTextAlignment(TextAlignment.CENTER);
+    		championLabel_2.setTextAlignment(TextAlignment.CENTER);
+    		
+    		championLabel_1.setText(CHAMPION_MESSAGE + match.getWinner());
+    		championLabel_2.setText(CHAMPION_MESSAGE + match.getWinner());
+    		return;
+    	}
+    	
+        int next = bracket.getNextMatch(index);
+        bracket.getMatch(next).addTeam(match.getWinner());
+        if(bracket.getMatch(next).getTeams()[1] != null) {
+        	matchPanes[next].refresh();
+        	matchPanes[next].setDisable(false);
+        }
     }
 
 }

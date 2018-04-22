@@ -73,7 +73,10 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
             return;
         }
         else if(size() == 1) {
-            matches =  (Match<S>[]) new Match[matches() + 1];
+        	// set both teams to be the same. no winner or scores
+            matches =  (Match<S>[]) new Match[2];
+            matches[1] = new Match<S>();
+            matches[1].setTeams(teams.get(1), teams.get(1));
             return;
         }
         else {
