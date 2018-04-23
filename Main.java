@@ -1,16 +1,39 @@
+// MatchPane.java
+// Team.java
+// application.css
+//
+// Testing Files:
+// BracketTest.java
+// MatchTest.java
+// ZeroTeam.txt
+// OneTeam.txt
+// TwoTeam.txt
+// FourTeam.txt
+// EightTeam.txt
+// SixteenTeam.txt
+// ThirtyTwoTeam.txt
+//
+// Course: CS 400, Spring, 2018
+//
+// Author - A-Team 9:
+// Mostafa Wail Hassan
+// Christopher Todd Hayes-Birchler - hayesbirchle@wisc.edu
+// Emma He
+// Bryan Jin
+//
+// Lecturer's Name: Deb Deppeler
+// Due Date : 4/23/2018 by 10PM
+//
+// ///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
 package application;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import application.MatchADT.TeamSpot;
 import javafx.application.Application;
-import javafx.application.Application.Parameters;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,9 +42,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;;
 
+/**
+ * The main application class for a tournament bracket program.
+ * Initializes a Bracket based on an input file, given in args[0]
+ * Splits the Bracket into two converging halves
+ * Updates the status of each match as the user enters scores
+ */
 public class Main extends Application {
 
     /*******************

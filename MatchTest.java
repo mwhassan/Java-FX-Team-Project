@@ -1,3 +1,31 @@
+// MatchPane.java
+// Team.java
+// application.css
+//
+// Testing Files:
+// BracketTest.java
+// MatchTest.java
+// ZeroTeam.txt
+// OneTeam.txt
+// TwoTeam.txt
+// FourTeam.txt
+// EightTeam.txt
+// SixteenTeam.txt
+// ThirtyTwoTeam.txt
+//
+// Course: CS 400, Spring, 2018
+//
+// Author - A-Team 9:
+// Mostafa Wail Hassan
+// Christopher Todd Hayes-Birchler - hayesbirchle@wisc.edu
+// Emma He
+// Bryan Jin
+//
+// Lecturer's Name: Deb Deppeler
+// Due Date : 4/23/2018 by 10PM
+//
+// ///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
 package application;
 
 import static org.junit.Assert.*;
@@ -7,13 +35,18 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class MatchTest {
 
+/**
+ * This class performs a unit test on the Match implementation of MatchADT
+ */
+public class MatchTest {
+	
+    /**********************
+     * Private Constants
+     **********************/
     private static Match<Integer> match;
     private static String teamOne = "teamOne";
     private static String teamTwo = "teamTwo";
-    private static String teamOneSeeded = "teamOne (1)";
-    private static String teamTwoSeeded = "teamTwo (2)";
     private static int TEAM_ONE = 0;
     private static int TEAM_TWO = 1;
     private static boolean SHOW_ALL_RESULTS = true;
@@ -38,9 +71,9 @@ public class MatchTest {
         
     }
     
-    // Test List
-    
-    //  1) Check that setTeams adds teams in expected order
+    /**
+     * Check that setTeams adds teams in expected order
+     */
     @Test
     public final void test01_TeamsSetAsExpected() {
         String mOut = "";
@@ -69,7 +102,9 @@ public class MatchTest {
         
     }
     
-    //  2) Check that setTeams throws illegalArgExc if one of the teams is null
+    /**
+     * Check that setTeams throws illegalArgExc if one of the teams is null
+     */
     @Test
     public final void test02_setTeams_NoNullTeams() {
         String mOut = "";
@@ -92,7 +127,10 @@ public class MatchTest {
         }
 
     }
-    //  3) Check that addTeam adds in expected order 
+    
+    /**
+     *  Check that addTeam adds in expected order 
+     */
     @Test
     public final void test03_addTeam_teamsAddedInOrder(){
         String mOut = "";
@@ -134,7 +172,9 @@ public class MatchTest {
 
     }
     
-    //  4) Check that addTeam throws IllegalArgExc
+    /**
+     * Check that addTeam throws IllegalArgExc
+     */
     @Test
     public final void test04a_addTeam_NoNullTeamsAllowed() {
         String mOut = "";
@@ -166,7 +206,9 @@ public class MatchTest {
 
     }
     
-//  4b) Check that addTeam throws IllStateExc
+	/**
+	 * Check that addTeam throws IllStateExc
+	 */
     @Test
     public final void test04b_addTeam_OnlyTwoTeamsCanBeAdded() {
         String mOut = "";
@@ -204,10 +246,11 @@ public class MatchTest {
 
     }
     
-    //  5) Check that getTeams returns the correct teams in expected order
-    //     - Taking this out because we already confirm it when we check addTeams
+    // Test 5 deprecated
     
-    //  6) Check that getTeams will return blank array even if no teams set
+    /**
+     * Check that getTeams will return blank array even if no teams set
+     */
     @Test
     public final void test06_GetTeamsWithBlankArray() {
         String mOut = "";
@@ -234,7 +277,9 @@ public class MatchTest {
                         match.getTeams()[TEAM_TWO]);
     }
     
-    //  7) Check that setFinalScore correctly sets teamScores
+    /**
+     * Check that setFinalScore correctly sets teamScores
+     */
     @Test
     public final void test07_CheckScoresAddedAndRemovedCorrectly() {
         String mOut = "";
@@ -278,7 +323,9 @@ public class MatchTest {
         
     }
     
-    //  8) Check that setFinalScore throws illArgExc if a score is null
+    /**
+     * Check that setFinalScore throws illArgExc if a score is null
+     */
     @Test
     public final void test08_CheckIllArgExcOnSetFinalScoreNull() {
         String mOut = "";
@@ -305,7 +352,9 @@ public class MatchTest {
         
     }	
     
-    //  9) Check that setFinalScore throws illArgExc if score is tied
+    /**
+     * Check that setFinalScore throws illArgExc if score is tied
+     */
     @Test
     public final void test09_CheckIllArgExcOnSetFinalScoreTied() {
         String mOut = "";
@@ -332,7 +381,9 @@ public class MatchTest {
         
     }
     
-    //  10) Check that setFinalScore throws IllStatException if score is already set
+    /**
+     * Check that setFinalScore throws IllStatException if score is already set
+     */
     @Test
     public final void test10_CheckIllStateExcOnReSetFinalScoreTied() {
         String mOut = "";
@@ -359,7 +410,9 @@ public class MatchTest {
         
     }
 
-    //  12) Check that getWinner returns the winning team
+    /**
+     * Check that getWinner returns the winning team
+     */
     @Test
     public final void test12_CheckGetWinnerReturnsCorrectTeam() {
         String mOut = "";
@@ -382,12 +435,12 @@ public class MatchTest {
         
     }
     
-    //  13) Check that getWinner throws illegalStateException if no score set
+    /**
+     * Check that getWinner throws illegalStateException if no score set
+     */
     @Test
     public final void test13_CheckIllStateExcOnGetWinnerNoScore() {
         String mOut = "";
-        final Integer TEAM_ONE_SCORE = 27;
-        final Integer TEAM_TWO_SCORE = 15;
         
         mOut += ("****************");
         mOut += "\n" + ("Test 13");

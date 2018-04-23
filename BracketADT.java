@@ -1,3 +1,41 @@
+// ////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+// Title: CS 400 Team GUI Tournament Bracket Project
+//
+// Program Files:
+// Bracket.java
+// BracketADT.java
+// Main.java
+// Match.java
+// MatchADT.java
+// MatchPane.java
+// Team.java
+// application.css
+//
+// Testing Files:
+// BracketTest.java
+// MatchTest.java
+// ZeroTeam.txt
+// OneTeam.txt
+// TwoTeam.txt
+// FourTeam.txt
+// EightTeam.txt
+// SixteenTeam.txt
+// ThirtyTwoTeam.txt
+//
+// Course: CS 400, Spring, 2018
+//
+// Author - A-Team 9:
+// Mostafa Wail Hassan
+// Christopher Todd Hayes-Birchler - hayesbirchle@wisc.edu
+// Emma He
+// Bryan Jin
+//
+// Lecturer's Name: Deb Deppeler
+// Due Date : 4/23/2018 by 10PM
+//
+// ///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
 package application;
 
 
@@ -32,11 +70,8 @@ import java.io.IOException;
  * match 4 |-------
  * ________|       
  *                  
- * 2) For wishlist items, the assumption is rounds are played top to bottom, so current match
- *    is the first match numerically that has not been scored yet
- * 
- * 3)  The bracket above could be split in half, but the numbering will remain with the idea that
- *     the bottom half will become the left symetrical half when split up in such a manner
+ * 2)  The bracket above could be split in half, but the numbering will remain with the idea that
+ *     the bottom half will become the left symmetrical half when split up in such a manner
  *     
  *      Round 1    Round 2    Round 1
  *      ________               ________
@@ -82,21 +117,5 @@ public interface BracketADT <S> {
     
     //Get champion
     public Team getChampion();
-    
-    
-//    //Wishlist - might be nice for fun design layout options on view
-//    public int[] getPrevMatches(int matchIndex); //Returns the index of the previous match
-//    public String[] teams(); //Return a list of all teams
-//    public String[] teamsOut(); //return a list of teams that are out
-//    public String[] teamsIn(); //Return a list of teams that are in
-//    public String[] teamsBeatBy(String teamName); //Returns an array of teams already beat by the
-//                                                  //team sent in
-//    public int getCurrentRound(); //Return the round number  (assuming all items in round scored
-//                                  //before moving on to next round, returns next round without
-//                                  //a score
-//    public int getCurrentMatch(); //Return the index next match to be scored
-//    public int getSlot(int matchIndex); //Return the slot given the match index
-//    public int getRound(int matchIndex); //Return the round given the match index
-//    public String getTournementWinner(); // return tourney winner if there is one, otherwise?
     
 }

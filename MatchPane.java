@@ -1,8 +1,34 @@
+// MatchPane.java
+// Team.java
+// application.css
+//
+// Testing Files:
+// BracketTest.java
+// MatchTest.java
+// ZeroTeam.txt
+// OneTeam.txt
+// TwoTeam.txt
+// FourTeam.txt
+// EightTeam.txt
+// SixteenTeam.txt
+// ThirtyTwoTeam.txt
+//
+// Course: CS 400, Spring, 2018
+//
+// Author - A-Team 9:
+// Mostafa Wail Hassan
+// Christopher Todd Hayes-Birchler - hayesbirchle@wisc.edu
+// Emma He
+// Bryan Jin
+//
+// Lecturer's Name: Deb Deppeler
+// Due Date : 4/23/2018 by 10PM
+//
+// ///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
 package application;
 
-import application.MatchADT.TeamSpot;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -10,19 +36,8 @@ import javafx.scene.layout.GridPane;
 
 /**
  * This class represents the data for a single match on the GUI.
- * 
- * TODO: Add the following
- * 	1) 	Lock things down
- * 		a. 	Add event handlers to score boxes to make sure scores are valid
- * 			before we have to send them in
- * 		b. 	Make sure set score and scores are disabled after being set
- * 		c.	Don't allow scores to be entered if no teams
- * 	2)	Make view Reversible so we can do it on both sides
- * 	3)	Add dialog box warnings instead of status warnings
- * 	4)	Clean up view - make match and status columns not rows, maybe add a box
- * 		make it look nice
- * 	5)	Clean up code 
- * 	6)  Clean up constants
+ * Stores a single match and the index of that match in the bracket.
+ * Also stores a reference to the main application that this class.
  */
 public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 

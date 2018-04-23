@@ -1,3 +1,41 @@
+// ////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+// Title: CS 400 Team GUI Tournament Bracket Project
+//
+// Program Files:
+// Bracket.java
+// BracketADT.java
+// Main.java
+// Match.java
+// MatchADT.java
+// MatchPane.java
+// Team.java
+// application.css
+//
+// Testing Files:
+// BracketTest.java
+// MatchTest.java
+// ZeroTeam.txt
+// OneTeam.txt
+// TwoTeam.txt
+// FourTeam.txt
+// EightTeam.txt
+// SixteenTeam.txt
+// ThirtyTwoTeam.txt
+//
+// Course: CS 400, Spring, 2018
+//
+// Author - A-Team 9:
+// Mostafa Wail Hassan
+// Christopher Todd Hayes-Birchler - hayesbirchle@wisc.edu
+// Emma He
+// Bryan Jin
+//
+// Lecturer's Name: Deb Deppeler
+// Due Date : 4/23/2018 by 10PM
+//
+// ///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
 package application;
 
 import java.io.*;
@@ -196,7 +234,6 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
         int rounds = rounds();
         if(round <= 0 || round > rounds)  throw new IllegalArgumentException("No such round in Bracket");
         
-        //int k = (int)(Math.log(size())/Math.log(2)); // log_2(# of teams)
         return (int)(Math.pow(2, rounds) - Math.pow(2, rounds-round+1) + slot);
     }
 
