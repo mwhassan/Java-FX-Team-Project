@@ -1,3 +1,6 @@
+/* General States */
+/****************************************************/
+
 .root{
 	-fx-background-color: #383838;
 }
@@ -10,52 +13,157 @@
 	-fx-background-color: #383838;
 }
 
-.label{
-	-fx-text-fill: #e8e8e8;
-	-fx-font-size: 10.0pt;
-	-fx-border-color: #000000;
+
+
+.label{ 
+	
+	-fx-alignment: center-left;
 }
 
-.label-no-border{
-	-fx-text-fill: #e8e8e8;
-	-fx-font-size: 10.0pt;
-	-fx-border-color: none;
+.btnSubmit{
+	-fx-font-size: 8.0pt; 
+	-fx-alignment: center;
+	-fx-border-color: #383838;
 }
 
-.text-field{
-	-fx-font-size: 9.0pt;
+
+
+
+
+/* Team, score and button fill colors based on state*/
+/****************************************************/
+.teamLabel{
+	-fx-font-size: 14.0pt;
+	-fx-text-fill: #383838;
+}
+
+.teamScore{
+	-fx-font-size: 08.0pt;
+	-fx-prompt-text-fill: rgb(153,153,153)
+}
+
+.teamLabelMirrored{
+	-fx-font-size: 14.0pt;
+	-fx-alignment: center-right 
+}
+
+#noTeamFill{
+	-fx-background-color: #ccccccff;
+}
+
+#teamWonFill{
+	-fx-background-color: #ffe599ff;
 	-fx-font-weight: bold;
-	-fx-alignment: center; 
-	-fx-text-fill: black;
-	-fx-prompt-text-fill: ghostwhite ;
-	-fx-border-color: #000000;
-	-fx-background-color: rgb(128,128,128);
-	-fx-focus-traversable: true;
+	-fx-font-size: 14.0pt;
 }
 
-.button{
-	-fx-background-color: rgb(128,128,128); 
-	-fx-background-insets: 1px;
+
+#teamLostFill{
+	-fx-background-color: #666666ff;
+}
+
+#pendingFill{
+	-fx-background-color: #9fc5e8ff;
+}
+
+#ChampionFill{
+	-fx-background-color: #ea9999ff;
+}
+
+
+
+/* Match Header States */
+/****************************************************/
+.matchHeader{
+	-fx-font-size: 8.0pt;
+	-fx-alignment: bottom-center;
+}
+
+
+#matchHeader_General{
+	-fx-text-fill: #c9daf8;	
+}
+
+
+
+#MatchHeader_NoTeam{
+	-fx-text-fill: rgb(216,216,216);
+}
+
+
+
+/* Match Number */
+/****************************************************/
+.matchNumber{
+	-fx-alignment: top-center ;
+	-fx-font-size: 16.0pt;
+}
+
+#matchNumber_General{
+	-fx-text-fill: #c9daf8;
+	
+}
+
+#matchNumber_NoTeam{
+	-fx-text-fill: rgb(216,216,216);
+	
+}
+
+
+/* Match border */
+/****************************************************/
+.matchBorder{
+	-fx-border-style: dashed;
+	-fx-border-width: 2.0pt;
+	-fx-border-radius: 10.0pt;
+}
+
+#matchBorder_General{
+	-fx-border-color: #c9daf8;
+}
+
+#matchBorder_NoTeam{
+	-fx-border-color: #666666;	
+}
+
+/* Status Header States */
+/****************************************************/
+.statusHeader{
+	-fx-font-size: 8.0pt; 
+}
+
+#statusHeader_General{
+	-fx-text-fill: #c9daf8;
+}
+
+
+#StatusHeader_NoTeam{
+	-fx-text-fill: #666666;
+}
+
+
+/* Status Box States */
+/****************************************************/
+.matchStatus{
 	-fx-font-size: 10.0pt;
-	-fx-text-alignment: center;
-	-fx-focus-traversable: true;
-	-fx-border-color: #000000;
+	-fx-border-radius: 1.0pt; 
 }
 
-.label-team{
-	-fx-text-fill: #000000;
-	-fx-background-color: rgb(128,128,128);
-	-fx-font-size: 12.0pt;
+#matchStatus_General{
+	-fx-text-fill: #c9daf8;
+	-fx-border-color: #c9daf8;
+	
 }
 
-#teamWon{
-	-fx-background-color: green;
-	-fx-border-color: green;
-	-fx-text-fill: #e8e8e8;
+#matchStatus_noTeam{
+	-fx-background-color: #666666;
+	-fx-border-color: #666666;
 }
 
-#teamLost{
-	-fx-background-color: #AB4642; 
-	-fx-border-color: #AB4642;
-	-fx-text-fill: rgb(128,0,0);
-}
+
+
+
+
+
+
+

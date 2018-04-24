@@ -4,6 +4,7 @@ import application.MatchADT.TeamSpot;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -30,140 +31,148 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     /***********************************************************
      * Private Constants
      ***********************************************************/
-
-    // GridPane specific
+	// GridPane as a whole
     private static final Integer MV_PANE_INSETS = 10; // Insets amount
     private static final Integer MV_PANE_VERT_GAP = 2; // Vertical gap
-    private static final Integer MV_PANE_HORZ_GAP = 3; // Horizontal gap
-
+    private static final Integer MV_PANE_HORZ_GAP = 5; // Horizontal gap
+    /*------
+     * Pane layout
+     *-----*/
+    //Column Width details
+    private static final Integer MV_COL_A_WIDTH = 55;
+    private static final Integer MV_COL_B_WIDTH = 135;
+    private static final Integer MV_COL_C_WIDTH = 54;
+    //Row Height Details
+    private static final Integer MV_ROW_1_HEIGHT = 25;
+    private static final Integer MV_ROW_2_HEIGHT = 17;
+    private static final Integer MV_ROW_3_HEIGHT = 30;
+    private static final Integer MV_ROW_4_HEIGHT = 25;
+    //Indices for control setup array
+    private static final Integer MV_COL_IND = 0;
+    private static final Integer MV_COL_SPAN = 1;
+    private static final Integer MV_ROW_IND = 2;
+    private static final Integer MV_ROW_SPAN = 3;
+    //Row information (should not change)
+    private static final int MV_ROW_1 = 0;
+    private static final int MV_ROW_2 = 1;
+    private static final int MV_ROW_3 = 2;
+    private static final int MV_ROW_4 = 3;
+    //Takes up single x or double x (x = row or column)
+    private static final Integer MV_SINGLE = 1;
+    private static final Integer MV_DOUBLE = 2;
+    /*------
+     * Additional Constants
+     *-----*/
+    //Remaining constants
+    private static final Integer MV_TEAM_INDENT = 3;
+    private static final Integer MV_INDENT = 3;
+    //Team one or team 2 (used in some bracket and match functions
+    private static final Integer MV_TEAM1 = 0;
+    private static final Integer MV_TEAM2 = 1;
+    /*------
+     * View Labels
+     *-----*/
+    //Header Options
+    private static final String MV_LBL_MATCH_HEADER = "Match"; //String.format("%" + MV_INDENT + "s%s", "", "Match: ");
+    private static final String MV_LBL_STATUS_HEADER = "Status";
+    //Status Options
+    //private static final String MV_LBL_WINNER_RESULT = "Pending";
+    private static final String MV_LBL_WINNER_RESULT = "Scores not submitted";
+    
+    private static final String TIE_ERROR_PROMPT = 
+        	String.format("%" + MV_INDENT + "s%s", "", "No ties are allowed!");
+        private static final String INVALID_INPUT_ERROR_PROMPT = 
+            	String.format("%" + MV_INDENT + "s%s", "", "You must first enter two integer scores!");
+    //Submit Button Options
+    //private static final String MV_LBL_SUBMIT = "Set\nScore"; 
+        private static final String MV_LBL_SUBMIT = "Winner";
+    
+    
+	/***********************************************************
+     * Control arrays (hold information about layout for view)
+     ***********************************************************/
     /*------
      * Team Name Information
      *-----*/
-
-    // **Team Information**
-    private static final Integer MC_TEAM_SPACING = 43;
-    private static final Integer MV_TEAM_MAXWIDTH = 300;
-
-
     // lblTeam1 specific
-    private static final Integer MV_TEAM1_COL_IND = 0;
-    private static final Integer MV_TEAM1_COL_SPAN = 1;
-
-    private static final Integer MV_TEAM1_ROW_IND = 0;
-    private static final Integer MV_TEAM1_ROW_SPAN = 1;
-
+    private Integer[] mvTeamOne;
     // lblTeam2 specific
-    private static final Integer MV_TEAM2_COL_IND = 0;
-    private static final Integer MV_TEAM2_COL_SPAN = 1;
-
-    private static final Integer MV_TEAM2_ROW_IND = 4;
-    private static final Integer MV_TEAM2_ROW_SPAN = 1;
-
-
-
+    private Integer[] mvTeamTwo;
     /*------
      * Internal match information 
      *-----*/
-    private static final Integer MV_DISP_SPACING = MC_TEAM_SPACING; // number of spaces avail for
-
     // lblMatch specific
-    private static final Integer MV_MATCH_COL_IND = 0;
-    private static final Integer MV_MATCH_COL_SPAN = 2;
-
-    private static final Integer MV_MATCH_ROW_IND = 1;
-    private static final Integer MV_MATCH_ROW_SPAN = 1;
-
-    // lblWinner (Status) specific
-    private static final Integer MV_WINNER_COL_IND = 0;
-    private static final Integer MV_WINNER_COL_SPAN = 2;
-
-    private static final Integer MV_WINNER_ROW_IND = 2;
-    private static final Integer MV_WINNER_ROW_SPAN = 1;
-
+    private Integer[] mvMatchHeader;
+    private Integer[] mvMatchNumber;
+    private Integer[] mvMatchBorder;
+    // lblStatusHeader (Status) specific
+    private Integer[] mvStatusHeader;
+    private Integer[] mvMatchStatus;
     /*------
      * Score and Submit 
      *-----*/
-    private static final Double MV_SCORE_WIDTH = 73.0;
-    private static final Double MV_SCORE_HEIGHT = 50.0;
-
     // txtScore1 specific
-    private static final Integer MV_SCORE_T1_COL_IND = 2;
-    private static final Integer MV_SCORE_T1_COL_SPAN = 1;
-
-    private static final Integer MV_SCORE_T1_ROW_IND = MV_TEAM1_ROW_IND;
-    private static final Integer MV_SCORE_T1_ROW_SPAN = 1;
-
+    private Integer[] mvScore1;
     // txtScore2 score specific
-    private static final Integer MV_SCORE_T2_COL_IND = 2;
-    private static final Integer MV_SCORE_T2_COL_SPAN = 1;
-
-    private static final Integer MV_SCORE_T2_ROW_IND = MV_TEAM2_ROW_IND;
-    private static final Integer MV_SCORE_T2_ROW_SPAN = 1;
-
+    private Integer[] mvScore2;
     // btnSubmit specific
-    private static final Integer MV_SUBMIT_COL_IND = 2;
-    private static final Integer MV_SUBMIT_COL_SPAN = 1;
+    private Integer[] mvSubmit;
 
-    private static final Integer MV_SUBMIT_ROW_IND = 1;
-    private static final Integer MV_SUBMIT_ROW_SPAN = 2;
-
-    /*------
-     * Default labels and values 
-     *-----*/
-    private static final Integer MV_INDENT = 3;
-    private static final String MV_LBL_MATCH =
-                                    String.format("%" + MV_INDENT + "s%s", "", "Match: ");
-    private static final String MV_LBL_WINNER_STATUS = "   Status: ";
-    private static final String MV_LBL_WINNER_RESULT = "Scores Not Submitted";
-    private static final String MV_LBL_SUBMIT = "Set\nScore"; 
-    
-    private static final String TIE_ERROR_PROMPT = 
-    	String.format("%" + MV_INDENT + "s%s", "", "No ties are allowed!");
-    private static final String INVALID_INPUT_ERROR_PROMPT = 
-        	String.format("%" + MV_INDENT + "s%s", "", "You must first enter two integer scores!");
-
-    private static final Integer MV_TEAM1 = 0;
-    private static final Integer MV_TEAM2 = 1;
-    
     /***********************************************************
      * Private View Fields
      ***********************************************************/
-    
     private int index; // Number of match in tournament
-    
-    private Label lblMatch, 
-                  lblWinnerStatus, 
+    private Label lblMatchHeader, 
+    			  lblMatchNumber,
+                  lblMatchStatus, 
+                  lblMatchBorder,
+                  lblStatusHeader,
                   lblTeam1, 
                   lblTeam2; // Match label, winner and team
-                                                                 // names
-
     private Button btnSubmit; // Submit score button
-
     private TextField txtScore1, 
                       txtScore2; // Scores
-
-
-    private String winnerStr = String.format("%-" + MV_DISP_SPACING + "s",
-                    MV_LBL_WINNER_STATUS + MV_LBL_WINNER_RESULT);
-
+    //private String winnerStr = String.format("%" + MV_INDENT + "s%s", "", MV_LBL_WINNER_RESULT);
+    private String winnerStr = String.format(" " + MV_LBL_WINNER_RESULT);
+    private int colA;
+    private int colB;
+    private int colC;
+    
     /*******************
      * Private Control Fields
      *******************/
     private Match<Integer> match;
     private int matchNum;
     private Object caller;
+    private boolean isMirrored = false;
+    
+    
     
     /*******************
      * Constructors
      *******************/
-
+   
     /**
      * Constructor: initializes all components
      */
     public MatchPane(int matchNum, Match<Integer> match, Object caller) {
-
-        
-        // Set pane specific fields
+    	this(matchNum, match, caller, false);
+    }
+    
+    public MatchPane(int matchNum, Match<Integer> match, Object caller, Boolean isMirrored) {
+    	this.isMirrored = isMirrored;
+    	
+    	if (this.isMirrored == false) {
+        	colA = 0;
+        	colB = 1;
+        	colC = 2;
+        } else {
+        	colA = 2;
+        	colB = 1;
+        	colC = 0;
+        }
+    	
+    	 // Set pane specific fields
         this.setPadding(new Insets(MV_PANE_INSETS, MV_PANE_INSETS, MV_PANE_INSETS, MV_PANE_INSETS));
         this.setVgap(MV_PANE_VERT_GAP);
         this.setHgap(MV_PANE_HORZ_GAP);
@@ -179,6 +188,8 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         
         //Should not be functional until populated
         this.setDisable(true);
+        
+        
     }
     
     
@@ -199,27 +210,34 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     }
     
     /**
-     * Re-populates the match labels.
+     * Re-populates the match label text.
      */
     public void refresh() {
 
         String team1Name, team2Name;
         try {
-            team1Name = " " + match.getTeams()[MV_TEAM1].toString();
+            team1Name = match.getTeams()[MV_TEAM1].toString();
         } catch (NullPointerException e) {
             team1Name = "";
         }
         
         try {
-            team2Name = " " + match.getTeams()[MV_TEAM2].toString();
+            team2Name = match.getTeams()[MV_TEAM2].toString();
         } catch (NullPointerException e) {
             team2Name = "";
         }
         
-        lblTeam1.setText(String.format("%-" + MC_TEAM_SPACING + "s", team1Name));
-        lblTeam2.setText(String.format("%-" + MC_TEAM_SPACING + "s", team2Name));
+       
+        if (isMirrored) {
+        	lblTeam1.setText(String.format("%s%" + MV_TEAM_INDENT + "s", team1Name, ""));
+	        lblTeam2.setText(String.format("%s%" + MV_TEAM_INDENT + "s", team2Name, ""));
+        } else {
+	        lblTeam1.setText(String.format("%" + MV_TEAM_INDENT + "s%s", "",  team1Name));
+	        lblTeam2.setText(String.format("%" + MV_TEAM_INDENT + "s%s", "", team2Name));
+        }
 
     }
+    
     
     /*******************
      * Private Helper Classes
@@ -232,66 +250,46 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     }
 
     private void initMatchView() {
-
-        /*------
+        
+    	 /*------
          * Team Name Information
-         *-----*/
-
-        //Get teams names
-
+         *-----*/       
         
-        String team1Name, team2Name;
-        try {
-            team1Name = " " + match.getTeams()[MV_TEAM1].toString();
-        } catch (NullPointerException e) {
-            team1Name = "";
-        }
+        // Instantiate Teams
+        lblTeam1 = new Label();
+        int col = colA;
+        if (this.isMirrored) col = colB;
+        mvTeamOne = new Integer[]{col, MV_DOUBLE, MV_ROW_1, MV_SINGLE};
         
-        try {
-            team2Name = " " + match.getTeams()[MV_TEAM2].toString();
-        } catch (NullPointerException e) {
-            team2Name = "";
-        }
+        lblTeam2 = new Label();
+        mvTeamTwo = new Integer[]{col, MV_DOUBLE, MV_ROW_4, MV_SINGLE};
         
         
-        // Add team 1
-        
-        lblTeam1 = new Label(String.format("%-" + MC_TEAM_SPACING + "s", team1Name));
-        lblTeam1.getStyleClass().add("label-team");
-        lblTeam1.setMaxWidth(MV_TEAM_MAXWIDTH);
-        lblTeam1.setMinWidth(MV_TEAM_MAXWIDTH);
-        this.add(lblTeam1, MV_TEAM1_COL_IND, MV_TEAM1_ROW_IND, MV_TEAM1_COL_SPAN,
-                        MV_TEAM1_ROW_SPAN);
-
-        // Add team 2
-        lblTeam2 = new Label(String.format("%-" + MC_TEAM_SPACING + "s", team2Name));
-        lblTeam2.getStyleClass().add("label-team");
-        lblTeam2.setMaxWidth(MV_TEAM_MAXWIDTH);
-        lblTeam2.setMinWidth(MV_TEAM_MAXWIDTH);
-        this.add(lblTeam2, MV_TEAM2_COL_IND, MV_TEAM2_ROW_IND, MV_TEAM2_COL_SPAN,
-                        MV_TEAM2_ROW_SPAN);
-
-
-
         /*------
          * Internal match information 
          *-----*/
 
-        // Add match header
-        lblMatch = new Label(MV_LBL_MATCH + matchNum);
-        lblMatch.getStyleClass().add("label-no-border");
-        this.add(lblMatch, MV_MATCH_COL_IND, MV_MATCH_ROW_IND, MV_MATCH_COL_SPAN,
-                        MV_MATCH_ROW_SPAN);
-
-        // Add 'Submit Scores' button
-        btnSubmit = new Button(MV_LBL_SUBMIT);
-        btnSubmit.setMaxHeight(MV_SCORE_HEIGHT);
-        btnSubmit.setMinHeight(MV_SCORE_HEIGHT);
-        btnSubmit.setMaxWidth(MV_SCORE_WIDTH);
-        btnSubmit.setMinWidth(MV_SCORE_WIDTH);
-        this.add(btnSubmit, MV_SUBMIT_COL_IND, MV_SUBMIT_ROW_IND, MV_SUBMIT_COL_SPAN,
-                        MV_SUBMIT_ROW_SPAN);
-        btnSubmit.setOnAction(e->action_handler());
+        // Add match info
+        lblMatchHeader = new Label(); //Header
+        mvMatchHeader = new Integer[]{colA, MV_SINGLE, MV_ROW_2, MV_SINGLE};
+        
+        //add Match Number info
+        lblMatchNumber = new Label(); //
+        mvMatchNumber = new Integer[]{colA, MV_SINGLE, MV_ROW_3, MV_SINGLE};
+        
+        //Add match box
+        lblMatchBorder = new Label();
+        mvMatchBorder = new Integer[]{colA, MV_SINGLE, MV_ROW_2, MV_DOUBLE};
+        
+        // Add Status Header
+        lblStatusHeader = new Label();
+        mvStatusHeader = new Integer[]{colB, MV_SINGLE, MV_ROW_2, MV_SINGLE};
+        
+        
+        //Add status itself
+        lblMatchStatus = new Label();
+        mvMatchStatus = new Integer[]{colB, MV_SINGLE, MV_ROW_3, MV_SINGLE};
+        
 
         /*------
          * Score and Submit 
@@ -299,29 +297,194 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 
         // Add team 1 score
         txtScore1 = new TextField();
-        txtScore1.setPromptText("<score>");
-        txtScore1.setMaxWidth(MV_SCORE_WIDTH);
-        txtScore1.setMinWidth(MV_SCORE_WIDTH);
-        this.add(txtScore1, MV_SCORE_T1_COL_IND, MV_SCORE_T1_ROW_IND, MV_SCORE_T1_COL_SPAN,
-                        MV_SCORE_T1_ROW_SPAN);
-        txtScore1.setOnAction(e->action_handler());
-
+        mvScore1 = new Integer[] {colC, MV_SINGLE, MV_ROW_1, MV_SINGLE};
+        
 
         // Add team 2 score
         txtScore2 = new TextField();
+        mvScore2 = new Integer[] {colC, MV_SINGLE, MV_ROW_4, MV_SINGLE};
+
+        
+        // Add 'Submit Scores' button
+        btnSubmit = new Button();
+        mvSubmit = new Integer[] {colC, MV_SINGLE, MV_ROW_2, MV_DOUBLE};
+
+        paintView(); //Actually adds items to matchPane
+
+    }
+    
+    
+    
+    private void paintView() {
+    	 /*------
+         * Team Name Information
+         *-----*/       
+        
+        // Add team 1
+    	if (isMirrored) lblTeam1.getStyleClass().add("teamLabelMirrored"); 
+    	else lblTeam1.getStyleClass().add("teamLabel");
+        setControl(lblTeam1, mvTeamOne);
+        
+        // Add team 2
+        if (isMirrored) lblTeam2.getStyleClass().add("teamLabelMirrored");
+        else lblTeam2.getStyleClass().add("teamLabel");
+        setControl(lblTeam2, mvTeamTwo);
+        
+
+        this.refresh(); //refreshes team names only
+        
+                
+        /*------
+         * Internal match information 
+         *-----*/
+
+        // Add match header
+        lblMatchHeader.setText(MV_LBL_MATCH_HEADER);
+        lblMatchHeader.getStyleClass().add("matchHeader");
+        setControl(lblMatchHeader, mvMatchHeader);
+
+        // Add match Number
+        lblMatchNumber.setText("#" + matchNum);
+        lblMatchNumber.getStyleClass().add("matchNumber");
+        setControl(lblMatchNumber, mvMatchNumber);
+        
+        // add match box
+        lblMatchBorder.getStyleClass().add("matchBorder");
+        setControl(lblMatchBorder, mvMatchBorder);
+        
+        
+        
+        // Add Status box
+        lblStatusHeader.setText(MV_LBL_STATUS_HEADER);
+        lblStatusHeader.getStyleClass().add("statusHeader");
+        setControl(lblStatusHeader, mvStatusHeader);
+        
+        //Add status itself
+        lblMatchStatus = new Label(winnerStr);
+        lblMatchStatus.getStyleClass().add("matchStatus");
+        setControl(lblMatchStatus, mvMatchStatus);
+
+        // Add 'Submit Scores' button
+        btnSubmit.setText(MV_LBL_SUBMIT);
+        btnSubmit.getStyleClass().add("btnSubmit");
+        setControl(btnSubmit, mvSubmit);
+        btnSubmit.setOnAction(e->action_handler());
+
+        /*------
+         * Scores and Submit 
+         *-----*/
+
+        // Add team 1 score
+        txtScore1.setPromptText("<score>");
+        txtScore1.getStyleClass().add("teamScore");
+        setControl(txtScore1, mvScore1);
+        txtScore1.setOnAction(e->action_handler());
+
+        // Add team 2 score
         txtScore2.setPromptText("<score>");
-        txtScore2.setMaxWidth(MV_SCORE_WIDTH);
-        txtScore2.setMinWidth(MV_SCORE_WIDTH);
-        this.add(txtScore2, MV_SCORE_T2_COL_IND, MV_SCORE_T2_ROW_IND, MV_SCORE_T2_COL_SPAN,
-                        MV_SCORE_T2_ROW_SPAN);
+        txtScore2.getStyleClass().add("teamScore");
+        setControl(txtScore2, mvScore2);
         txtScore2.setOnAction(e->action_handler());
 
-        // Add winner box
-        lblWinnerStatus = new Label(winnerStr);
-        lblWinnerStatus.getStyleClass().add("label-no-border");
-        this.add(lblWinnerStatus, MV_WINNER_COL_IND, MV_WINNER_ROW_IND, MV_WINNER_COL_SPAN,
-                        MV_WINNER_ROW_SPAN);
-
+        
+        
+        setCSS_Start();
+    }
+    
+    /**
+     * sets default match CSS based on what has been filled in
+     */
+    private void setCSS_Start() {
+    	
+    	System.out.println("setCSS_Start");
+    	System.out.println("t1 =:" + lblTeam1.getText().trim() + ":");
+    	System.out.println("t2 =:" + lblTeam2.getText().trim()+ ":");
+    	if (lblTeam1.getText().trim().equals("") && lblTeam2.getText().trim().equals("")) {
+    		System.out.println("Setting to noTeamFill");
+    		lblTeam1.setId("noTeamFill");
+    		lblTeam2.setId("noTeamFill");
+    		txtScore1.setId("noTeamFill");
+    		txtScore2.setId("noTeamFill");
+    		btnSubmit.setId("noTeamFill");
+    		lblStatusHeader.setId("StatusHeader_NoTeam");
+    		lblMatchStatus.setId("matchStatus_NoTeam");
+    		lblMatchBorder.setId("matchBorder_NoTeam");
+    		lblMatchHeader.setId("MatchHeader_NoTeam");
+    		lblMatchNumber.setId("matchNumber_NoTeam");
+    	} else {
+    		System.out.println("Setting to pendingFill");
+    		lblTeam1.setId("pendingFill");
+    		lblTeam2.setId("pendingFill");
+    		txtScore1.setId("pendingFill");
+    		txtScore2.setId("pendingFill");
+    		btnSubmit.setId("pendingFill");
+    		lblStatusHeader.setId("statusHeader_General");
+    		lblMatchStatus.setId("matchStatus_General");
+    		lblMatchHeader.setId("matchHeader_General");
+    		lblMatchNumber.setId("matchNumber_General");
+    		lblMatchBorder.setId("matchBorder_General");
+    	}
+    }
+    
+    
+    private void setControl(Control ctrl, Integer[] mySetup) {
+    	Integer setHeight = 0, setWidth = 0;
+    	
+    	//Find item width based on col and col span
+    	for (int i = 0; i < mySetup[MV_COL_SPAN]; i++) {
+    		setWidth += getColWidth(mySetup[MV_COL_IND] + i);
+    	}
+    	setWidth += ((mySetup[MV_COL_SPAN]-1)*MV_PANE_HORZ_GAP);
+    	
+    	//Find row height based on row and row span
+    	for (int i = 0; i < mySetup[MV_ROW_SPAN]; i++) {
+    		setHeight += getRowHeight(mySetup[MV_ROW_IND] + i);
+    	}
+    	setWidth += ((mySetup[MV_ROW_SPAN]-1)*MV_PANE_VERT_GAP);
+    		
+    	//Set control size based on col\row
+    	ctrl.setMaxSize(setWidth, setHeight);
+    	ctrl.setMinSize(setWidth, setHeight);
+    		
+//    	System.out.println("\nAdding " + ctrl);
+//    	System.out.println("Column " + mySetup[MV_COL_IND]);
+//    	System.out.println("Column Span" + mySetup[MV_COL_SPAN]);
+//    	System.out.println("Row " + mySetup[MV_ROW_IND]);
+//    	System.out.println("Row Span" + mySetup[MV_ROW_SPAN] + "\n");
+    	
+    	this.add(ctrl, 
+    			 mySetup[MV_COL_IND],
+    			 mySetup[MV_ROW_IND],
+    			 mySetup[MV_COL_SPAN],
+    			 mySetup[MV_ROW_SPAN]);
+    }
+    
+    private Integer getRowHeight(Integer myRow) {
+    	switch(myRow) {
+	    	case MV_ROW_1:
+	    		return MV_ROW_1_HEIGHT;
+	    	case MV_ROW_2:
+	    		return MV_ROW_2_HEIGHT;
+	    	case MV_ROW_3:
+	    		return MV_ROW_3_HEIGHT;
+	    	case MV_ROW_4:
+	    		return MV_ROW_4_HEIGHT;
+	    	default:
+	    		return -1;
+    	}
+    }
+    
+    private Integer getColWidth(Integer myCol) {
+    	switch(myCol) {
+	    	case 0:
+	    		return (isMirrored) ? MV_COL_C_WIDTH: MV_COL_A_WIDTH;
+	    	case 1:
+	    		return MV_COL_B_WIDTH;
+	    	case 2:
+	    		return (isMirrored) ? MV_COL_A_WIDTH: MV_COL_C_WIDTH;
+	    	default:
+	    		return -1;
+    	}
     }
     
     /**
@@ -333,11 +496,9 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     		Integer s2 = Integer.parseInt(txtScore2.getText());
     		if (s1 == s2)
     			throw new IllegalStateException("No ties allowed in bracket.");
-    		winnerStr = String.format("%-" + MV_DISP_SPACING + "s", (MV_LBL_WINNER_STATUS
-    				+ " Winner = "
-    				+ (s1 > s2 ? lblTeam1.getText() : lblTeam2.getText()).trim()));
+    		winnerStr = String.format(" " + (s1 > s2 ? lblTeam1.getText() : lblTeam2.getText()).trim());
 
-    		lblWinnerStatus.setText(winnerStr);
+    		lblMatchStatus.setText(winnerStr);
 
     		txtScore1.setEditable(false);
     		txtScore2.setEditable(false);
@@ -345,15 +506,15 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     		//Change winner view
     		Label winner = ((s1 > s2) ? lblTeam1: lblTeam2);
     		TextField winnerScore = ((s1 > s2) ? txtScore1: txtScore2);
-    		winner.setId("teamWon");
-    		winnerScore.setId("teamWon");
-    		btnSubmit.setId("teamWon");
+    		winner.setId("teamWonFill");
+    		winnerScore.setId("teamWonFill");
+    		btnSubmit.setId("teamWonFill");
 
     		//Change looser view
     		Label loser = ((s1 > s2) ? lblTeam2 : lblTeam1);
     		TextField loserScore = ((s1 > s2) ? txtScore2: txtScore1);
-    		loser.setId("teamLost");
-    		loserScore.setId("teamLost");
+    		loser.setId("teamLostFill");
+    		loserScore.setId("teamLostFill");
 
     		match.setFinalScore(s1, s2);
 
@@ -361,9 +522,9 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 
 
     	} catch (NumberFormatException exception) {
-    		lblWinnerStatus.setText(INVALID_INPUT_ERROR_PROMPT);
+    		lblMatchStatus.setText(INVALID_INPUT_ERROR_PROMPT);
     	} catch (IllegalStateException exception) {
-    		lblWinnerStatus.setText(TIE_ERROR_PROMPT);
+    		lblMatchStatus.setText(TIE_ERROR_PROMPT);
     	}
     }
 }

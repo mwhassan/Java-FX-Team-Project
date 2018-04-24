@@ -179,12 +179,23 @@ public class Main extends Application {
         	
         	for(int slot = 1; slot <= Math.pow(2, rounds-i); slot++) {
         		int index = bracket.getMatchIndex(i, slot);
-    			matchPanes[index] = new MatchPane<Integer>
-    				(index, bracket.getMatch(index), this);
+    			
+        		if(slot <= Math.pow(2, rounds-i-1)) {
+        			matchPanes[index] = new MatchPane<Integer>
+										(index, bracket.getMatch(index), this);
+        			columnPanes[2*i - 1].getChildren().add(matchPanes[index]);
+        		}
+        		else {
+        			matchPanes[index] = new MatchPane<Integer>
+    									(index, bracket.getMatch(index), this, true);
+        			columnPanes[2*i].getChildren().add(matchPanes[index]);
+        		}
+        		
+        		
+    			
     			if(i == 1) matchPanes[index].setDisable(false); // Enable first-round GUI functionality
     			
-        		if(slot <= Math.pow(2, rounds-i-1)) columnPanes[2*i - 1].getChildren().add(matchPanes[index]);
-        		else columnPanes[2*i].getChildren().add(matchPanes[index]);
+        		
         	}
         	
         	roundPanes[i].setLeft(columnPanes[2*i - 1]);
