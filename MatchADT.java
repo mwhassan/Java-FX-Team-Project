@@ -1,3 +1,31 @@
+// MatchPane.java
+// Team.java
+// application.css
+//
+// Testing Files:
+// BracketTest.java
+// MatchTest.java
+// ZeroTeam.txt
+// OneTeam.txt
+// TwoTeam.txt
+// FourTeam.txt
+// EightTeam.txt
+// SixteenTeam.txt
+// ThirtyTwoTeam.txt
+//
+// Course: CS 400, Spring, 2018
+//
+// Author - A-Team 9:
+// Mostafa Wail Hassan
+// Christopher Todd Hayes-Birchler - hayesbirchle@wisc.edu
+// Emma He
+// Bryan Jin
+//
+// Lecturer's Name: Deb Deppeler
+// Due Date : 4/23/2018 by 10PM
+//
+// ///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
 package application;
 
 import java.util.ArrayList;
@@ -60,11 +88,6 @@ public interface MatchADT <S extends Comparable<S>> {
      * Team setFinalScore(S, S)
      * 
      * Allows user to set final score, returns the winner.
-     * I think it makes sense to keep score generic but make it extend Comparable.  It is fairly
-     * unnecessary for this specific project, but I think we should work on showing modular 
-     * design approaches.  I could imagine 'results' from 'tournaments' in many forms including
-     * grades, ranks where 1 is best, scores were higher is better.  So we can just use
-     * scoreOne.compareTo(scoreTwo)
      * 
      * @param scoreTeamOne - score of team one.  
      * @param scoreTeamTwo - score of team two
@@ -83,7 +106,6 @@ public interface MatchADT <S extends Comparable<S>> {
      * @throws IllegalStateException if no scores have been set
      */
     public Team getWinner() throws IllegalStateException;
-
     
     public ArrayList<S>  getFinalScores(); 
     

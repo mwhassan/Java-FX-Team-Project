@@ -1,3 +1,31 @@
+// MatchPane.java
+// Team.java
+// application.css
+//
+// Testing Files:
+// BracketTest.java
+// MatchTest.java
+// ZeroTeam.txt
+// OneTeam.txt
+// TwoTeam.txt
+// FourTeam.txt
+// EightTeam.txt
+// SixteenTeam.txt
+// ThirtyTwoTeam.txt
+//
+// Course: CS 400, Spring, 2018
+//
+// Author - A-Team 9:
+// Mostafa Wail Hassan
+// Christopher Todd Hayes-Birchler - hayesbirchle@wisc.edu
+// Emma He
+// Bryan Jin
+//
+// Lecturer's Name: Deb Deppeler
+// Due Date : 4/23/2018 by 10PM
+//
+// ///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
 package application;
 
 import static org.junit.Assert.*;
@@ -12,20 +40,18 @@ import org.junit.Test;
 
 import application.MatchADT.TeamSpot;
 
+/**
+ * Tests the Bracket implementation of BracketADT.
+ */
 public class BracketTest {
     
     public static Bracket<Integer> bracket;
     
-    
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        //bracket = new Bracket<Integer>();
-    }
+    public static void setUpBeforeClass() throws Exception {}
 
     @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-        //bracket = null;
-    }
+    public static void tearDownAfterClass() throws Exception {}
 
     @Before
     public void setUp() throws Exception {
