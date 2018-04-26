@@ -56,7 +56,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     //Column Width details
     private static final Integer MV_COL_A_WIDTH = 55;
     private static final Integer MV_COL_B_WIDTH = 135;
-    private static final Integer MV_COL_C_WIDTH = 54;
+    private static final Integer MV_COL_C_WIDTH = 65;
     //Row Height Details
     private static final Integer MV_ROW_1_HEIGHT = 25;
     private static final Integer MV_ROW_2_HEIGHT = 17;
