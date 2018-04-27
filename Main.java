@@ -284,10 +284,13 @@ public class Main extends Application {
     	//otherwise run this to enable next bracket
         int next = bracket.getNextMatch(index);
         bracket.getMatch(next).addTeam(match.getWinner());
-        //if(bracket.getMatch(next).getTeams()[1] != null) {
+        if(index == bracket.matches() - 1) {
+        	matchPanes[next].refreshChamp();
+        } else {
         	matchPanes[next].refresh();
-        	matchPanes[next].setDisable(false);
-        //}
+        }
+        
+        matchPanes[next].setDisable(false);
     }
 
 }

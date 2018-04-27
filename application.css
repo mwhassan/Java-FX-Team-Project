@@ -72,6 +72,8 @@
 
 #ChampionFill{
 	-fx-background-color: #ea9999ff;
+	-fx-font-weight: bold;
+	-fx-font-size: 14.0pt;
 }
 
 /*Team Scores*/
@@ -87,7 +89,7 @@
 #scoreTeamWonFill{
 	-fx-background-color: #ffe599ff;
 	-fx-font-weight: bold;
-	-fx-font-size: 14.0pt;
+	-fx-font-size: 12.0pt;
 }
 
 #scoreTeamLostFill{
@@ -100,13 +102,16 @@
 
 #scoreChampionFill{
 	-fx-background-color: #ea9999ff;
+	-fx-font-weight: bold;
+	-fx-font-size: 12.0pt;
 }
 
 /* Submit Button */
 /****************************************************/
 .submitButton{
 	-fx-font-size: 08.0pt;
-	-fx-prompt-text-fill: rgb(153,153,153);
+	-fx-text-fill:grey;
+	/*/-fx-text-fill: black; 
 	
 	/*From noTeamFill */
 	-fx-background-color: #ccccccff;
@@ -114,19 +119,24 @@
 
 #submitTeamWonFill{
 	-fx-background-color: #ffe599ff;
+	-fx-text-fill: black;
 	-fx-font-weight: bold;
-	-fx-font-size: 14.0pt;
+	-fx-font-size: 10.0pt;
 }
 
 
 
 
-#submiPendingFill{
+#submitPendingFill{
 	-fx-background-color: #9fc5e8ff;
+	-fx-text-fill: black;
 }
 
-#submiChampionFill{
+#submitChampionFill{
 	-fx-background-color: #ea9999ff;
+	-fx-text-fill: black;
+	-fx-font-weight: bold;
+	-fx-font-size: 10.0pt;
 }
 
 /* Match Header States */
@@ -163,8 +173,13 @@
 }
 
 #matchNumber_General{
-	-fx-text-fill: #c9daf8;
-	
+	-fx-text-fill: #c9daf8;	
+}
+
+#matchNumber_Champ{
+	-fx-text-fill:  #ea9999ff;
+	-fx-alignment: top-center;
+	-fx-font-size: 10.0pt;
 }
 
 /*
@@ -189,6 +204,11 @@
 	-fx-border-color: #c9daf8;
 }
 
+#matchBorder_Champ{
+	-fx-border-color: #ea9999ff;
+	  
+}
+
 /*
 #matchBorder_NoTeam{
 		
@@ -205,6 +225,10 @@
 
 #statusHeader_General{
 	-fx-text-fill: #c9daf8;
+}
+
+#statusHeader_Champ{
+	-fx-text-fill: #666666;
 }
 
 
@@ -228,6 +252,14 @@
 	-fx-text-fill: #c9daf8;
 	-fx-border-color: #c9daf8;
 	-fx-background-color: #383838;
+}
+
+#matchStatus_Champ{
+	-fx-text-fill: black;
+	-fx-border-color: #ea9999ff;
+	-fx-background-color: #ea9999ff;
+	-fx-font-size: 12.0pt;
+	-fx-font-weight: bold;
 }
 
 /*

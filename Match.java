@@ -160,9 +160,12 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 	public Team getWinner() throws IllegalStateException {
 		if (teamOneScore == null || teamTwoScore == null) throw new 
 									IllegalStateException ("Scores not set");
+		System.out.println("Running get Winner");
 		if (teamOneScore.compareTo(teamTwoScore) > 0) {
+			System.out.println("return team one");
 			return teamOne;
-		}else { 
+		}else {
+			System.out.println("return team two");
 			return teamTwo;
 		}
 	}
