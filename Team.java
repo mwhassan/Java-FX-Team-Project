@@ -50,7 +50,7 @@ public class Team {
 
     @Override
     public String toString() {
-        return this.name;
+        return this.name + " (" + this.seed + ")";
     }
     /**********************
      * Setters and Getters

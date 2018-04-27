@@ -271,6 +271,7 @@ public class Main extends Application {
      * Adds teams to subsequent matches and enables them when both teams have been added.
      */
     public void matchPaneCallBack(Match<Integer> match, int index) {
+    	//if we are at championship run this
     	if(index == bracket.matches()) {
     		championLabel_1.setTextAlignment(TextAlignment.CENTER);
     		championLabel_2.setTextAlignment(TextAlignment.CENTER);
@@ -280,12 +281,13 @@ public class Main extends Application {
     		return;
     	}
     	
+    	//otherwise run this to enable next bracket
         int next = bracket.getNextMatch(index);
         bracket.getMatch(next).addTeam(match.getWinner());
-        if(bracket.getMatch(next).getTeams()[1] != null) {
+        //if(bracket.getMatch(next).getTeams()[1] != null) {
         	matchPanes[next].refresh();
         	matchPanes[next].setDisable(false);
-        }
+        //}
     }
 
 }

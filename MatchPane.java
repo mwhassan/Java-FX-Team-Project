@@ -159,7 +159,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     private Match<Integer> match;
     private int matchNum;
     private Object caller;
-    private boolean isMirrored = false;
+    private boolean isMirrored = false; //Allows for re-arranging matchPane for symmetrical split bracket
     
     
     
@@ -174,6 +174,9 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     	this(matchNum, match, caller, false);
     }
     
+    /**
+     * 
+     */
     public MatchPane(int matchNum, Match<Integer> match, Object caller, Boolean isMirrored) {
     	this.isMirrored = isMirrored;
     	
@@ -213,23 +216,40 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      *******************/
     
 
-    /**
-     * Enables MatchPane for editing.
-     */
-    public void clear() {
-        txtScore1.setPromptText("<score>");
-        txtScore2.setPromptText("<score>");
-        
-        txtScore1.setEditable(true);
-        txtScore2.setEditable(true);
+//    /**
+//     * Enables MatchPane for editing.
+//     */
+//    public void clear() {
+//        txtScore1.setPromptText("<score>");
+//        txtScore2.setPromptText("<score>");
+//        
+//        txtScore1.setEditable(true);
+//        txtScore2.setEditable(true);
+//    }
+    
+    
+    public void refresh() {
+    	refresh(true);
     }
+    
+    
+    
+    
+    /*******************
+     * Private Helper Classes
+     *******************/
     
     /**
      * Re-populates the match label text.
+     * 
+     * 
+     * @param setCSS -  will refresh css state if true
      */
-    public void refresh() {
+    private void refresh(boolean setCSS) {
 
         String team1Name, team2Name;
+        
+        //Find team name
         try {
             team1Name = match.getTeams()[MV_TEAM1].toString();
         } catch (NullPointerException e) {
@@ -243,6 +263,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         }
         
        
+        //Set labels
         if (isMirrored) {
         	lblTeam1.setText(String.format("%s%" + MV_TEAM_INDENT + "s", team1Name, ""));
 	        lblTeam2.setText(String.format("%s%" + MV_TEAM_INDENT + "s", team2Name, ""));
@@ -250,20 +271,28 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 	        lblTeam1.setText(String.format("%" + MV_TEAM_INDENT + "s%s", "",  team1Name));
 	        lblTeam2.setText(String.format("%" + MV_TEAM_INDENT + "s%s", "", team2Name));
         }
+        
+        if (setCSS) setCSS_Start();
 
     }
     
-    
-    /*******************
-     * Private Helper Classes
-     *******************/
-    
+    /**
+     * Initialize controller variables 
+     * 
+     * @param matchNum - what match we are on
+     * @param match - the match itself
+     * @param caller - the object that instantiated the class (used for callback when
+     * 					the score is set
+     */
     private void initMatchController(int matchNum, Match<Integer> match, Object caller) {
         this.matchNum = matchNum;
         this.match = match;
         this.caller = caller;
     }
 
+    /**
+     * Initialize the view variables but then calls paintView to build the view
+     */
     private void initMatchView() {
         
     	 /*------
@@ -329,7 +358,9 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     }
     
     
-    
+    /*
+     * Builds the view itself by adding items to the pane (via setControl)
+     */
     private void paintView() {
     	 /*------
          * Team Name Information
@@ -346,7 +377,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         setControl(lblTeam2, mvTeamTwo);
         
 
-        this.refresh(); //refreshes team names only
+        this.refresh(false); //refreshes team names only and holds off on setting css
         
                 
         /*------
@@ -402,58 +433,87 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         txtScore2.setOnAction(e->action_handler());
 
         
-        
+        //Set css and enabled status
         setCSS_Start();
     }
     
     /**
-     * sets default match CSS based on what has been filled in
+     * sets default match CSS stylesheets and can enable and disable controls
+     * as needed
      */
     private void setCSS_Start() {
+    	
+    	boolean team1Enabled = !(lblTeam1.getText().trim().equals(""));
+    	boolean team2Enabled = !(lblTeam2.getText().trim().equals(""));
+    	boolean otherEnabled = team1Enabled && team2Enabled;
     	
     	System.out.println("setCSS_Start");
     	System.out.println("t1 =:" + lblTeam1.getText().trim() + ":");
     	System.out.println("t2 =:" + lblTeam2.getText().trim()+ ":");
-    	if (!(lblTeam1.getText().trim().equals("") && lblTeam2.getText().trim().equals(""))) {
-//    		System.out.println("Setting to noTeamFill");
-//    		lblTeam1.setId("noTeamFill");
-//    		lblTeam2.setId("noTeamFill");
-//    		txtScore1.setId("noTeamFill");
-//    		txtScore2.setId("noTeamFill");
-//    		btnSubmit.setId("noTeamFill");
-//    		lblStatusHeader.setId("StatusHeader_NoTeam");
-//    		lblMatchStatus.setId("matchStatus_NoTeam");
-//    		lblMatchBorder.setId("matchBorder_NoTeam");
-//    		lblMatchHeader.setId("MatchHeader_NoTeam");
-//    		lblMatchNumber.setId("matchNumber_NoTeam");
-//    	} else {
-    		System.out.println("Setting to pendingFill");
-    		lblTeam1.setId("pendingFill");
-    		lblTeam2.setId("pendingFill");
-    		txtScore1.setId("pendingFill");
-    		txtScore2.setId("pendingFill");
-    		btnSubmit.setId("pendingFill");
-    		lblStatusHeader.setId("statusHeader_General");
-    		lblMatchStatus.setId("matchStatus_General");
-    		lblMatchHeader.setId("matchHeader_General");
-    		lblMatchNumber.setId("matchNumber_General");
-    		lblMatchBorder.setId("matchBorder_General");
+    	
+    	
+    	if (!this.isDisabled()) {
+    		
+    		
     	}
+	    	//If score one has a team
+	    	if (team1Enabled){
+	    		lblTeam1.setId("pendingFill");
+	    		txtScore1.setId("pendingFill");
+	    	}
+	    	lblTeam1.setDisable(!team1Enabled);
+	    	txtScore1.setDisable(!team1Enabled);
+	    		
+	    	
+	    	
+	    	//If score two has a team
+	    	if (team2Enabled){
+	    		lblTeam2.setId("pendingFill");
+	    		txtScore2.setId("pendingFill");	
+	    	}
+	    	lblTeam2.setDisable(!team2Enabled);
+	    	txtScore2.setDisable(!team2Enabled);
+	    	
+	    	if (otherEnabled) {
+	    		System.out.println("Setting to pendingFill");
+	    		btnSubmit.setId("pendingFill");
+	    		lblStatusHeader.setId("statusHeader_General");
+	    		lblMatchStatus.setId("matchStatus_General");
+	    		lblMatchHeader.setId("matchHeader_General");
+	    		lblMatchNumber.setId("matchNumber_General");
+	    		lblMatchBorder.setId("matchBorder_General");
+	    	}
+	    
+	    	btnSubmit.setDisable(!otherEnabled);
+	    	lblStatusHeader.setDisable(!otherEnabled);
+	    	lblMatchStatus.setDisable(!otherEnabled);
+	    	lblMatchHeader.setDisable(!otherEnabled);
+	    	lblMatchNumber.setDisable(!otherEnabled);
+	    	lblMatchBorder.setDisable(!otherEnabled);
     }
     
     
+    /**
+     * Adds a control
+     * Sets controls details including row and row span, column and column span, and then sets size.
+     * We wanted size to stay set regardless of input so we need to set min and max size for 
+     * each control in match pane.
+     *   
+     * @param ctrl - the control we are locking size on
+     * @param mySetup - information about the control parameters set in initMatchView
+     */
     private void setControl(Control ctrl, Integer[] mySetup) {
     	Integer setHeight = 0, setWidth = 0;
     	
     	//Find item width based on col and col span
     	for (int i = 0; i < mySetup[MV_COL_SPAN]; i++) {
-    		setWidth += getColWidth(mySetup[MV_COL_IND] + i);
+    		setWidth += getColWidth(mySetup[MV_COL_IND] + i); //returns width for each col in span
     	}
     	setWidth += ((mySetup[MV_COL_SPAN]-1)*MV_PANE_HORZ_GAP);
     	
     	//Find row height based on row and row span
     	for (int i = 0; i < mySetup[MV_ROW_SPAN]; i++) {
-    		setHeight += getRowHeight(mySetup[MV_ROW_IND] + i);
+    		setHeight += getRowHeight(mySetup[MV_ROW_IND] + i); //return height for each row in span
     	}
     	setWidth += ((mySetup[MV_ROW_SPAN]-1)*MV_PANE_VERT_GAP);
     		
@@ -474,6 +534,12 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     			 mySetup[MV_ROW_SPAN]);
     }
     
+    
+    /**
+     * Returns row height based on row sent in
+     * @param myRow - row we want height for
+     * @return - returns height of requested row
+     */
     private Integer getRowHeight(Integer myRow) {
     	switch(myRow) {
 	    	case MV_ROW_1:
@@ -489,6 +555,11 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     	}
     }
     
+    /**
+     * Returns col width based on col sent in
+     * @param myCol - col we want width for
+     * @return - returns width of requested col
+     */
     private Integer getColWidth(Integer myCol) {
     	switch(myCol) {
 	    	case 0:
@@ -522,14 +593,14 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     		Label winner = ((s1 > s2) ? lblTeam1: lblTeam2);
     		TextField winnerScore = ((s1 > s2) ? txtScore1: txtScore2);
     		winner.setId("teamWonFill");
-    		winnerScore.setId("teamWonFill");
-    		btnSubmit.setId("teamWonFill");
+    		winnerScore.setId("scoreTeamWonFill");
+    		btnSubmit.setId("submitTeamWonFill");
 
     		//Change looser view
     		Label loser = ((s1 > s2) ? lblTeam2 : lblTeam1);
     		TextField loserScore = ((s1 > s2) ? txtScore2: txtScore1);
     		loser.setId("teamLostFill");
-    		loserScore.setId("teamLostFill");
+    		loserScore.setId("scoreTeamLostFill");
 
     		match.setFinalScore(s1, s2);
 

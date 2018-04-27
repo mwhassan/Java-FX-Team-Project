@@ -44,7 +44,10 @@
 
 .teamLabelMirrored{
 	-fx-font-size: 14.0pt;
-	-fx-alignment: center-right 
+	-fx-alignment: center-right; 
+	
+	/*From noTeamFill */
+	-fx-background-color: #ccccccff;
 }
 
 /*
@@ -87,7 +90,6 @@
 	-fx-font-size: 14.0pt;
 }
 
-
 #scoreTeamLostFill{
 	-fx-background-color: #666666ff;
 }
@@ -117,9 +119,7 @@
 }
 
 
-#submitTeamLostFill{
-	-fx-background-color: #666666ff;
-}
+
 
 #submiPendingFill{
 	-fx-background-color: #9fc5e8ff;
