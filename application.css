@@ -30,26 +30,27 @@
 
 
 
-/* Team, score and button fill colors based on state*/
+/* Team One and Two*/
 /****************************************************/
 .teamLabel{
 	-fx-font-size: 14.0pt;
 	-fx-text-fill: #383838;
+	
+	/*From noTeamFill */
+	-fx-background-color: #ccccccff;
 }
 
-.teamScore{
-	-fx-font-size: 08.0pt;
-	-fx-prompt-text-fill: rgb(153,153,153)
-}
+
 
 .teamLabelMirrored{
 	-fx-font-size: 14.0pt;
 	-fx-alignment: center-right 
 }
 
+/*
 #noTeamFill{
 	-fx-background-color: #ccccccff;
-}
+} */
 
 #teamWonFill{
 	-fx-background-color: #ffe599ff;
@@ -70,13 +71,72 @@
 	-fx-background-color: #ea9999ff;
 }
 
+/*Team Scores*/
+/****************************************************/
+.scoreLabel{
+	-fx-font-size: 08.0pt;
+	-fx-prompt-text-fill: rgb(153,153,153);
+	
+	/*From noTeamFill */
+	-fx-background-color: #ccccccff;
+}
 
+#scoreTeamWonFill{
+	-fx-background-color: #ffe599ff;
+	-fx-font-weight: bold;
+	-fx-font-size: 14.0pt;
+}
+
+
+#scoreTeamLostFill{
+	-fx-background-color: #666666ff;
+}
+
+#scorePendingFill{
+	-fx-background-color: #9fc5e8ff;
+}
+
+#scoreChampionFill{
+	-fx-background-color: #ea9999ff;
+}
+
+/* Submit Button */
+/****************************************************/
+.submitButton{
+	-fx-font-size: 08.0pt;
+	-fx-prompt-text-fill: rgb(153,153,153);
+	
+	/*From noTeamFill */
+	-fx-background-color: #ccccccff;
+}
+
+#submitTeamWonFill{
+	-fx-background-color: #ffe599ff;
+	-fx-font-weight: bold;
+	-fx-font-size: 14.0pt;
+}
+
+
+#submitTeamLostFill{
+	-fx-background-color: #666666ff;
+}
+
+#submiPendingFill{
+	-fx-background-color: #9fc5e8ff;
+}
+
+#submiChampionFill{
+	-fx-background-color: #ea9999ff;
+}
 
 /* Match Header States */
 /****************************************************/
 .matchHeader{
 	-fx-font-size: 8.0pt;
 	-fx-alignment: bottom-center;
+	
+	/*Added from noTeam*/
+	-fx-text-fill: rgb(216,216,216);
 }
 
 
@@ -85,11 +145,11 @@
 }
 
 
-
+/*
 #MatchHeader_NoTeam{
-	-fx-text-fill: rgb(216,216,216);
+	
 }
-
+ */
 
 
 /* Match Number */
@@ -97,6 +157,9 @@
 .matchNumber{
 	-fx-alignment: top-center ;
 	-fx-font-size: 16.0pt;
+	
+	/*Added from noTeam*/
+	-fx-text-fill: rgb(216,216,216);
 }
 
 #matchNumber_General{
@@ -104,10 +167,11 @@
 	
 }
 
+/*
 #matchNumber_NoTeam{
-	-fx-text-fill: rgb(216,216,216);
 	
-}
+	
+} */
 
 
 /* Match border */
@@ -116,20 +180,27 @@
 	-fx-border-style: dashed;
 	-fx-border-width: 2.0pt;
 	-fx-border-radius: 10.0pt;
+	
+	/*Added from noTeam*/
+	-fx-border-color: #666666;
 }
 
 #matchBorder_General{
 	-fx-border-color: #c9daf8;
 }
 
+/*
 #matchBorder_NoTeam{
-	-fx-border-color: #666666;	
-}
+		
+} */
 
 /* Status Header States */
 /****************************************************/
 .statusHeader{
-	-fx-font-size: 8.0pt; 
+	-fx-font-size: 8.0pt;
+	
+	/*Added from noTeam*/
+	-fx-text-fill: #666666; 
 }
 
 #statusHeader_General{
@@ -137,28 +208,32 @@
 }
 
 
-#StatusHeader_NoTeam{
-	-fx-text-fill: #666666;
-}
+/*#StatusHeader_NoTeam{
+	
+}*/
 
 
 /* Status Box States */
 /****************************************************/
 .matchStatus{
 	-fx-font-size: 10.0pt;
-	-fx-border-radius: 1.0pt; 
+	-fx-border-radius: 1.0pt;
+	
+	/*Added from noTeam*/
+	-fx-background-color: #666666;
+	-fx-border-color: #666666; 
 }
 
 #matchStatus_General{
 	-fx-text-fill: #c9daf8;
 	-fx-border-color: #c9daf8;
-	
+	-fx-background-color: #383838;
 }
 
+/*
 #matchStatus_noTeam{
-	-fx-background-color: #666666;
-	-fx-border-color: #666666;
-}
+	
+} */
 
 
 

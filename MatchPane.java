@@ -381,7 +381,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 
         // Add 'Submit Scores' button
         btnSubmit.setText(MV_LBL_SUBMIT);
-        btnSubmit.getStyleClass().add("btnSubmit");
+        btnSubmit.getStyleClass().add("submitButton");
         setControl(btnSubmit, mvSubmit);
         btnSubmit.setOnAction(e->action_handler());
 
@@ -391,13 +391,13 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 
         // Add team 1 score
         txtScore1.setPromptText("<score>");
-        txtScore1.getStyleClass().add("teamScore");
+        txtScore1.getStyleClass().add("scoreLabel");
         setControl(txtScore1, mvScore1);
         txtScore1.setOnAction(e->action_handler());
 
         // Add team 2 score
         txtScore2.setPromptText("<score>");
-        txtScore2.getStyleClass().add("teamScore");
+        txtScore2.getStyleClass().add("scoreLabel");
         setControl(txtScore2, mvScore2);
         txtScore2.setOnAction(e->action_handler());
 
@@ -414,19 +414,19 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     	System.out.println("setCSS_Start");
     	System.out.println("t1 =:" + lblTeam1.getText().trim() + ":");
     	System.out.println("t2 =:" + lblTeam2.getText().trim()+ ":");
-    	if (lblTeam1.getText().trim().equals("") && lblTeam2.getText().trim().equals("")) {
-    		System.out.println("Setting to noTeamFill");
-    		lblTeam1.setId("noTeamFill");
-    		lblTeam2.setId("noTeamFill");
-    		txtScore1.setId("noTeamFill");
-    		txtScore2.setId("noTeamFill");
-    		btnSubmit.setId("noTeamFill");
-    		lblStatusHeader.setId("StatusHeader_NoTeam");
-    		lblMatchStatus.setId("matchStatus_NoTeam");
-    		lblMatchBorder.setId("matchBorder_NoTeam");
-    		lblMatchHeader.setId("MatchHeader_NoTeam");
-    		lblMatchNumber.setId("matchNumber_NoTeam");
-    	} else {
+    	if (!(lblTeam1.getText().trim().equals("") && lblTeam2.getText().trim().equals(""))) {
+//    		System.out.println("Setting to noTeamFill");
+//    		lblTeam1.setId("noTeamFill");
+//    		lblTeam2.setId("noTeamFill");
+//    		txtScore1.setId("noTeamFill");
+//    		txtScore2.setId("noTeamFill");
+//    		btnSubmit.setId("noTeamFill");
+//    		lblStatusHeader.setId("StatusHeader_NoTeam");
+//    		lblMatchStatus.setId("matchStatus_NoTeam");
+//    		lblMatchBorder.setId("matchBorder_NoTeam");
+//    		lblMatchHeader.setId("MatchHeader_NoTeam");
+//    		lblMatchNumber.setId("matchNumber_NoTeam");
+//    	} else {
     		System.out.println("Setting to pendingFill");
     		lblTeam1.setId("pendingFill");
     		lblTeam2.setId("pendingFill");
