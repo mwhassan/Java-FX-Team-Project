@@ -60,6 +60,7 @@ public class Main extends Application {
     private static final Integer HORIZONTAL_PADDING = 10;
     private static final Integer VERTICAL_PADDING = 5;
     
+    private static final String FILE_NOT_FOUND = "The provided file could not be loaded - exiting program.";
     private static final String TOURNAMENT_TITLE = "Tournament Bracket";
     private static final String NO_TEAMS_TITLE = "Empty Bracket";
     private static final String NO_TEAMS_MESSAGE = "No teams and no tournament!";
@@ -102,9 +103,27 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             initControlObjects();
-        } catch (IOException e) {
-            System.err.println("The provided file could not be loaded - exiting program");
-            System.exit(0);
+        } catch (IOException exception) {
+        	Label msg = new Label(FILE_NOT_FOUND);
+    		msg.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
+    		Button ok = new Button("OK");
+    		VBox display = new VBox(VERTICAL_PADDING);
+    		
+    		display.setAlignment(Pos.CENTER);
+    		display.getChildren().addAll(msg, ok);
+    		Scene scene = new Scene(display);
+    		scene.getStylesheets().add("/application/application.css");
+    		Stage alert = new Stage();
+    		
+    		alert.setWidth(STAGE_WIDTH);
+    		alert.setHeight(STAGE_HEIGHT);
+    		ok.setOnAction(e->alert.close());
+    		alert.setTitle(NO_TEAMS_TITLE);
+    		
+    		alert.setScene(scene);
+    		alert.setMaximized(true);
+    		alert.showAndWait();
+    		return;
         }
         initViewObjects(primaryStage);
     }
