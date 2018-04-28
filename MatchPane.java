@@ -756,17 +756,20 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 	    			txtScore2.setText("");
 	    			lblMatchStatus.setText(MV_STATUS_ERR_NO_TIES);
 	    			//return;
+	    		} else {
+	    			btnSubmit.setDisable(false);
+		    		btnSubmit.setText(MV_BTN_SUBMIT_SETSCORE);
+		        	Integer s2 = Integer.parseInt(ctrl.getText());
 	    		}
 	    			
 	    			
-	    		btnSubmit.setDisable(false);
-	    		btnSubmit.setText(MV_BTN_SUBMIT_SETSCORE);
-	        	Integer s2 = Integer.parseInt(ctrl.getText());
+	    		
 	    	} else {
 	    		//at least one does not have a score.  Double checking
 	    		//still disabled as you can enter and clear scores but have
 	    		//button show up
 	    		System.out.println("Is button disabled ? " + btnSubmit.isDisable());
+	    		lblMatchStatus.setText(MV_STATUS_PENDING);
 	    		if (!btnSubmit.isDisable()) {
 		    		btnSubmit.setDisable(true);
 		    		btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
