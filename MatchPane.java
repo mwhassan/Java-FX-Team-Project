@@ -762,6 +762,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 	    		} else {
 	    			btnSubmit.setDisable(false);
 		    		btnSubmit.setText(MV_BTN_SUBMIT_SETSCORE);
+		    		btnSubmit.setId("submitReadyFill");
 		        	Integer s2 = Integer.parseInt(ctrl.getText());
 	    		}
 	    			

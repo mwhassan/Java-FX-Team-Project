@@ -67,9 +67,9 @@ public class Main extends Application {
     private static final String ONE_TEAM_MESSAGE = "Only one team! The winner is ";
     private static final String CHAMPION_MESSAGE = "\n\nAnd the champion is\n";
     private static final String LEADER_BOARD_INTRO = "Congratulations to our winners";
-    private static final String LEADER_BOARD_FIRST = "      *1st place:  ";
-    private static final String LEADER_BOARD_SECOND = "      *2nd place:  ";
-    private static final String LEADER_BOARD_THIRD = "      *3rd place:  ";
+    private static final String LEADER_BOARD_FIRST = "       1st  place -  ";
+    private static final String LEADER_BOARD_SECOND = "       2nd place -  ";
+    private static final String LEADER_BOARD_THIRD = "       3rd place -  ";
     
     /*******************
      * Private View Variables
@@ -109,7 +109,7 @@ public class Main extends Application {
             initControlObjects();
         } catch (IOException exception) {
         	Label msg = new Label(FILE_NOT_FOUND);
-    		msg.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
+        	msg.getStyleClass().add("mainForm");
     		Button ok = new Button("OK");
     		VBox display = new VBox(VERTICAL_PADDING);
     		
