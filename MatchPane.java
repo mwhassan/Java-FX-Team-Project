@@ -740,19 +740,55 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     	System.out.println("oldVal : " + oldVal);
     	System.out.println("newVal : " + newVal);
     	
-    	
-    	//A value was entered into one of the two controls
-    	if (!(ctrl.getText().trim().equals(""))) {
-    		btnSubmit.setDisable(false);
-    		btnSubmit.setText(MV_BTN_SUBMIT_SETSCORE);
-    		try {
-        		Integer s2 = Integer.parseInt(ctrl.getText());
-    		} catch (NumberFormatException exception) {
-    			ctrl.setText("");
-    			lblMatchStatus.setText(MV_STATUS_ERR_NUMERIC_ONLY);
-    			ctrl.requestFocus();
+    	//parses control text and will throw NF exception if not valid input
+    	try {
+    		
+	    	//A value is entered in both controls
+    		if (!(txtScore1.getText().trim().equals("")) &&
+	    			!(txtScore2.getText().trim().equals(""))) {
+    			
+    			lblMatchStatus.setText(MV_STATUS_PENDING);
+    			
+    			//if there is a tie
+	    		if (txtScore1.getText().trim().equals(
+    					txtScore2.getText().trim())) {
+	    			txtScore1.setText("");
+	    			txtScore2.setText("");
+	    			lblMatchStatus.setText(MV_STATUS_ERR_NO_TIES);
+	    			//return;
+	    		}
+	    			
+	    			
+	    		btnSubmit.setDisable(false);
+	    		btnSubmit.setText(MV_BTN_SUBMIT_SETSCORE);
+	        	Integer s2 = Integer.parseInt(ctrl.getText());
+	    	} else {
+	    		//at least one does not have a score.  Double checking
+	    		//still disabled as you can enter and clear scores but have
+	    		//button show up
+	    		System.out.println("Is button disabled ? " + btnSubmit.isDisable());
+	    		if (!btnSubmit.isDisable()) {
+		    		btnSubmit.setDisable(true);
+		    		btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
+	    		}
+	    	}
+	    		
+	    	
+	    	//A value is entered in the control that lost focus 
+	    	if (!(ctrl.getText().trim().equals(""))){
+	        	Integer s2 = Integer.parseInt(ctrl.getText());
+	    	}
+	    		
+    	} catch (NumberFormatException exception) {
+			ctrl.setText("");
+			lblMatchStatus.setText(MV_STATUS_ERR_NUMERIC_ONLY);
+			if (!btnSubmit.isDisable()) {
+	    		btnSubmit.setDisable(true);
+	    		btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
     		}
-    	}
+			ctrl.requestFocus();
+		}
+	
     	
     	
     }
