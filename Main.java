@@ -310,13 +310,37 @@ public class Main extends Application {
     	//if we are at championship run this
     	if(index == bracket.matches()) {
     		
-    		championLabel_1.setText(CHAMPION_MESSAGE + match.getWinner());
+    		Team first = match.getWinner();
+    		Team second = (match.getTeams()[0] == match.getWinner()?
+					match.getTeams()[1] : match.getTeams()[0]);
+    		
+    		championLabel_1.setText(CHAMPION_MESSAGE + first);
+    		
+    		// if no third place
+    		if(index <= 1) {
+    			championLabel_2.setText(LEADER_BOARD_INTRO + "\n" +
+						LEADER_BOARD_FIRST + first + "\n"+
+						LEADER_BOARD_SECOND + second + "\n\n");
+    			return;
+    		}
+    		
+    		// Compute third place winner
+    		Match<Integer> match1 = bracket.getMatch(index - 1);
+    		Match<Integer> match2 = bracket.getMatch(index - 2);
+
+    		Integer losingSpot1 = match1.getTeams()[0] == match1.getWinner() ? 1:0;
+    		Integer losingSpot2 = match2.getTeams()[0] == match2.getWinner() ? 1:0;
+    		
+    		Integer score1 = match1.getFinalScores().get(losingSpot1);
+    		Integer score2 = match2.getFinalScores().get(losingSpot2);
+
+    		Team third = score1 > score2 ? match1.getTeams()[losingSpot1] : match2.getTeams()[losingSpot2];
+    		
+    		// print leaderboard
     		championLabel_2.setText(LEADER_BOARD_INTRO + "\n" +
-    								LEADER_BOARD_FIRST + match.getWinner() + "\n"+
-    								LEADER_BOARD_SECOND + 
-    								(match.getTeams()[0] == match.getWinner()?
-    								match.getTeams()[1] : match.getTeams()[0]) + "\n"+ 
-    								LEADER_BOARD_THIRD + "\n\n");
+    								LEADER_BOARD_FIRST + first + "\n"+
+    								LEADER_BOARD_SECOND + second + "\n"+ 
+    								LEADER_BOARD_THIRD + third + "\n\n");
     		return;
     	}
     	

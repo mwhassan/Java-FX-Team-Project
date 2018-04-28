@@ -480,7 +480,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     	boolean enable = team1Ready && team2Ready;
     	
     	btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
-    	btnSubmit.setDisable(true); //TODO: this does nothing
+    	btnSubmit.setDisable(true);
     	
     	//If score one has a team
     	if (team1Ready){
@@ -539,8 +539,6 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      */
     protected void setControl(Control ctrl, Integer[] mySetup) {
     	Integer setHeight = 0, setWidth = 0;
-    	
-    	
     
     	//Find item width based on col and col span
     	for (int i = 0; i < mySetup[MV_COL_SPAN]; i++) {
@@ -564,8 +562,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     			 mySetup[MV_COL_SPAN],
     			 mySetup[MV_ROW_SPAN]);
     }
-    
-    
+
     /**
      * Returns row height based on row sent in
      * @param myRow - row we want height for
