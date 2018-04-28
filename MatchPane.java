@@ -480,7 +480,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     	boolean enable = team1Ready && team2Ready;
     	
     	btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
-    	btnSubmit.setDisable(true);
+    	btnSubmit.setDisable(true); //TODO: this does nothing
     	
     	//If score one has a team
     	if (team1Ready){
@@ -498,8 +498,6 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     		lblMatchStatus.setText(MV_STATUS_WAIT_SINGLE + " 1");
     	}
     	
-    	
-    	
     	//if both are enabled
     	if (enable) {
     		System.out.println("Setting to pendingFill");
@@ -511,8 +509,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     		lblMatchStatus.setText(MV_STATUS_PENDING);
     		
     		btnSubmit.setId("submitPendingFill");
-    		
-    		
+    			
     	} else {
     		if (!lblMatchStatus.getText().contains(MV_STATUS_WAIT_SINGLE)) 
     			lblMatchStatus.setText(MV_STATUS_WAIT);
@@ -765,6 +762,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 			if (!btnSubmit.isDisable()) {
 	    		btnSubmit.setDisable(true);
 	    		btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
+	    		btnSubmit.setId("submitPendingFill");
     		}
 			ctrl.requestFocus();
 		}
