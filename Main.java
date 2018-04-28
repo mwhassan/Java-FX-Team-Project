@@ -229,17 +229,45 @@ public class Main extends Application {
         	
         	for(int slot = 1; slot <= Math.pow(2, rounds-i); slot++) {
         		int index = bracket.getMatchIndex(i, slot);
-    			
+    			System.out.println("slot = " + slot);
+        		//add standard pane
         		if(slot <= Math.pow(2, rounds-i-1)) {
         			matchPanes[index] = new MatchPane<Integer>
 										(index, bracket.getMatch(index), this);
         			columnPanes[2*i - 1].getChildren().add(matchPanes[index]);
+        			
+        			
+        			
+        			int bufferNumber = (int) (Math.pow(2, rounds-i));
+        			int numBuffers = (int) Math.pow((i-1),2)-1;
+        			
+        			if(i%2 == 0) numBuffers -= 1;
+        			if (numBuffers <1) numBuffers = 1;
+        			if (i > 1 && slot < bufferNumber/2) {
+        				for (int c = 0; c < numBuffers; c++) {
+        					columnPanes[2*i-1].getChildren().add(new BufferPane());
+        				}
+        			} 
         		}
         		else {
+        			//add mirror pane
         			matchPanes[index] = new MatchPane<Integer>
     									(index, bracket.getMatch(index), this, true);
         			columnPanes[2*i].getChildren().add(matchPanes[index]);
+        			
+        			int bufferNumber = (int) (Math.pow(2, rounds-i));
+        			int numBuffers = (int) Math.pow((i-1),2)-1;
+        			
+        			if(i%2 == 0) numBuffers -= 1;
+        			if (numBuffers <1) numBuffers = 1;
+        			if (i > 1 && slot < bufferNumber) {
+        				for (int c = 0; c < numBuffers; c++) {
+        					columnPanes[2*i].getChildren().add(new BufferPane());
+        				}
+        			} 
         		}
+        		
+        		
         		
         		
     			
@@ -252,9 +280,11 @@ public class Main extends Application {
         	roundPanes[i].setRight(columnPanes[2*i]);
         }
         
+        
         // add championship match     
         matchPanes[bracket.matches()] = new ChampPane<Integer>
         	(bracket.matches(), bracket.getMatch(bracket.matches()), this);
+        
         columnPanes[2*rounds - 1].getChildren().add(matchPanes[bracket.matches()]);
         if(bracket.matches() == 1) matchPanes[bracket.matches()].setDisable(false);
         roundPanes[rounds].setCenter(columnPanes[2*rounds - 1]);
