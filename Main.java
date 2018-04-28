@@ -65,7 +65,11 @@ public class Main extends Application {
     private static final String NO_TEAMS_TITLE = "Empty Bracket";
     private static final String NO_TEAMS_MESSAGE = "No teams and no tournament!";
     private static final String ONE_TEAM_MESSAGE = "Only one team! The winner is ";
-    private static final String CHAMPION_MESSAGE = "And the winner is:\n";
+    private static final String CHAMPION_MESSAGE = "\n\nAnd the champion is\n";
+    private static final String LEADER_BOARD_INTRO = "Congratulations to our winners";
+    private static final String LEADER_BOARD_FIRST = "      *1st place:  ";
+    private static final String LEADER_BOARD_SECOND = "      *2nd place:  ";
+    private static final String LEADER_BOARD_THIRD = "      *3rd place:  ";
     
     /*******************
      * Private View Variables
@@ -159,7 +163,7 @@ public class Main extends Application {
     	// Handle no teams
     	if(bracket.size() < 1) {
     		Label msg = new Label(NO_TEAMS_MESSAGE);
-    		msg.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
+    		msg.getStyleClass().add("mainForm");
     		Button ok = new Button("OK");
     		VBox display = new VBox(VERTICAL_PADDING);
     		
@@ -183,7 +187,7 @@ public class Main extends Application {
     	// Handle one team
     	if(bracket.size() == 1) {
     		Label msg = new Label(ONE_TEAM_MESSAGE + bracket.getMatch(1).getTeams()[0]);
-    		msg.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
+    		msg.getStyleClass().add("mainForm");
     		Button ok = new Button("OK");
     		VBox display = new VBox(VERTICAL_PADDING);
     		
@@ -248,8 +252,8 @@ public class Main extends Application {
         	roundPanes[i].setRight(columnPanes[2*i]);
         }
         
-        // add championship match
-        matchPanes[bracket.matches()] = new MatchPane<Integer>
+        // add championship match     
+        matchPanes[bracket.matches()] = new ChampPane<Integer>
         	(bracket.matches(), bracket.getMatch(bracket.matches()), this);
         columnPanes[2*rounds - 1].getChildren().add(matchPanes[bracket.matches()]);
         if(bracket.matches() == 1) matchPanes[bracket.matches()].setDisable(false);
@@ -258,12 +262,19 @@ public class Main extends Application {
         // add champion labels
         championLabel_1 = new Label();
         championLabel_2 = new Label();
+        
+        championLabel_1.getStyleClass().add("mainForm");
+        championLabel_2.getStyleClass().add("mainChamps");
+        
         roundPanes[rounds].setTop(championLabel_1);
         roundPanes[rounds].setBottom(championLabel_2);
+        
         BorderPane.setAlignment(championLabel_1, Pos.CENTER);
         BorderPane.setAlignment(championLabel_2, Pos.CENTER);
-        championLabel_1.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
-        championLabel_2.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
+        
+        
+//        championLabel_1.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
+//        championLabel_2.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
         
         HBox box = new HBox();
         box.setStyle("-fx-background-color: #383838");
@@ -275,6 +286,8 @@ public class Main extends Application {
         sp.setFitToWidth(true);
         sp.setContent(box);
 
+        
+        
         scene = new Scene(sp,STAGE_WIDTH,STAGE_HEIGHT);
         scene.getStylesheets().add("/application/application.css");
         this.stage = stage;
@@ -292,11 +305,14 @@ public class Main extends Application {
     public void matchPaneCallBack(Match<Integer> match, int index) {
     	//if we are at championship run this
     	if(index == bracket.matches()) {
-    		championLabel_1.setTextAlignment(TextAlignment.CENTER);
-    		championLabel_2.setTextAlignment(TextAlignment.CENTER);
+//    		championLabel_1.setTextAlignment(TextAlignment.CENTER);
+//    		championLabel_2.setTextAlignment(TextAlignment.CENTER);
     		
     		championLabel_1.setText(CHAMPION_MESSAGE + match.getWinner());
-    		championLabel_2.setText(CHAMPION_MESSAGE + match.getWinner());
+    		championLabel_2.setText(LEADER_BOARD_INTRO + "\n" +
+    								LEADER_BOARD_FIRST + match.getWinner() + "\n"+
+    								LEADER_BOARD_SECOND + "\n"+ 
+    								LEADER_BOARD_THIRD + "\n\n");
     		return;
     	}
     	

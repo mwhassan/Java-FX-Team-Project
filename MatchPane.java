@@ -81,7 +81,6 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      *-----*/
     //Remaining constants
     private static final Integer MV_TEAM_INDENT = 3;
-    private static final Integer MV_INDENT = 3;
     //Team one or team 2 (used in some bracket and match functions
     private static final Integer MV_TEAM1 = 0;
     private static final Integer MV_TEAM2 = 1;
@@ -91,30 +90,26 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * View Labels
      *-----*/
     
-    
-    
     //Header Options
     private static final String MV_LBL_MATCH_HEADER = "Match"; //String.format("%" + MV_INDENT + "s%s", "", "Match: ");
     private static final String MV_LBL_STATUS_HEADER = "Status";
     
     //Status Options
-    private static final String MV_STATUS_PENDING = "Pending";
+    private static final String MV_STATUS_PENDING = " Pending";
     private static final String MV_STATUS_WINNER = " Win!";
-    private static final String MV_STATUS_WAIT = "Waiting for teams";
-    private static final String MV_STATUS_WAIT_SINGLE = "Waiting for team";
-    private static final String MV_STATUS_CLEAR = "";
-    private static final String MV_STATUS_NO_SCORES = "No Scores Entered";
-    private static final String MV_STATUS_CHAMP = "Champions";
+    private static final String MV_STATUS_WAIT = " Waiting for teams";
+    private static final String MV_STATUS_WAIT_SINGLE = " Waiting for team";
+    private static final String MV_STATUS_CHAMP = " Champions";
     
     //Status Errors
-    private static final String MV_STATUS_ERR_NO_TIES = "Ties not allowed";
-    private static final String MV_STATUS_ERR_NUMERIC_ONLY = "Integers Only";
-    private static final String MV_STATUS_ERR_INVALID = "Enter 2nd Score";
+    private static final String MV_STATUS_ERR_NO_TIES = " Ties not allowed";
+    private static final String MV_STATUS_ERR_NUMERIC_ONLY = " Integers Only";
+    private static final String MV_STATUS_ERR_INVALID = " Enter 2nd Score";
     
         
     //Submit Button Options
     private static final String MV_BTN_SUBMIT_PENDING = "";
-    private static final String MV_BTN_SUBMIT_SETSCORE = "Set Score";
+    private static final String MV_BTN_SUBMIT_SETSCORE = "Set \nScore";
     private static final String MV_BTN_SUBMIT_WINNER = "Winner";
     private static final String MV_BTN_SUBMIT_CHAMP = "Champ!";
     
@@ -132,56 +127,56 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * Team Name Information
      *-----*/
     // lblTeam1 specific
-    private Integer[] mvTeamOne;
+    protected Integer[] mvTeamOne;
     // lblTeam2 specific
-    private Integer[] mvTeamTwo;
+    protected Integer[] mvTeamTwo;
     /*------
      * Internal match information 
      *-----*/
     // lblMatch specific
-    private Integer[] mvMatchHeader;
-    private Integer[] mvMatchNumber;
-    private Integer[] mvMatchBorder;
+    protected Integer[] mvMatchHeader;
+    protected Integer[] mvMatchNumber;
+    protected Integer[] mvMatchBorder;
     // lblStatusHeader (Status) specific
-    private Integer[] mvStatusHeader;
-    private Integer[] mvMatchStatus;
+    protected Integer[] mvStatusHeader;
+    protected Integer[] mvMatchStatus;
     /*------
      * Score and Submit 
      *-----*/
     // txtScore1 specific
-    private Integer[] mvScore1;
+    protected Integer[] mvScore1;
     // txtScore2 score specific
-    private Integer[] mvScore2;
+    protected Integer[] mvScore2;
     // btnSubmit specific
-    private Integer[] mvSubmit;
+    protected Integer[] mvSubmit;
 
     /***********************************************************
-     * Private View Fields
+     * protected View Fields
      ***********************************************************/
-    private int index; // Number of match in tournament
-    private Label lblMatchHeader, 
+    protected int index; // Number of match in tournament
+    protected Label lblMatchHeader, 
     			  lblMatchNumber,
                   lblMatchStatus, 
                   lblMatchBorder,
                   lblStatusHeader,
                   lblTeam1, 
                   lblTeam2; // Match label, winner and team
-    private Button btnSubmit; // Submit score button
-    private TextField txtScore1, 
+    protected Button btnSubmit; // Submit score button
+    protected TextField txtScore1, 
                       txtScore2; // Scores
-    private int colA;
-    private int colB;
-    private int colC;
+    protected int colA;
+    protected int colB;
+    protected int colC;
     
     /*******************
      * Private Control Fields
      *******************/
-    private Match<Integer> match;
-    private int matchNum;
-    private Object caller;
-    private boolean isMirrored = false; //Allows for re-arranging matchPane for symmetrical split bracket
-    private boolean isChamp = false; //is this championshi]
-    private boolean isMatchOver = false; //has the match been completed
+    protected Match<Integer> match;
+    protected int matchNum;
+    protected Object caller;
+    protected boolean isMirrored = false; //Allows for re-arranging matchPane for symmetrical split bracket
+    protected boolean isChamp = false; //is this championship]
+    protected boolean isMatchOver = false; //has the match been completed
     
     
     /*******************
@@ -260,7 +255,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     
     
     /*******************
-     * Private Helper Classes
+     * Protected Helper Classes
      *******************/
     
     /**
@@ -269,7 +264,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * 
      * @param setCSS -  will refresh css state if true
      */
-    private void refresh(boolean setCSS) {
+    protected void refresh(boolean setCSS) {
 
         String team1Name, team2Name;
         
@@ -308,7 +303,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * @param caller - the object that instantiated the class (used for callback when
      * 					the score is set
      */
-    private void initMatchController(int matchNum, Match<Integer> match, Object caller) {
+    protected void initMatchController(int matchNum, Match<Integer> match, Object caller) {
         this.matchNum = matchNum;
         this.match = match;
         this.caller = caller;
@@ -317,7 +312,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     /**
      * Initialize the view variables but then calls paintView to build the view
      */
-    private void initMatchView() {
+    protected void initMatchView() {
         
     	 /*------
          * Team Name Information
@@ -348,6 +343,11 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         //Add match box
         lblMatchBorder = new Label();
         mvMatchBorder = new Integer[]{colA, MV_SINGLE, MV_ROW_2, MV_DOUBLE};
+        
+        
+        /*------
+         * Status information 
+         *-----*/
         
         // Add Status Header
         lblStatusHeader = new Label();
@@ -385,7 +385,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     /*
      * Builds the view itself by adding items to the pane (via setControl)
      */
-    private void paintView() {
+    protected void paintView() {
     	 /*------
          * Team Name Information
          *-----*/       
@@ -476,7 +476,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * sets default match CSS stylesheets and can enable and disable controls
      * as needed
      */
-    private void setCSS_Start() {
+    protected void setCSS_Start() {
     	
     	boolean team1Enabled = !(lblTeam1.getText().trim().equals(""));
     	boolean team2Enabled = !(lblTeam2.getText().trim().equals(""));
@@ -552,9 +552,11 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * @param ctrl - the control we are locking size on
      * @param mySetup - information about the control parameters set in initMatchView
      */
-    private void setControl(Control ctrl, Integer[] mySetup) {
+    protected void setControl(Control ctrl, Integer[] mySetup) {
     	Integer setHeight = 0, setWidth = 0;
     	
+    	
+    
     	//Find item width based on col and col span
     	for (int i = 0; i < mySetup[MV_COL_SPAN]; i++) {
     		setWidth += getColWidth(mySetup[MV_COL_IND] + i); //returns width for each col in span
@@ -590,7 +592,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * @param myRow - row we want height for
      * @return - returns height of requested row
      */
-    private Integer getRowHeight(Integer myRow) {
+    protected Integer getRowHeight(Integer myRow) {
     	switch(myRow) {
 	    	case MV_ROW_1:
 	    		return MV_ROW_1_HEIGHT;
@@ -610,7 +612,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * @param myCol - col we want width for
      * @return - returns width of requested col
      */
-    private Integer getColWidth(Integer myCol) {
+    protected Integer getColWidth(Integer myCol) {
     	switch(myCol) {
 	    	case 0:
 	    		return (isMirrored) ? MV_COL_C_WIDTH: MV_COL_A_WIDTH;
@@ -632,7 +634,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      * 3) Lock down ability to put in non numerics and update status with error as necessary
      *    or use alert box and clear
      */
-    private void btnAction_Handler() {
+    protected void btnAction_Handler() {
     	
     	if (btnSubmit.isDisabled()) {
     		System.out.println("BUTTON IS DISABLED YO");
@@ -699,6 +701,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         		winnerScore.setId("scoreTeamWonFill");
         		btnSubmit.setId("submitTeamWonFill");
         		btnSubmit.setText(MV_BTN_SUBMIT_WINNER);
+        		lblMatchStatus.setId("matchStatus_Winner");
     		}
     		
 
@@ -731,7 +734,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     	}
     }
     
-    private void txtLostFocus_Handler(ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal, TextField ctrl) {
+    protected void txtLostFocus_Handler(ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal, TextField ctrl) {
     	//don't care about getting focus
     	if (newVal) return; 
     	if (isMatchOver) return;
@@ -796,7 +799,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     	
     }
     
-    private void txtFieldAction_Handler(String ctrl) {
+    protected void txtFieldAction_Handler(String ctrl) {
     	switch (ctrl) {
     	case "score1":
     		txtScore2.requestFocus();

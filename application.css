@@ -178,8 +178,8 @@
 
 #matchNumber_Champ{
 	-fx-text-fill:  #ea9999ff;
-	-fx-alignment: top-center;
-	-fx-font-size: 10.0pt;
+	-fx-alignment: center  ;
+	-fx-font-size: 16.0pt;
 }
 
 /*
@@ -227,8 +227,10 @@
 	-fx-text-fill: #c9daf8;
 }
 
+
+
 #statusHeader_Champ{
-	-fx-text-fill: #666666;
+	-fx-text-fill: #383838;
 }
 
 
@@ -254,15 +256,35 @@
 	-fx-background-color: #383838;
 }
 
+#matchStatus_Winner{
+	-fx-text-fill: #ffe599ff;
+	-fx-background-color: #383838;
+	-fx-font-size: 12.0pt;
+}
+
 #matchStatus_Champ{
 	-fx-text-fill: black;
 	-fx-border-color: #ea9999ff;
 	-fx-background-color: #ea9999ff;
 	-fx-font-size: 12.0pt;
 	-fx-font-weight: bold;
+	-fx-alignment: center;
 }
 
-/*
-#matchStatus_noTeam{
-	
-} */
+/* Main Labels */
+/****************************************************/
+.mainForm{
+	-fx-text-fill: #ea9999ff;
+	-fx-font-size: 35.0pt;
+	-fx-border-color: none;
+	-fx-alignment: bottom-center ;
+	-fx-text-alignment: center;
+}
+
+.mainChamps{
+	-fx-text-fill: bisque ;
+	-fx-font-size: 25.0pt;
+	-fx-border-color: none;
+	-fx-alignment: top-center ;
+	-fx-text-alignment: left;
+}
