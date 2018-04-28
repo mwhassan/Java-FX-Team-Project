@@ -26,7 +26,11 @@
 	-fx-border-color: #383838;
 }
 
-
+.button{
+	-fx-pref-width: 100;
+	-fx-pref-height: 60;
+	-fx-background-color: #ccccccff;
+}
 
 
 
@@ -35,8 +39,6 @@
 .teamLabel{
 	-fx-font-size: 14.0pt;
 	-fx-text-fill: #383838;
-	
-	/*From noTeamFill */
 	-fx-background-color: #ccccccff;
 }
 
@@ -44,16 +46,9 @@
 
 .teamLabelMirrored{
 	-fx-font-size: 14.0pt;
-	-fx-alignment: center-right; 
-	
-	/*From noTeamFill */
+	-fx-alignment: center-right;
 	-fx-background-color: #ccccccff;
 }
-
-/*
-#noTeamFill{
-	-fx-background-color: #ccccccff;
-} */
 
 #teamWonFill{
 	-fx-background-color: #ffe599ff;
@@ -81,8 +76,6 @@
 .scoreLabel{
 	-fx-font-size: 08.0pt;
 	-fx-prompt-text-fill: rgb(153,153,153);
-	
-	/*From noTeamFill */
 	-fx-background-color: #ccccccff;
 }
 
@@ -111,9 +104,6 @@
 .submitButton{
 	-fx-font-size: 08.0pt;
 	-fx-text-fill:grey;
-	/*/-fx-text-fill: black; 
-	
-	/*From noTeamFill */
 	-fx-background-color: #ccccccff;
 }
 
@@ -148,22 +138,12 @@
 .matchHeader{
 	-fx-font-size: 8.0pt;
 	-fx-alignment: bottom-center;
-	
-	/*Added from noTeam*/
 	-fx-text-fill: rgb(216,216,216);
 }
-
 
 #matchHeader_General{
 	-fx-text-fill: #c9daf8;	
 }
-
-
-/*
-#MatchHeader_NoTeam{
-	
-}
- */
 
 
 /* Match Number */
@@ -171,8 +151,6 @@
 .matchNumber{
 	-fx-alignment: top-center ;
 	-fx-font-size: 16.0pt;
-	
-	/*Added from noTeam*/
 	-fx-text-fill: rgb(216,216,216);
 }
 
@@ -186,12 +164,6 @@
 	-fx-font-size: 16.0pt;
 }
 
-/*
-#matchNumber_NoTeam{
-	
-	
-} */
-
 
 /* Match border */
 /****************************************************/
@@ -199,8 +171,6 @@
 	-fx-border-style: dashed;
 	-fx-border-width: 2.0pt;
 	-fx-border-radius: 10.0pt;
-	
-	/*Added from noTeam*/
 	-fx-border-color: #666666;
 }
 
@@ -213,17 +183,10 @@
 	  
 }
 
-/*
-#matchBorder_NoTeam{
-		
-} */
-
 /* Status Header States */
 /****************************************************/
 .statusHeader{
 	-fx-font-size: 8.0pt;
-	
-	/*Added from noTeam*/
 	-fx-text-fill: #666666; 
 }
 
@@ -231,16 +194,9 @@
 	-fx-text-fill: #c9daf8;
 }
 
-
-
 #statusHeader_Champ{
 	-fx-text-fill: #383838;
 }
-
-
-/*#StatusHeader_NoTeam{
-	
-}*/
 
 
 /* Status Box States */
@@ -248,8 +204,6 @@
 .matchStatus{
 	-fx-font-size: 10.0pt;
 	-fx-border-radius: 1.0pt;
-	
-	/*Added from noTeam*/
 	-fx-background-color: #666666;
 	-fx-border-color: #666666; 
 }

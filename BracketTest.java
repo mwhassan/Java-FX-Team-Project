@@ -1,3 +1,13 @@
+////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+// Title: CS 400 Team GUI Tournament Bracket Project
+//
+// Program Files:
+// Bracket.java
+// BracketADT.java
+// Main.java
+// Match.java
+// MatchADT.java
 // MatchPane.java
 // Team.java
 // application.css
@@ -24,7 +34,7 @@
 // Lecturer's Name: Deb Deppeler
 // Due Date : 4/23/2018 by 10PM
 //
-// ///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 
 package application;
 

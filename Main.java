@@ -1,3 +1,13 @@
+////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+// Title: CS 400 Team GUI Tournament Bracket Project
+//
+// Program Files:
+// Bracket.java
+// BracketADT.java
+// Main.java
+// Match.java
+// MatchADT.java
 // MatchPane.java
 // Team.java
 // application.css
@@ -24,7 +34,7 @@
 // Lecturer's Name: Deb Deppeler
 // Due Date : 4/23/2018 by 10PM
 //
-// ///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 
 package application;
 
@@ -39,7 +49,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
@@ -60,9 +69,11 @@ public class Main extends Application {
     private static final Integer HORIZONTAL_PADDING = 10;
     private static final Integer VERTICAL_PADDING = 5;
     
-    private static final String FILE_NOT_FOUND = "The provided file could not be loaded - exiting program.";
     private static final String TOURNAMENT_TITLE = "Tournament Bracket";
+    private static final String FILE_NOT_FOUND_TITLE = "File Not Found";
     private static final String NO_TEAMS_TITLE = "Empty Bracket";
+    private static final String ONE_TEAM_TITLE = "One Team";
+    private static final String FILE_NOT_FOUND_MESSAGE = "The provided file could not be loaded - exiting program.";
     private static final String NO_TEAMS_MESSAGE = "No teams and no tournament!";
     private static final String ONE_TEAM_MESSAGE = "Only one team! The winner is ";
     private static final String CHAMPION_MESSAGE = "\n\nAnd the champion is\n";
@@ -108,25 +119,7 @@ public class Main extends Application {
         try {
             initControlObjects();
         } catch (IOException exception) {
-        	Label msg = new Label(FILE_NOT_FOUND);
-        	msg.getStyleClass().add("mainForm");
-    		Button ok = new Button("OK");
-    		VBox display = new VBox(VERTICAL_PADDING);
-    		
-    		display.setAlignment(Pos.CENTER);
-    		display.getChildren().addAll(msg, ok);
-    		Scene scene = new Scene(display);
-    		scene.getStylesheets().add("/application/application.css");
-    		Stage alert = new Stage();
-    		
-    		alert.setWidth(STAGE_WIDTH);
-    		alert.setHeight(STAGE_HEIGHT);
-    		ok.setOnAction(e->alert.close());
-    		alert.setTitle(NO_TEAMS_TITLE);
-    		
-    		alert.setScene(scene);
-    		alert.setMaximized(true);
-    		alert.showAndWait();
+        	alert(FILE_NOT_FOUND_MESSAGE, FILE_NOT_FOUND_TITLE);
     		return;
         }
         initViewObjects(primaryStage);
@@ -162,51 +155,16 @@ public class Main extends Application {
     	
     	// Handle no teams
     	if(bracket.size() < 1) {
-    		Label msg = new Label(NO_TEAMS_MESSAGE);
-    		msg.getStyleClass().add("mainForm");
-    		Button ok = new Button("OK");
-    		VBox display = new VBox(VERTICAL_PADDING);
-    		
-    		display.setAlignment(Pos.CENTER);
-    		display.getChildren().addAll(msg, ok);
-    		Scene scene = new Scene(display);
-    		scene.getStylesheets().add("/application/application.css");
-    		Stage alert = new Stage();
-    		
-    		alert.setWidth(STAGE_WIDTH);
-    		alert.setHeight(STAGE_HEIGHT);
-    		ok.setOnAction(e->alert.close());
-    		alert.setTitle(NO_TEAMS_TITLE);
-    		
-    		alert.setScene(scene);
-    		alert.setMaximized(true);
-    		alert.showAndWait();
+    		alert(NO_TEAMS_MESSAGE, NO_TEAMS_TITLE);
+    		return;
+    	}
+    	// Handle one team
+    	if(bracket.size() == 1) {
+    		alert(ONE_TEAM_MESSAGE + bracket.getMatch(1).getTeams()[0], ONE_TEAM_TITLE);
     		return;
     	}
     	
-    	// Handle one team
-    	if(bracket.size() == 1) {
-    		Label msg = new Label(ONE_TEAM_MESSAGE + bracket.getMatch(1).getTeams()[0]);
-    		msg.getStyleClass().add("mainForm");
-    		Button ok = new Button("OK");
-    		VBox display = new VBox(VERTICAL_PADDING);
-    		
-    		display.setAlignment(Pos.CENTER);
-    		display.getChildren().addAll(msg, ok);
-    		Scene scene = new Scene(display);
-    		scene.getStylesheets().add("/application/application.css");
-    		Stage alert = new Stage();
-    		
-    		alert.setWidth(STAGE_WIDTH);
-    		alert.setHeight(STAGE_HEIGHT);
-    		ok.setOnAction(e->alert.close());
-    		alert.setTitle(NO_TEAMS_TITLE);
-    		
-    		alert.setScene(scene);
-    		alert.setMaximized(true);
-    		alert.showAndWait();
-    		return;
-    	}
+    	// Bracket arrays
     	roundPanes = new BorderPane[rounds + 1];						// indexing starts at 1
     	columnPanes = new VBox[2*rounds];								// indexing starts at 1
         matchPanes = new MatchPane[bracket.matches()+1];				// indexing starts at 1
@@ -302,10 +260,6 @@ public class Main extends Application {
         BorderPane.setAlignment(championLabel_1, Pos.CENTER);
         BorderPane.setAlignment(championLabel_2, Pos.CENTER);
         
-        
-//        championLabel_1.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
-//        championLabel_2.setStyle("-fx-font-size: 40.0pt; -fx-border-color: none;");
-        
         HBox box = new HBox();
         box.setStyle("-fx-background-color: #383838");
         box.setAlignment(Pos.CENTER);
@@ -315,8 +269,6 @@ public class Main extends Application {
         sp.setFitToHeight(true);
         sp.setFitToWidth(true);
         sp.setContent(box);
-
-        
         
         scene = new Scene(sp,STAGE_WIDTH,STAGE_HEIGHT);
         scene.getStylesheets().add("/application/application.css");
@@ -327,6 +279,28 @@ public class Main extends Application {
         this.stage.show();
     }
     
+    private void alert(String text, String title) {
+		Label msg = new Label(text);
+    	msg.getStyleClass().add("mainForm");
+		Button ok = new Button("OK");
+		VBox display = new VBox(VERTICAL_PADDING);
+		
+		display.setAlignment(Pos.CENTER);
+		display.getChildren().addAll(msg, ok);
+		Scene scene = new Scene(display);
+		scene.getStylesheets().add("/application/application.css");
+		Stage alert = new Stage();
+		
+		alert.setWidth(STAGE_WIDTH);
+		alert.setHeight(STAGE_HEIGHT);
+		ok.setOnAction(e->alert.close());
+		alert.setTitle(title);
+		
+		alert.setScene(scene);
+		alert.setMaximized(true);
+		alert.showAndWait();
+    }
+    
     /**
      * Is called from MatchPane, providing the match and match number to be processed.
      * Populates champion label at the conclusion of the tournament.
@@ -335,13 +309,13 @@ public class Main extends Application {
     public void matchPaneCallBack(Match<Integer> match, int index) {
     	//if we are at championship run this
     	if(index == bracket.matches()) {
-//    		championLabel_1.setTextAlignment(TextAlignment.CENTER);
-//    		championLabel_2.setTextAlignment(TextAlignment.CENTER);
     		
     		championLabel_1.setText(CHAMPION_MESSAGE + match.getWinner());
     		championLabel_2.setText(LEADER_BOARD_INTRO + "\n" +
     								LEADER_BOARD_FIRST + match.getWinner() + "\n"+
-    								LEADER_BOARD_SECOND + "\n"+ 
+    								LEADER_BOARD_SECOND + 
+    								(match.getTeams()[0] == match.getWinner()?
+    								match.getTeams()[1] : match.getTeams()[0]) + "\n"+ 
     								LEADER_BOARD_THIRD + "\n\n");
     		return;
     	}
