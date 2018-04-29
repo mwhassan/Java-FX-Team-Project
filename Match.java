@@ -80,7 +80,6 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 	public void setTeams(Team teamOne, Team teamTwo) throws IllegalArgumentException{
 	    if (teamOne == null || teamTwo == null) 
 	        throw new IllegalArgumentException("You can not set a null team");
-	    
 		this.teamOne = teamOne;
 		this.teamTwo = teamTwo;
 	}
@@ -97,7 +96,6 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 	public void addTeam(Team team) throws IllegalArgumentException, IllegalStateException{
 	    if (team == null) 
             throw new IllegalArgumentException("You can not add a null team");
-	    
 	    if(teamOne == null) teamOne = team;
 		else if(teamTwo == null) teamTwo = team;
 		else throw new IllegalStateException("Match is already full.");
@@ -116,11 +114,9 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 							throws IllegalArgumentException, IllegalStateException {
 		if (team == null || spot == null) 
             throw new IllegalArgumentException("You can not add a null team");
-		
 		if (spot == TeamSpot.TeamOne) {
 			//if team is not null and name is not "" then throw exception
 			System.out.println(teamOne);
-			
 			if (teamOne != null && !teamOne.getName().trim().equals("")) {
 				System.out.println("team one exception");
 				throw new IllegalStateException("Spot is already full.");
@@ -137,6 +133,7 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 			teamTwo = team;
 		}
 	}
+	
 	/**
 	 * Return both teams as an array with teamOne in spot 0 and teamTwo in spot 1
 	 * @return both teams as an array
@@ -144,10 +141,8 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 	@Override
 	public Team[] getTeams(){
 		Team[] teams = new Team[NUM_TEAMS];
-		
 		teams[TeamSpot.TeamOne.ordinal()] = this.teamOne;
 		teams[TeamSpot.TeamTwo.ordinal()] = this.teamTwo;
-		
 		return teams;
 	}
 	
@@ -159,7 +154,6 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 	public boolean containsTeam(Team checkTeam) {
 		if (checkTeam == null)
 				throw new IllegalArgumentException("You can check a null team");
-		
 		return (teamOne == checkTeam || teamTwo == checkTeam);
 	}
 
@@ -179,15 +173,12 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 	        throws IllegalArgumentException, IllegalStateException {
 		if (teamOneScore == null || teamTwoScore == null) throw new 
 							IllegalArgumentException ("Can not have null scores");
-			
 		if (teamOneScore.equals(teamTwoScore)) 
 		    throw new IllegalArgumentException ("Can not have ties in bracket");
-		
 		if (this.teamOneScore != null || this.teamTwoScore != null) {
 			System.out.println("TeamOneScore = " + this.teamOneScore);
 		    throw new IllegalStateException("Cannot override existing score.");
 		}
-		
 		this.teamOneScore = teamOneScore;
 		this.teamTwoScore = teamTwoScore;
 		return getWinner();
@@ -200,10 +191,8 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 	@Override
     public ArrayList<S> getFinalScores(){
         ArrayList<S> scores = new ArrayList<S>();
-        
         scores.add(this.teamOneScore);
         scores.add(this.teamTwoScore);
-        
         return scores;
     }
     
@@ -216,9 +205,8 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
      */
 	@Override
 	public Team getWinner() throws IllegalStateException {
-		if (teamOneScore == null || teamTwoScore == null) throw new 
-									IllegalStateException ("Scores not set");
-		System.out.println("Running get Winner");
+		if (teamOneScore == null || teamTwoScore == null) 
+			throw new IllegalStateException("no scores set");
 		if (teamOneScore.compareTo(teamTwoScore) > 0) {
 			return teamOne;
 		}else {
@@ -236,7 +224,6 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 	public Team getLoser() throws IllegalStateException {
 		if (teamOneScore == null || teamTwoScore == null) throw new 
 									IllegalStateException ("Scores not set");
-		
 		if (teamOneScore.compareTo(teamTwoScore) < 0) {
 			return teamOne;
 		}else {
@@ -244,10 +231,12 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 		}
 	}
 	
+	/**
+	 * Overriding to string to show teams
+	 */
 	@Override
 	public String toString(){
 	    String mReturn = "";
-	    
 	    mReturn += "Match\n";
 	    if (this.teamOne != null)
 	    	mReturn += "   Team One : " + this.teamOne.getName() + this.teamOne.getSeed() + "\n";
@@ -276,7 +265,6 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
         else
             return "";
     }
-    
     public String teamTwo() {
         if(teamTwo != null)
             return teamTwo.getName();

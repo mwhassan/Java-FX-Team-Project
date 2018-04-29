@@ -181,13 +181,22 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
    
     /**
      * Constructor: initializes all components
+     * 
+     * @param matchNum - index of match we are adding
+     * @param match - match itself
+     * @param caller - class that is instantiating new matchPane
      */
     public MatchPane(int matchNum, Match<Integer> match, Object caller) {
     	this(matchNum, match, caller, false);
     }
     
     /**
+     * Constructor 
      * 
+     * @param matchNum - index of match we are adding
+     * @param match - match itself
+     * @param caller - class that is instantiating new matchPane
+     * @param isMirrored
      */
     public MatchPane(int matchNum, Match<Integer> match, Object caller, Boolean isMirrored) {
     	this.isMirrored = isMirrored;

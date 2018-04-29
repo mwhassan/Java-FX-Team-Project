@@ -45,7 +45,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 
-
+/**
+ * Extends matchPane but re-arranges controls to give new appearance but same functionality
+ * @author hayesbirchle
+ *
+ * @param <Score>
+ */
 public class ChampPane<Score extends Comparable<Score>> 
 			 extends MatchPane<Score> {
 
@@ -76,7 +81,6 @@ public class ChampPane<Score extends Comparable<Score>>
     private static final Integer MV_ROW_5_HEIGHT = 10;
     private static final Integer MV_ROW_6_HEIGHT = 25;
     private static final Integer MV_ROW_7_HEIGHT = 25;
-
     //Indices for control setup array
     private static final Integer MV_COL_IND = 0;
     private static final Integer MV_COL_SPAN = 1;
@@ -91,7 +95,6 @@ public class ChampPane<Score extends Comparable<Score>>
     private static final int MV_ROW_6 = 5;
     private static final int MV_ROW_7 = 6;
     private static final int MV_ROW_8 = 7;
-
     //COL Information (should not change)
     private static final int MV_COL_A = 0;
     private static final int MV_COL_B = 1;
@@ -100,25 +103,35 @@ public class ChampPane<Score extends Comparable<Score>>
     private static final int MV_COL_E = 4;
     private static final int MV_COL_F = 5;
     private static final int MV_COL_G = 6;
-    
     //Takes up single x or double x (x = row or column)
     private static final Integer MV_SINGLE = 1;
     private static final Integer MV_DOUBLE = 2;
     private static final Integer MV_TRIPLE = 3;
     private static final Integer MV_QUAD = 4;
-    
     private static final Integer MV_ROW_ALL = 8;
     private static final Integer MV_COL_ALL = 7;
-    
     
     /*******************
      * Constructors
      *******************/
-    
+    /**
+     * Passes details onto next constructor but with isMirrored set to false
+     * @param matchNum - match number
+     * @param match - match itself
+     * @param caller - function instantiated instance of this class
+     */
 	public ChampPane(int matchNum, Match<Integer> match, Object caller) {
 		this(matchNum, match, caller, false);
 	}
 	
+	/**
+	 * 
+	 * @param matchNum - match number
+     * @param match - match itself
+     * @param caller - function instantiated instance of this class
+	 * @param isMirrored - is this normal layout or mirrored layout.  Not needed for champ but I just
+	 * 						pass it on anyways
+	 */
 	public ChampPane(int matchNum, Match<Integer> match, Object caller,Boolean isMirrored) {
 		super(matchNum, match, caller, isMirrored);
 		
@@ -144,69 +157,50 @@ public class ChampPane<Score extends Comparable<Score>>
          *-----*/       
         //mX = col, colSpan, row, rowSpan
         // Instantiate Teams
-        lblTeam1 = new Label();
+		//team 1
+		lblTeam1 = new Label();
         mvTeamOne = new Integer[]{MV_COL_B, MV_SINGLE , MV_ROW_4, MV_DOUBLE};
-        
+        //team 2
         lblTeam2 = new Label();
         mvTeamTwo = new Integer[]{MV_COL_F, MV_SINGLE, MV_ROW_4, MV_DOUBLE};
-        
-        
         /*------
          * Internal match information 
          *-----*/
-
         // Add match info
         lblMatchHeader = new Label(); //Header
         mvMatchHeader = new Integer[]{MV_COL_D, MV_SINGLE, MV_ROW_1, MV_SINGLE};
-        
-        
         //add Match Number info
         lblMatchNumber = new Label(); //
         mvMatchNumber = new Integer[]{MV_COL_D, MV_SINGLE, MV_ROW_2, MV_SINGLE};
-        
-        
         /*------
          * Border information 
          *-----*/
-        
         //Using match border to create border for entire pane
         lblMatchBorder = new Label();
         mvMatchBorder = new Integer[]{MV_COL_A, MV_COL_ALL, MV_ROW_3, MV_TRIPLE};
-        
         /*------
          * Status information 
          *-----*/
-        
         // Add Status Header
         lblStatusHeader = new Label();
         mvStatusHeader = new Integer[]{MV_COL_F, MV_SINGLE, MV_ROW_7, MV_SINGLE};
-        
-        
         //Add status itself
         lblMatchStatus = new Label();
         mvMatchStatus = new Integer[]{MV_COL_C, MV_TRIPLE , MV_ROW_7, MV_SINGLE};
-        
-
         /*------
          * Score and Submit 
          *-----*/
-
         // Add team 1 score
         txtScore1 = new TextField();
         mvScore1 = new Integer[] {MV_COL_C, MV_SINGLE, MV_ROW_5, MV_SINGLE};
-        
-
         // Add team 2 score
         txtScore2 = new TextField();
         mvScore2 = new Integer[] {MV_COL_E, MV_SINGLE, MV_ROW_5, MV_SINGLE};
-
-        
         // Add 'Submit Scores' button
         btnSubmit = new Button();
         mvSubmit = new Integer[] {MV_COL_D, MV_SINGLE, MV_ROW_4, MV_DOUBLE};
-
-        paintView(); //Actually adds items to matchPane
-
+        //Actually adds items to matchPane
+        paintView(); 
     }
 	
 	/**
@@ -221,35 +215,21 @@ public class ChampPane<Score extends Comparable<Score>>
 	@Override
     protected void setControl(Control ctrl, Integer[] mySetup) {
     	Integer setHeight = 0, setWidth = 0;
-    	
-    	
     
     	//Find item width based on col and col span
     	for (int i = 0; i < mySetup[MV_COL_SPAN]; i++) {
     		setWidth += getColWidth(mySetup[MV_COL_IND] + i); //returns width for each col in span
     	}
     	setWidth += ((mySetup[MV_COL_SPAN]-1)*MV_PANE_HORZ_GAP);
-    	
     	//Find row height based on row and row span
     	for (int i = 0; i < mySetup[MV_ROW_SPAN]; i++) {
     		setHeight += getRowHeight(mySetup[MV_ROW_IND] + i); //return height for each row in span
     	}
     	setHeight += ((mySetup[MV_ROW_SPAN]-1)*MV_PANE_VERT_GAP);
-    		
-//    	System.out.println("\nAdding " + ctrl);
-//    	System.out.println("Champ Col Width = " + setWidth);
-//    	System.out.println("Champ Row Height = " + setHeight);
-    	
     	//Set control size based on col\row
     	ctrl.setMaxSize(setWidth, setHeight);
     	ctrl.setMinSize(setWidth, setHeight);
-    		
-    	
-//    	System.out.println("Column " + mySetup[MV_COL_IND]);
-//    	System.out.println("Column Span" + mySetup[MV_COL_SPAN]);
-//    	System.out.println("Row " + mySetup[MV_ROW_IND]);
-//    	System.out.println("Row Span" + mySetup[MV_ROW_SPAN] + "\n");
-    	
+    	//actually add item to pane
     	this.add(ctrl, 
     			 mySetup[MV_COL_IND],
     			 mySetup[MV_ROW_IND],
@@ -266,7 +246,6 @@ public class ChampPane<Score extends Comparable<Score>>
 	@Override
     protected Integer getRowHeight(Integer myRow) {
     	switch(myRow) {
-
 	    	case MV_ROW_1:
 	    		return MV_ROW_0_HEIGHT;
 	    	case MV_ROW_2:

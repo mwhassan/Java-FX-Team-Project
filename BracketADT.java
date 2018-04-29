@@ -87,45 +87,32 @@ import java.io.IOException;
  * @author devbox
  *
  */
-public interface BracketADT <S> {
-
-    
-    
+public interface BracketADT <S extends Comparable<S>> {
     //tournament specific
     public void seedBracket(String fileName) throws IOException; //Seed new bracket
     public int size(); //Return number of teams in the bracket 
     public int rounds(); //Return the total number of rounds in the bracket
     public int matches(); //Returns the total number of matches in the bracket
     
-    
     //Match specific information
-    
     //Find index given round and slot
     public int getMatchIndex(int round, int slot); 
+    //get round given index
     public int getMatchRound(int matchIndex);
+    //get slot give index
     public int getMatchSlot(int matchIndex);
-    
-    public String getMatchWinner(int matchIndex); //Return the winner of a match given an index
-    public String getMatchTeam(int matchIndex, MatchADT.TeamSpot team); //Return the winner of a match given an index
-    
-    
-    //Genealogy
+    //Return the winner of a match given an index
+    public String getMatchWinner(int matchIndex); 
+    //Return the winner of a match given an index
+    public String getMatchTeam(int matchIndex, MatchADT.TeamSpot team);  
+    //Geneology - returns upcoming match
     public int getNextMatch(int matchIndex); //Returns the index of the match that follows
-    
+    //Geneology - find match prior to current for a given team
+    public int getPrevMatch (int currentIndex, Team team);
     //Set match scores for each team
     public void setMatchScore(int matchIndex, S scoreTeamOne, S scoreTeamTwo);
-    
     //Get champion
     public Team getChampion();
-    
-    /**
-	 * Returns previous match containing the team sent in
-	 * @param currentIndex - index of current match
-	 * @param team - team we want to find previous match for
-	 * @return - index of match team sent in played prior to current match
-	 */
-	public int getPrevMatch (int currentIndex, Team team);
-	
-	
-    
+	//Return the match itself for a given index
+	public Match<S> getMatch(int matchIndex);
 }
