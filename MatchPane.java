@@ -679,8 +679,10 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     		loserScore.setId("scoreTeamLostFill");
 
     		
+    		//Set final score for match
     		match.setFinalScore(s1, s2);
 
+    		//If not champ round add in winner tos tatus
     		if (!(this.isChamp)) {
     			String winStr = " " + match.getWinner().getName();    		
         		lblMatchStatus.setText(winStr + " " + MV_STATUS_WINNER);

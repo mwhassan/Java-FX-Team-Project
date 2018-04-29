@@ -69,7 +69,7 @@ public class BufferPane extends GridPane {
 		
 		lblSpacer.setMinSize(BP_MV_WIDTH, BP_MV_HEIGHT);
 		lblSpacer.setMaxSize(BP_MV_WIDTH, BP_MV_HEIGHT);
-		lblSpacer.setText("BP_SPACER");
+		lblSpacer.setText("");
 		
 		this.add(lblSpacer,  1,  1, 1, 1);
 	}

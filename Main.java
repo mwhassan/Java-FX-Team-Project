@@ -346,7 +346,11 @@ public class Main extends Application {
     	
     	//otherwise run this to enable next bracket
         int next = bracket.getNextMatch(index);
+        
         bracket.getMatch(next).addTeam(match.getWinner());
+        System.out.println("Bracket = " + bracket.matches());
+        System.out.println("Index = " + index);
+        
         if(index == bracket.matches() - 1) {
         	matchPanes[next].refreshChamp();
         } else {

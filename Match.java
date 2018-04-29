@@ -93,6 +93,7 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 	 * @throws IllegalArgumentException if team is null
 	 * @param Team team
 	 */
+	@Override
 	public void addTeam(Team team) throws IllegalArgumentException, IllegalStateException{
 	    if (team == null) 
             throw new IllegalArgumentException("You can not add a null team");
@@ -102,6 +103,29 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 		else throw new IllegalStateException("Match is already full.");
 	}
 
+	/**
+	 * Adds teams to the match at the given spot. 
+	 * 
+	 * @param team - team you want to add
+	 * @param spot - spot you want to add team to
+	 * @throws IllegalStateException if spot is already full
+	 * @throws IllegalArgumentException if team is null 
+	 */
+	@Override
+	public void addTeam(Team team, TeamSpot spot) 
+							throws IllegalArgumentException, IllegalStateException {
+		if (team == null || spot == null) 
+            throw new IllegalArgumentException("You can not add a null team");
+		
+		if (spot == TeamSpot.TeamTwo) { 
+			if (teamOne != null) throw new IllegalStateException("Spot is already full.");
+			teamOne = team;
+		}
+		else {
+			if (teamOne != null) throw new IllegalStateException("Spot is already full.");
+			teamTwo = team;
+		}
+	}
 	/**
 	 * Return both teams as an array with teamOne in spot 0 and teamTwo in spot 1
 	 * @return both teams as an array
@@ -114,6 +138,18 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 		teams[TeamSpot.TeamTwo.ordinal()] = this.teamTwo;
 		
 		return teams;
+	}
+	
+	
+	/**
+	 * Returns true if match contains the team sent in
+	 */
+	@Override
+	public boolean containsTeam(Team checkTeam) {
+		if (checkTeam == null)
+				throw new IllegalArgumentException("You can check a null team");
+		
+		return (teamOne == checkTeam || teamTwo == checkTeam);
 	}
 
 	
@@ -135,6 +171,7 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 			
 		if (teamOneScore.equals(teamTwoScore)) 
 		    throw new IllegalArgumentException ("Can not have ties in bracket");
+		
 		if (this.teamOneScore != null || this.teamTwoScore != null) {
 			System.out.println("TeamOneScore = " + this.teamOneScore);
 		    throw new IllegalStateException("Cannot override existing score.");
@@ -172,10 +209,26 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 									IllegalStateException ("Scores not set");
 		System.out.println("Running get Winner");
 		if (teamOneScore.compareTo(teamTwoScore) > 0) {
-			System.out.println("return team one");
 			return teamOne;
 		}else {
-			System.out.println("return team two");
+			return teamTwo;
+		}
+	}
+	
+	/**
+	 * returns the team that lost the match
+	 * 
+	 * @return - losing team
+	 * @throws IllegalStateException - thrown if scores are not set
+	 */
+	@Override
+	public Team getLoser() throws IllegalStateException {
+		if (teamOneScore == null || teamTwoScore == null) throw new 
+									IllegalStateException ("Scores not set");
+		
+		if (teamOneScore.compareTo(teamTwoScore) < 0) {
+			return teamOne;
+		}else {
 			return teamTwo;
 		}
 	}

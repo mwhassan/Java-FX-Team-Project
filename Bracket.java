@@ -211,6 +211,8 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 	 * Set the match score and add winner to next match.
 	 * @throws IllegalArgumentException if null score passed or if tie is entered
 	 * @throws IllegalStateException if overriding a previously determined score
+	 * 
+	 * Note:  I don't think we are using this anywhere
 	 */
 	public void setMatchScore(int matchIndex, S teamOneScore, S teamTwoScore) {
 		Team winner = matches[matchIndex].setFinalScore(teamOneScore, teamTwoScore);
@@ -270,9 +272,41 @@ public class Bracket<S extends Comparable<S>> implements BracketADT<S> {
 		return getMatchIndex(newRound, newSlot);
 	}
 
+	
+	/**
+	 * Returns previous match containing the team sent in
+	 * @param currentIndex - index of current match
+	 * @param team - team we want to find previous match for
+	 * @return - index of match team sent in played prior to current match
+	 */
+	@Override
+	public int getPrevMatch (int currentIndex, Team team) {
+		int currRound = getMatchRound(currentIndex);
+		int currSlot = getMatchSlot(currentIndex);
+		
+		if(currRound == 1) return -1;
+		
+		int newRound = currRound-1;
+		int optSlotOne = ((currSlot)/2) + 1;
+		int optSlotTwo = ((currSlot)/2) + 2;
+				
+		if (matches[optSlotOne].containsTeam(team)) return getMatchIndex(newRound, optSlotOne);
+		else if (matches[optSlotTwo].containsTeam(team)) return getMatchIndex(newRound, optSlotTwo);
+		else return -1;		
+	}
+	
+	/**
+	 * Returns the champion of the bracket
+	 * @return - champion
+	 * @throws - illegal state exception if no champ set
+	 */
 	@Override
 	public Team getChampion() {
-	    champion = matches[matches()].getWinner();
+	    try{
+	    	champion = matches[matches()].getWinner();
+	    } catch (NullPointerException | IllegalStateException e) {
+	    	throw new IllegalStateException("No champion set");
+	    }
 		return champion;
 	}
 	

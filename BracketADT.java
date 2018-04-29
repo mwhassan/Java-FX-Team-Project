@@ -118,4 +118,14 @@ public interface BracketADT <S> {
     //Get champion
     public Team getChampion();
     
+    /**
+	 * Returns previous match containing the team sent in
+	 * @param currentIndex - index of current match
+	 * @param team - team we want to find previous match for
+	 * @return - index of match team sent in played prior to current match
+	 */
+	public int getPrevMatch (int currentIndex, Team team);
+	
+	
+    
 }

@@ -40,6 +40,8 @@ package application;
 
 import java.util.ArrayList;
 
+import application.MatchADT.TeamSpot;
+
 /********************************************
  * Model
  *      n/a only data fed in from user
@@ -86,6 +88,16 @@ public interface MatchADT <S extends Comparable<S>> {
      */
     public void addTeam(Team team);
     
+    /**
+	 * Adds teams to the match at the given spot. 
+	 * 
+	 * @param team - team you want to add
+	 * @param spot - spot you want to add team to
+	 * @throws IllegalStateException if spot is already full
+	 * @throws IllegalArgumentException if team is null 
+	 */
+	public void addTeam(Team team, TeamSpot spot); 
+	
     
     /**
      * Return an array containing team 1 and team 2
@@ -117,6 +129,20 @@ public interface MatchADT <S extends Comparable<S>> {
      */
     public Team getWinner() throws IllegalStateException;
     
+
     public ArrayList<S>  getFinalScores(); 
+    
+    /**
+	 * Returns true if match contains the team sent in
+	 */
+    public boolean containsTeam(Team checkTeam);
+    
+    /**
+	 * returns the team that lost the match
+	 * 
+	 * @return - losing team
+	 * @throws IllegalStateException - thrown if scores are not set
+	 */
+	public Team getLoser();
     
 }
