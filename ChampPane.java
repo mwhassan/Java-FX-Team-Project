@@ -236,9 +236,9 @@ public class ChampPane<Score extends Comparable<Score>>
     	}
     	setHeight += ((mySetup[MV_ROW_SPAN]-1)*MV_PANE_VERT_GAP);
     		
-    	System.out.println("\nAdding " + ctrl);
-    	System.out.println("Champ Col Width = " + setWidth);
-    	System.out.println("Champ Row Height = " + setHeight);
+//    	System.out.println("\nAdding " + ctrl);
+//    	System.out.println("Champ Col Width = " + setWidth);
+//    	System.out.println("Champ Row Height = " + setHeight);
     	
     	//Set control size based on col\row
     	ctrl.setMaxSize(setWidth, setHeight);

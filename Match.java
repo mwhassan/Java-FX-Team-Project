@@ -117,12 +117,23 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 		if (team == null || spot == null) 
             throw new IllegalArgumentException("You can not add a null team");
 		
-		if (spot == TeamSpot.TeamTwo) { 
-			if (teamOne != null) throw new IllegalStateException("Spot is already full.");
+		if (spot == TeamSpot.TeamOne) {
+			//if team is not null and name is not "" then throw exception
+			System.out.println(teamOne);
+			
+			if (teamOne != null && !teamOne.getName().trim().equals("")) {
+				System.out.println("team one exception");
+				throw new IllegalStateException("Spot is already full.");
+			}
+			System.out.println("Setting teamOne");
 			teamOne = team;
 		}
 		else {
-			if (teamOne != null) throw new IllegalStateException("Spot is already full.");
+			if (teamTwo != null && !teamTwo.getName().trim().equals("")) { 
+				System.out.println("team two exception");
+				throw new IllegalStateException("Spot is already full.");
+			}
+			System.out.println("Setting teamTwo");
 			teamTwo = team;
 		}
 	}

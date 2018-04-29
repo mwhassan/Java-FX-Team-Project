@@ -40,6 +40,8 @@ package application;
 
 import java.io.IOException;
 import java.util.List;
+
+import application.MatchADT.TeamSpot;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -195,7 +197,7 @@ public class Main extends Application {
         			columnPanes[2*i - 1].getChildren().add(matchPanes[index]);
         			
         			
-        			
+        			//Add buffers
         			int bufferNumber = (int) (Math.pow(2, rounds-i));
         			int numBuffers = (int) Math.pow((i-1),2)-1;
         			
@@ -213,6 +215,8 @@ public class Main extends Application {
     									(index, bracket.getMatch(index), this, true);
         			columnPanes[2*i].getChildren().add(matchPanes[index]);
         			
+        			
+        			//Add buffers
         			int bufferNumber = (int) (Math.pow(2, rounds-i));
         			int numBuffers = (int) Math.pow((i-1),2)-1;
         			
@@ -242,6 +246,9 @@ public class Main extends Application {
         // add championship match     
         matchPanes[bracket.matches()] = new ChampPane<Integer>
         	(bracket.matches(), bracket.getMatch(bracket.matches()), this);
+        
+        //if only one round then need to set as champ round (since not handles in callback)
+        if (rounds==1) matchPanes[bracket.matches()].refreshChamp(); 
         
         columnPanes[2*rounds - 1].getChildren().add(matchPanes[bracket.matches()]);
         if(bracket.matches() == 1) matchPanes[bracket.matches()].setDisable(false);
@@ -347,7 +354,16 @@ public class Main extends Application {
     	//otherwise run this to enable next bracket
         int next = bracket.getNextMatch(index);
         
-        bracket.getMatch(next).addTeam(match.getWinner());
+        //This is what needs to be updated.  We want to add the team to either spot 1
+        //or spot 2 depending on where it is comming from
+        TeamSpot setSpot;
+        setSpot = TeamSpot.TeamOne;
+        if (bracket.getMatchSlot(index)%2 == 0) {
+        	setSpot = TeamSpot.TeamTwo;
+        }
+        
+        bracket.getMatch(next).addTeam(match.getWinner(), setSpot);
+        
         System.out.println("Bracket = " + bracket.matches());
         System.out.println("Index = " + index);
         
