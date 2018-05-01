@@ -65,13 +65,11 @@ public class ChampPane<Score extends Comparable<Score>>
      * Pane layout
      *-----*/
     //Column Width details
-    private static final Integer MV_COL_A_WIDTH = 15;
     private static final Integer MV_COL_B_WIDTH = 160;
     private static final Integer MV_COL_C_WIDTH = 60;
     private static final Integer MV_COL_D_WIDTH = 70;
     private static final Integer MV_COL_E_WIDTH = 60;
     private static final Integer MV_COL_F_WIDTH = 160;
-    private static final Integer MV_COL_G_WIDTH = 15;
     //Row Height Details
     private static final Integer MV_ROW_0_HEIGHT = 15;
     private static final Integer MV_ROW_1_HEIGHT = 30;
@@ -102,13 +100,10 @@ public class ChampPane<Score extends Comparable<Score>>
     private static final int MV_COL_D = 3;
     private static final int MV_COL_E = 4;
     private static final int MV_COL_F = 5;
-    private static final int MV_COL_G = 6;
     //Takes up single x or double x (x = row or column)
     private static final Integer MV_SINGLE = 1;
     private static final Integer MV_DOUBLE = 2;
     private static final Integer MV_TRIPLE = 3;
-    private static final Integer MV_QUAD = 4;
-    private static final Integer MV_ROW_ALL = 8;
     private static final Integer MV_COL_ALL = 7;
     
     /*******************
