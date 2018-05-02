@@ -40,8 +40,6 @@ package application;
 
 import java.util.ArrayList;
 
-import application.MatchADT.TeamSpot;
-
 /********************************************
  * Model
  *      n/a only data fed in from user
