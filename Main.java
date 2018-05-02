@@ -65,12 +65,13 @@ public class Main extends Application {
     /*******************
      * Private Constants
      *******************/
+    //stage detail
     private static final Integer STAGE_WIDTH = 900;
     private static final Integer STAGE_HEIGHT = 500;
-    
+    //Scene
     private static final Integer HORIZONTAL_PADDING = 10;
     private static final Integer VERTICAL_PADDING = 5;
-    
+    //Display strings
     private static final String TOURNAMENT_TITLE = "Tournament Bracket";
     private static final String FILE_NOT_FOUND_TITLE = "File Not Found";
     private static final String NO_TEAMS_TITLE = "Empty Bracket";
@@ -83,20 +84,18 @@ public class Main extends Application {
     private static final String LEADER_BOARD_FIRST = "       1st  place -  ";
     private static final String LEADER_BOARD_SECOND = "       2nd place -  ";
     private static final String LEADER_BOARD_THIRD = "       3rd place -  ";
-    
     /*******************
      * Private View Variables
      *******************/
     private Stage stage;                    	// The stage
     private Scene scene;                    	// The scene
-    
+    //controls
     private BorderPane[] roundPanes;			// Displays teams for each round
     private VBox[] columnPanes;					// Displays each column (half-round)
     private MatchPane<Integer>[] matchPanes;	// Groups submit buttons with scores and team labels
     private Label championLabel_1;				// Label will display champion
     private Label championLabel_2;				// Label will display champion
-  
-    
+
     /*******************
      * Private Control Variables
      *******************/
@@ -106,16 +105,13 @@ public class Main extends Application {
     /*******************
      * Static methods
      *******************/
-
     public static void main(String[] args) {
         launch(args);
     }
     
-    
     /*******************
      * Public Interface
      *******************/
-    
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -126,7 +122,7 @@ public class Main extends Application {
         }
         initViewObjects(primaryStage);
     }
-    
+
     private void initControlObjects() throws IOException {
         
     	// get command line arguments
@@ -136,8 +132,6 @@ public class Main extends Application {
         // set parameters
         bracket = new Bracket<Integer>(params.get(0));
     }
-    
-    
     
     /*******************
      * Private helper methods
@@ -165,28 +159,23 @@ public class Main extends Application {
     		alert(ONE_TEAM_MESSAGE + bracket.getMatch(1).getTeams()[0], ONE_TEAM_TITLE);
     		return;
     	}
-    	
     	// Bracket arrays
     	roundPanes = new BorderPane[rounds + 1];						// indexing starts at 1
     	columnPanes = new VBox[2*rounds];								// indexing starts at 1
         matchPanes = new MatchPane[bracket.matches()+1];				// indexing starts at 1
-        
         // initialize roundPanes
         for(int i = 1; i <= rounds; i++) {
         	roundPanes[i] = new BorderPane();
         	roundPanes[i].setPadding(new Insets(0,HORIZONTAL_PADDING,0,HORIZONTAL_PADDING));
         }
-        
         // initialize columnPanes
         for(int i = 1; i < 2*rounds; i++) {
         	columnPanes[i] = new VBox(VERTICAL_PADDING);
         	columnPanes[i].setAlignment(Pos.CENTER);
         }
-        
         // initialize match panes and build scene
         for(int i = 1; i < rounds; i++) {
         	roundPanes[i].setCenter(roundPanes[i+1]);
-        	
         	for(int slot = 1; slot <= Math.pow(2, rounds-i); slot++) {
         		int index = bracket.getMatchIndex(i, slot);
     			System.out.println("slot = " + slot);
@@ -195,8 +184,6 @@ public class Main extends Application {
         			matchPanes[index] = new MatchPane<Integer>
 										(index, bracket.getMatch(index), this);
         			columnPanes[2*i - 1].getChildren().add(matchPanes[index]);
-        			
-        			
         			//Add buffers
         			int bufferNumber = (int) (Math.pow(2, rounds-i));
         			int numBuffers = (int) Math.pow((i-1),2)-1;
@@ -215,7 +202,6 @@ public class Main extends Application {
     									(index, bracket.getMatch(index), this, true);
         			columnPanes[2*i].getChildren().add(matchPanes[index]);
         			
-        			
         			//Add buffers
         			int bufferNumber = (int) (Math.pow(2, rounds-i));
         			int numBuffers = (int) Math.pow((i-1),2)-1;
@@ -229,13 +215,7 @@ public class Main extends Application {
         			} 
         		}
         		
-        		
-        		
-        		
-    			
     			if(i == 1) matchPanes[index].setDisable(false); // Enable first-round GUI functionality
-    			
-        		
         	}
         	
         	roundPanes[i].setLeft(columnPanes[2*i - 1]);
@@ -341,7 +321,18 @@ public class Main extends Application {
     		Integer score1 = match1.getFinalScores().get(losingSpot1);
     		Integer score2 = match2.getFinalScores().get(losingSpot2);
 
-    		Team third = score1 > score2 ? match1.getTeams()[losingSpot1] : match2.getTeams()[losingSpot2];
+    		Team third = null;
+    		if (score1 > score2) {
+    		    third = match1.getTeams()[losingSpot1];
+    		} else if (score1 == score2) {
+    		    if (match1.getWinner().equals(match.getWinner())) {
+    		        third = match1.getTeams()[losingSpot1];
+    		    } else {
+    		        third = match2.getTeams()[losingSpot2];
+    		    }
+    		} else {
+    		    third = match2.getTeams()[losingSpot2];
+    		}
     		
     		// print leaderboard
     		championLabel_2.setText(LEADER_BOARD_INTRO + "\n" +
@@ -355,7 +346,7 @@ public class Main extends Application {
         int next = bracket.getNextMatch(index);
         
         //This is what needs to be updated.  We want to add the team to either spot 1
-        //or spot 2 depending on where it is comming from
+        //or spot 2 depending on where it is coming from
         TeamSpot setSpot;
         setSpot = TeamSpot.TeamOne;
         if (bracket.getMatchSlot(index)%2 == 0) {
