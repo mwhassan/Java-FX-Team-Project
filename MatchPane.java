@@ -655,7 +655,7 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     	//parses control text and will throw NF exception if not valid input
     	try {
 	    	//A value is entered in both controls then set status to pending
-    		if (!(txtScore1.getText().trim().equals("")) &&
+    		if (!(txtScore1.getText().trim().equals("")) ||
 	    			!(txtScore2.getText().trim().equals(""))) {
     			lblMatchStatus.setText(MV_STATUS_PENDING);
     			//if there is a tie deal with it
@@ -663,13 +663,19 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     					txtScore2.getText().trim())) {
 	    			txtScore1.setText("");
 	    			txtScore2.setText("");
+	    			btnSubmit.setDisable(true);
+	    			btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
+	    			btnSubmit.setId("submitPendingFill");
 	    			lblMatchStatus.setText(MV_STATUS_ERR_NO_TIES);
 	    		} else {
 	    		//if scores are good
 	    			btnSubmit.setDisable(false);
 		    		btnSubmit.setText(MV_BTN_SUBMIT_SETSCORE);
 		    		btnSubmit.setId("submitReadyFill");
-		        	Integer.parseInt(ctrl.getText());
+		    		if (!(ctrl.getText().trim().equals(""))){
+		                System.out.println("About to call NFE");
+		                Integer.parseInt(ctrl.getText());
+		            }
 	    		}
 	    	} else {
 	    		//at least one does not have a score.  Double checking
@@ -679,21 +685,30 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
 	    		if (!btnSubmit.isDisable()) {
 		    		btnSubmit.setDisable(true);
 		    		btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
+		    		btnSubmit.setId("submitPendingFill");
 	    		}
 	    	}
 	    	//A value is entered in the control that lost focus make sure you can parse it
     		//if not throw parsing exception and deal with it in catch
 	    	if (!(ctrl.getText().trim().equals(""))){
+	    	    System.out.println("About to call NFE");
 	        	Integer.parseInt(ctrl.getText());
 	    	}
     	} catch (NumberFormatException exception) {
-			ctrl.setText("");
+			System.out.println("NFE");
+    	    ctrl.setText("");
 			lblMatchStatus.setText(MV_STATUS_ERR_NUMERIC_ONLY);
-			if (!btnSubmit.isDisable()) {
-	    		btnSubmit.setDisable(true);
-	    		btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
-	    		btnSubmit.setId("submitPendingFill");
-    		}
+			//if (!btnSubmit.isDisable() ) {
+			   if ((txtScore1.getText().trim().equals("")) && (txtScore2.getText().trim().equals(""))) {   
+    	    		btnSubmit.setDisable(true);
+    	    		btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
+    	    		btnSubmit.setId("submitPendingFill");
+//			   } else if ((txtScore1.getText().trim().equals("")) || (txtScore2.getText().trim().equals("")))) {
+//			       btnSubmit.setDisable(true);
+//			       btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
+//                   btnSubmit.setId("submitPendingFill");
+			   }
+    		//}
 			ctrl.requestFocus();
 		}
     }
