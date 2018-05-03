@@ -84,9 +84,11 @@ public class Main extends Application {
     private static final String LEADER_BOARD_FIRST = "       1st  place -  ";
     private static final String LEADER_BOARD_SECOND = "       2nd place -  ";
     private static final String LEADER_BOARD_THIRD = "       3rd place -  ";
+    
     /*******************
      * Private View Variables
      *******************/
+    
     private Stage stage;                    	// The stage
     private Scene scene;                    	// The scene
     //controls
@@ -115,8 +117,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            initControlObjects();
-        } catch (IOException exception) {
+        	initControlObjects();
+        } 
+        // Mainly IOException - however other exceptions are possible if arg[0] is null, for example
+        catch (Exception exception) {
         	alert(FILE_NOT_FOUND_MESSAGE, FILE_NOT_FOUND_TITLE);
     		return;
         }
@@ -178,7 +182,6 @@ public class Main extends Application {
         	roundPanes[i].setCenter(roundPanes[i+1]);
         	for(int slot = 1; slot <= Math.pow(2, rounds-i); slot++) {
         		int index = bracket.getMatchIndex(i, slot);
-    			System.out.println("slot = " + slot);
         		//add standard pane
         		if(slot <= Math.pow(2, rounds-i-1)) {
         			matchPanes[index] = new MatchPane<Integer>
@@ -238,25 +241,29 @@ public class Main extends Application {
         championLabel_1 = new Label();
         championLabel_2 = new Label();
         
+        // set css
         championLabel_1.getStyleClass().add("mainForm");
         championLabel_2.getStyleClass().add("mainChamps");
         
+        // formatting
         roundPanes[rounds].setTop(championLabel_1);
         roundPanes[rounds].setBottom(championLabel_2);
-        
         BorderPane.setAlignment(championLabel_1, Pos.CENTER);
         BorderPane.setAlignment(championLabel_2, Pos.CENTER);
         
+        // holds the inner match and displays leaderboard
         HBox box = new HBox();
         box.setStyle("-fx-background-color: #383838");
         box.setAlignment(Pos.CENTER);
         box.getChildren().add(roundPanes[1]);
         
+        // set up scroll pane
         ScrollPane sp = new ScrollPane();
         sp.setFitToHeight(true);
         sp.setFitToWidth(true);
         sp.setContent(box);
         
+        // set up and show the stage
         scene = new Scene(sp,STAGE_WIDTH,STAGE_HEIGHT);
         scene.getStylesheets().add("/application/application.css");
         this.stage = stage;
@@ -266,23 +273,34 @@ public class Main extends Application {
         this.stage.show();
     }
     
+    /**
+     * Displays an alert box with the indicated text and title.
+     */
     private void alert(String text, String title) {
+    	//viewable elements
 		Label msg = new Label(text);
     	msg.getStyleClass().add("mainForm");
 		Button ok = new Button("OK");
 		VBox display = new VBox(VERTICAL_PADDING);
 		
+		//set up scene
 		display.setAlignment(Pos.CENTER);
 		display.getChildren().addAll(msg, ok);
 		Scene scene = new Scene(display);
 		scene.getStylesheets().add("/application/application.css");
 		Stage alert = new Stage();
 		
+		//stage width/height
 		alert.setWidth(STAGE_WIDTH);
 		alert.setHeight(STAGE_HEIGHT);
+		
+		//button action
 		ok.setOnAction(e->alert.close());
+		
+		//set title
 		alert.setTitle(title);
 		
+		//show and wait
 		alert.setScene(scene);
 		alert.setMaximized(true);
 		alert.showAndWait();
@@ -354,9 +372,6 @@ public class Main extends Application {
         }
         
         bracket.getMatch(next).addTeam(match.getWinner(), setSpot);
-        
-        System.out.println("Bracket = " + bracket.matches());
-        System.out.println("Index = " + index);
         
         if(index == bracket.matches() - 1) {
         	matchPanes[next].refreshChamp();

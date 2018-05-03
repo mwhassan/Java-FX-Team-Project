@@ -61,9 +61,11 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     private static final Integer MV_PANE_INSETS = 10; // Insets amount
     private static final Integer MV_PANE_VERT_GAP = 2; // Vertical gap
     private static final Integer MV_PANE_HORZ_GAP = 5; // Horizontal gap
+    
     /*------
      * Pane layout
      *-----*/
+    
     //Column Width details
     private static final Integer MV_COL_A_WIDTH = 55;
     private static final Integer MV_COL_B_WIDTH = 135;
@@ -86,17 +88,21 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     //Takes up single x or double x (x = row or column)
     private static final Integer MV_SINGLE = 1;
     private static final Integer MV_DOUBLE = 2;
+    
     /*------
      * Additional Constants
      *-----*/
+    
     //Remaining constants
     private static final Integer MV_TEAM_INDENT = 3;
     //Team one or team 2 (used in some bracket and match functions
     private static final Integer MV_TEAM1 = 0;
     private static final Integer MV_TEAM2 = 1;
+    
     /*------
      * View Labels
      *-----*/
+    
     //Header Options
     private static final String MV_LBL_MATCH_HEADER = "Match"; //String.format("%" + MV_INDENT + "s%s", "", "Match: ");
     private static final String MV_LBL_STATUS_HEADER = "Status";
@@ -108,8 +114,8 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     private static final String MV_STATUS_CHAMP = " Champion";
     //Status Errors
     private static final String MV_STATUS_ERR_NO_TIES = " Ties not allowed";
-    private static final String MV_STATUS_ERR_NUMERIC_ONLY = " Integers Only";
-    private static final String MV_STATUS_ERR_INVALID = " Enter 2nd Score";
+    private static final String MV_STATUS_ERR_NUMERIC_ONLY = " Whole Numbers Only";
+    private static final String MV_STATUS_ERR_SINGLE_SCORE = " Enter 2nd Score";
     //Submit Button Options
     private static final String MV_BTN_SUBMIT_PENDING = "";
     private static final String MV_BTN_SUBMIT_SETSCORE = "Set \nScore";
@@ -120,19 +126,24 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     private static final String MV_MATCH_HEADER_CHAMP = "";
     //Score text box prompt
     private static final String MV_LBL_SCORES_PROMPT = "<score>";
-	/***********************************************************
+	
+    /***********************************************************
      * Control arrays (hold information about layout for view)
      ***********************************************************/
+    
     /*------
      * Team Name Information
      *-----*/
+    
     // lblTeam1 specific
     protected Integer[] mvTeamOne;
     // lblTeam2 specific
     protected Integer[] mvTeamTwo;
+    
     /*------
      * Internal match information 
      *-----*/
+    
     // lblMatch specific
     protected Integer[] mvMatchHeader;
     protected Integer[] mvMatchNumber;
@@ -140,18 +151,22 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     // lblStatusHeader (Status) specific
     protected Integer[] mvStatusHeader;
     protected Integer[] mvMatchStatus;
+    
     /*------
      * Score and Submit 
      *-----*/
+    
     // txtScore1 specific
     protected Integer[] mvScore1;
     // txtScore2 score specific
     protected Integer[] mvScore2;
     // btnSubmit specific
     protected Integer[] mvSubmit;
+    
     /***********************************************************
      * protected View Fields
      ***********************************************************/
+    
     protected int index; // Number of match in tournament
     protected Label lblMatchHeader, 
     			  lblMatchNumber,
@@ -166,15 +181,18 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     protected int colA;
     protected int colB;
     protected int colC;
+    
     /*******************
      * Private Control Fields
      *******************/
+    
     protected Match<Integer> match;
     protected int matchNum;
     protected Object caller;
     protected boolean isMirrored = false; //Allows for re-arranging matchPane for symmetrical split bracket
     protected boolean isChamp = false; //is this championship]
     protected boolean isMatchOver = false; //has the match been completed
+    
     /*******************
      * Constructors
      *******************/
@@ -210,7 +228,8 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         	colB = 1;
         	colC = 0;
         }
-    	 // Set pane specific fields
+    	
+    	// Set pane specific fields
         this.setPadding(new Insets(MV_PANE_INSETS, MV_PANE_INSETS, MV_PANE_INSETS, MV_PANE_INSETS));
         this.setVgap(MV_PANE_VERT_GAP);
         this.setHgap(MV_PANE_HORZ_GAP);
@@ -257,7 +276,6 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     /**
      * Re-populates the match label text. Also updates CSS based on current state if setCSS is true.  
      * 
-
      * @param setCSS -  will refresh css state if true
      */
     protected void refresh(boolean setCSS) {
@@ -311,7 +329,8 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     	 /*------
          * Team Name Information
          *-----*/       
-        //dif between normal and mirrored setup
+        
+    	//dif between normal and mirrored setup
         int col = colA;
         if (this.isMirrored) col = colB;
         // Instantiate Teams
@@ -321,9 +340,11 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         //team 2
         lblTeam2 = new Label();
         mvTeamTwo = new Integer[]{col, MV_DOUBLE, MV_ROW_4, MV_SINGLE};
+        
         /*------
          * Internal match information 
          *-----*/
+        
         // Add match info
         lblMatchHeader = new Label(); //Header
         mvMatchHeader = new Integer[]{colA, MV_SINGLE, MV_ROW_2, MV_SINGLE};
@@ -333,18 +354,22 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         //Add match box
         lblMatchBorder = new Label();
         mvMatchBorder = new Integer[]{colA, MV_SINGLE, MV_ROW_2, MV_DOUBLE};
+        
         /*------
          * Status information 
          *-----*/
+        
         // Add Status Header
         lblStatusHeader = new Label();
         mvStatusHeader = new Integer[]{colB, MV_SINGLE, MV_ROW_2, MV_SINGLE};
         //Add status itself
         lblMatchStatus = new Label();
         mvMatchStatus = new Integer[]{colB, MV_SINGLE, MV_ROW_3, MV_SINGLE};
+        
         /*------
          * Score and Submit 
          *-----*/
+        
         // Add team 1 score
         txtScore1 = new TextField();
         mvScore1 = new Integer[] {colC, MV_SINGLE, MV_ROW_1, MV_SINGLE};
@@ -359,14 +384,16 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     }
     
     
-    /*
+    /**
      * Builds the view itself by adding items to the pane (via setControl)
      */
     protected void paintView() {
-    	 /*------
+    	
+    	/*------
          * Team Name Information
          *-----*/       
-        // Add team 1
+        
+    	// Add team 1
     	if (isMirrored) lblTeam1.getStyleClass().add("teamLabelMirrored"); 
     	else lblTeam1.getStyleClass().add("teamLabel");
         setControl(lblTeam1, mvTeamOne);
@@ -376,9 +403,11 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         setControl(lblTeam2, mvTeamTwo);
         //refreshes team names only and holds off on setting css
         this.refresh(false); 
+        
         /*------
          * Internal match information 
          *-----*/
+        
         // Add match header
         lblMatchHeader.setText(MV_LBL_MATCH_HEADER);
         lblMatchHeader.getStyleClass().add("matchHeader");
@@ -402,9 +431,11 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
         btnSubmit.getStyleClass().add("submitButton");
         setControl(btnSubmit, mvSubmit);
         btnSubmit.setOnAction(e->btnAction_Handler());
+        
         /*------
          * Scores and Submit 
          *-----*/
+        
         // Add team 1 score
         txtScore1.setPromptText(MV_LBL_SCORES_PROMPT);
         txtScore1.getStyleClass().add("scoreLabel");
@@ -427,16 +458,17 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     
 
 	/**
-     * sets default match CSS stylesheets and can enable and disable controls
-     * as needed
+     * sets default match CSS stylesheets and can enable and disable controls as needed
      */
     protected void setCSS_Start() {
     	//Create states via boolean logic
     	boolean team1Ready = !(lblTeam1.getText().trim().equals(""));
     	boolean team2Ready = !(lblTeam2.getText().trim().equals(""));
     	boolean enable = team1Ready && team2Ready;
-    	//Set button to disabled and pending colors.  I will later check state to determine if it needs to be
-    	//updated, but the logic was easier to just default to pending state
+    	/*
+    	 * Set button to disabled and pending colors.  I will later check state to determine if it needs to be
+    	 * updated, but the logic was easier to just default to pending state
+    	 */
     	btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
     	btnSubmit.setDisable(true);
     	//If score one has a team
@@ -453,7 +485,6 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     	}
     	//if both teams are set
     	if (enable) {
-    		//System.out.println("Setting to pendingFill");
     		lblMatchStatus.setId("matchStatus_General");
     		lblMatchHeader.setId("matchHeader_General");
     		lblMatchNumber.setId("matchNumber_General");
@@ -462,9 +493,11 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     		lblMatchStatus.setText(MV_STATUS_PENDING);
     		btnSubmit.setId("submitPendingFill");
     	} else {
-    		//if both teams are not set then 
-    		//if current text is not 'Waiting for team x' (which is set above if either team is
-    		//enabled) then we set it to 'waiting for teams'
+    		/*
+    		 * if both teams are not set then 
+    		 * if current text is not 'Waiting for team x' (which is set above if either team is
+    		 * enabled) then we set it to 'waiting for teams'
+    		 */
     		if (!lblMatchStatus.getText().contains(MV_STATUS_WAIT_SINGLE)) 
     			lblMatchStatus.setText(MV_STATUS_WAIT);
     	}
@@ -556,87 +589,129 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
      *******************/
     /**
      * Update score when submit button is pressed. Displays prompt if invalid scores entered.
-     * Controls stylesheets based on state
+     * Progression is halted at different stages and css is updated in various error scenarios:
+     * 1) If an invalid score is entered, displays an invalid argument message and clears the score.
+     * 2) If only one score is passed in, prompts the user to enter a 2nd score.
      */
     protected void btnAction_Handler() {
-    	//if button is disabled then exit
-    	if (btnSubmit.isDisabled()) {
-    		//System.out.println("BUTTON IS DISABLED YO");
-    		return;
+    	
+    	//Score variables
+    	Integer s1 = 0;
+    	Integer s2 = 0;
+    	
+    	//Invalid input flags
+    	boolean invalid1 = false;	//score1 invalid
+    	boolean invalid2 = false;	//score2 invalid
+    	
+    	//No score flags
+    	boolean empty1 = false;		//no score entered for score1
+    	boolean empty2 = false;		//no score entered for score2
+    	
+    	//Check that the first score is a valid non-negative integer
+    	try {
+    		if (txtScore1.getText().trim().equals("")) empty1 = true;
+    		else {
+    			s1 = Integer.parseInt(txtScore1.getText());
+        		if(s1 < 0) throw new NumberFormatException();	
+    		}
+    	} catch(NumberFormatException exception) {
+    		invalid1 = true;
+    		txtScore1.setText("");
+    	}
+    	
+    	//Check that the second score is a valid non-negative integer
+    	try {
+    		if (txtScore2.getText().trim().equals("")) empty2 = true;
+    		else {
+    			s2 = Integer.parseInt(txtScore2.getText());
+        		if(s2 < 0) throw new NumberFormatException();	
+    		}
+    	} catch(NumberFormatException exception) {
+    		invalid2 = true;
+    		txtScore2.setText("");
     	}
     	
     	/*
-    	 * progression is stopped within this block through a variety of exceptions that are then 
-    	 * handled in the catch block.  The catch block updates CSS stylesheets based on what 
-    	 * exception was thrown
+    	 * If invalid scores entered, display numeric only message.
+    	 * Otherwise, check if scores are empty and display single score prompt.
     	 */
-    	try {
-    		//If either score is missing then change status with arg exception
-    		if (txtScore1.getText().trim().equals("") || txtScore2.getText().trim().equals(""))
-    			throw new IllegalArgumentException("Missing Score");
-    		//will throw number format and exit if either score is empty or invalid
-    		Integer s1 = Integer.parseInt(txtScore1.getText()); 
-    		Integer s2 = Integer.parseInt(txtScore2.getText());
-    		//If scores are tied, throw state exception
-    		if (s1 == s2)
-    			throw new IllegalStateException("No ties allowed in bracket.");
-    		/****************************
-    		 * If we made it this fare we have a valid submission
-    		 ****************************/
-    		//Disable scores and submit button
-    		txtScore1.setEditable(false);
-    		txtScore2.setEditable(false);
-    		btnSubmit.setDisable(true);
-    		//Set final score for match
-    		match.setFinalScore(s1, s2);
-    		//Change winner view
-    		Label winner = ((s1 > s2) ? lblTeam1: lblTeam2);
-    		TextField winnerScore = ((s1 > s2) ? txtScore1: txtScore2);
-    		//Champ view to champ style is isChamp = true
-    		if (isChamp) {
-    			winner.setId("ChampionFill");
-        		winnerScore.setId("scoreChampionFill");
-        		btnSubmit.setId("submitChampionFill");
-        		btnSubmit.setText(MV_BTN_SUBMIT_CHAMP);
-        		//Match header (match)
-        		lblMatchHeader.setText(MV_MATCH_HEADER_CHAMP);
-        		//Match number
-        		lblMatchNumber.setText(MV_MATCH_NUMBER_CHAMP);
-        		lblMatchNumber.setId("matchNumber_Champ");
-        		//Match Border
-        		lblMatchBorder.setId("matchBorder_Champ");
-        		//Status header (status)
-        		lblStatusHeader.setId("statusHeader_Champ");
-        		//Match Status
-        		lblMatchStatus.setText(MV_STATUS_CHAMP);
-        		lblMatchStatus.setId("matchStatus_Champ");
-    		}else {
-    			//Else just winner style
-    			winner.setId("teamWonFill");
-        		winnerScore.setId("scoreTeamWonFill");
-        		btnSubmit.setId("submitTeamWonFill");
-        		btnSubmit.setText(MV_BTN_SUBMIT_WINNER);
-        		lblMatchStatus.setId("matchStatus_Winner");
-        		String winStr = " " + match.getWinner().getName();    		
-        		lblMatchStatus.setText(winStr + " " + MV_STATUS_WINNER);
-    		}
-    		//Change looser view
-    		Label loser = ((s1 > s2) ? lblTeam2 : lblTeam1);
-    		TextField loserScore = ((s1 > s2) ? txtScore2: txtScore1);
-    		loser.setId("teamLostFill");
-    		loserScore.setId("scoreTeamLostFill");
-    		//set match as over (used for setting css style elsewhere
-    		isMatchOver = true;
-    		//callback to main to let it know to refresh next match
-    		((Main) caller).matchPaneCallBack(match, index);
-    	} catch (NumberFormatException exception) {
-    		exception.printStackTrace();
+    	if(invalid1 || invalid2) {
     		lblMatchStatus.setText(MV_STATUS_ERR_NUMERIC_ONLY);
-    	} catch (IllegalArgumentException exception) {
-    		lblMatchStatus.setText(MV_STATUS_ERR_INVALID);
-    	} catch (IllegalStateException exception) {
-    		lblMatchStatus.setText(MV_STATUS_ERR_NO_TIES);
+    		if((invalid1 && invalid2) || (invalid1 && empty2) || (empty1 && invalid2)) {
+    			btnSubmit.setDisable(true);
+    			btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
+    			btnSubmit.setId("submitPendingFill");
+    		}
+    		return;
+    	}else {
+    		if(empty1 || empty2) {
+    			lblMatchStatus.setText(MV_STATUS_ERR_SINGLE_SCORE);
+    			return;
+    		}
     	}
+		
+		//If scores are tied, throw state exception
+		if (s1 == s2) {
+			txtScore1.setText("");
+			txtScore2.setText("");
+			btnSubmit.setDisable(true);
+			btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
+			btnSubmit.setId("submitPendingFill");
+			lblMatchStatus.setText(MV_STATUS_ERR_NO_TIES);
+			return;
+		}
+		
+		/****************************
+		 * If we made it this far we have a valid submission
+		 ****************************/
+		//Disable scores and submit button
+		txtScore1.setEditable(false);
+		txtScore2.setEditable(false);
+		btnSubmit.setDisable(true);
+		//Set final score for match
+		match.setFinalScore(s1, s2);
+		//Change winner view
+		Label winner = ((s1 > s2) ? lblTeam1: lblTeam2);
+		TextField winnerScore = ((s1 > s2) ? txtScore1: txtScore2);
+		
+		//Champ view to champ style is isChamp = true
+		if (isChamp) {
+			winner.setId("ChampionFill");
+    		winnerScore.setId("scoreChampionFill");
+    		btnSubmit.setId("submitChampionFill");
+    		btnSubmit.setText(MV_BTN_SUBMIT_CHAMP);
+    		//Match header (match)
+    		lblMatchHeader.setText(MV_MATCH_HEADER_CHAMP);
+    		//Match number
+    		lblMatchNumber.setText(MV_MATCH_NUMBER_CHAMP);
+    		lblMatchNumber.setId("matchNumber_Champ");
+    		//Match Border
+    		lblMatchBorder.setId("matchBorder_Champ");
+    		//Status header (status)
+    		lblStatusHeader.setId("statusHeader_Champ");
+    		//Match Status
+    		lblMatchStatus.setText(MV_STATUS_CHAMP);
+    		lblMatchStatus.setId("matchStatus_Champ");
+		}else {
+			//Else just winner style
+			winner.setId("teamWonFill");
+    		winnerScore.setId("scoreTeamWonFill");
+    		btnSubmit.setId("submitTeamWonFill");
+    		btnSubmit.setText(MV_BTN_SUBMIT_WINNER);
+    		lblMatchStatus.setId("matchStatus_Winner");
+    		String winStr = " " + match.getWinner().getName();    		
+    		lblMatchStatus.setText(winStr + " " + MV_STATUS_WINNER);
+		}
+		
+		//Change looser view
+		Label loser = ((s1 > s2) ? lblTeam2 : lblTeam1);
+		TextField loserScore = ((s1 > s2) ? txtScore2: txtScore1);
+		loser.setId("teamLostFill");
+		loserScore.setId("scoreTeamLostFill");
+		//set match as over (used for setting css style elsewhere
+		isMatchOver = true;
+		//callback to main to let it know to refresh next match
+		((Main) caller).matchPaneCallBack(match, index);
     }
     
     /**
@@ -652,64 +727,26 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     	//don't care about getting focus
     	if (newVal) return; //if newVal is true then we got focus, we only care if we lose focus
     	if (isMatchOver) return; //defensive don't update if match is over
-    	//parses control text and will throw NF exception if not valid input
-    	try {
-	    	//A value is entered in both controls then set status to pending
-    		if (!(txtScore1.getText().trim().equals("")) ||
-	    			!(txtScore2.getText().trim().equals(""))) {
-    			lblMatchStatus.setText(MV_STATUS_PENDING);
-    			//if there is a tie deal with it
-	    		if (txtScore1.getText().trim().equals(
-    					txtScore2.getText().trim())) {
-	    			txtScore1.setText("");
-	    			txtScore2.setText("");
-	    			btnSubmit.setDisable(true);
-	    			btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
-	    			btnSubmit.setId("submitPendingFill");
-	    			lblMatchStatus.setText(MV_STATUS_ERR_NO_TIES);
-	    		} else {
-	    		//if scores are good
-	    			btnSubmit.setDisable(false);
-		    		btnSubmit.setText(MV_BTN_SUBMIT_SETSCORE);
-		    		btnSubmit.setId("submitReadyFill");
-		    		if (!(ctrl.getText().trim().equals(""))){
-		                System.out.println("About to call NFE");
-		                Integer.parseInt(ctrl.getText());
-		            }
-	    		}
-	    	} else {
-	    		//at least one does not have a score.  Double checking
-	    		//still disabled as you can enter and clear scores but have
-	    		//button show up
-	    		lblMatchStatus.setText(MV_STATUS_PENDING);
-	    		if (!btnSubmit.isDisable()) {
-		    		btnSubmit.setDisable(true);
-		    		btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
-		    		btnSubmit.setId("submitPendingFill");
-	    		}
-	    	}
-	    	//A value is entered in the control that lost focus make sure you can parse it
-    		//if not throw parsing exception and deal with it in catch
-	    	if (!(ctrl.getText().trim().equals(""))){
-	    	    System.out.println("About to call NFE");
-	        	Integer.parseInt(ctrl.getText());
-	    	}
-    	} catch (NumberFormatException exception) {
-			System.out.println("NFE");
-    	    ctrl.setText("");
-			lblMatchStatus.setText(MV_STATUS_ERR_NUMERIC_ONLY);
-			//if (!btnSubmit.isDisable() ) {
-			   if ((txtScore1.getText().trim().equals("")) && (txtScore2.getText().trim().equals(""))) {   
-    	    		btnSubmit.setDisable(true);
-    	    		btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
-    	    		btnSubmit.setId("submitPendingFill");
-//			   } else if ((txtScore1.getText().trim().equals("")) || (txtScore2.getText().trim().equals("")))) {
-//			       btnSubmit.setDisable(true);
-//			       btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
-//                   btnSubmit.setId("submitPendingFill");
-			   }
-    		//}
-			ctrl.requestFocus();
+    	
+    	//parses control text and will throw NumberFormat exception if not valid input
+    	//A value is entered in both controls then set status to pending
+		if (!(txtScore1.getText().trim().equals("")) || !(txtScore2.getText().trim().equals(""))) {
+			lblMatchStatus.setText(MV_STATUS_PENDING);
+			btnSubmit.setDisable(false);
+			btnSubmit.setText(MV_BTN_SUBMIT_SETSCORE);
+			btnSubmit.setId("submitReadyFill");
+		} else {
+			/*
+			 * at least one does not have a score.  Double checking
+			 * still disabled as you can enter and clear scores but have
+			 * button show up
+			 */
+			lblMatchStatus.setText(MV_STATUS_PENDING);
+			if (!btnSubmit.isDisable()) {
+				btnSubmit.setDisable(true);
+				btnSubmit.setText(MV_BTN_SUBMIT_PENDING);
+				btnSubmit.setId("submitPendingFill");
+			}
 		}
     }
     
@@ -728,7 +765,5 @@ public class MatchPane<Score extends Comparable<Score>> extends GridPane {
     		txtScore1.requestFocus();
     		break;
     	}
-    	
-    	
     }
 }

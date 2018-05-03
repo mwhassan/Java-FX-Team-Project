@@ -116,20 +116,15 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
             throw new IllegalArgumentException("You can not add a null team");
 		if (spot == TeamSpot.TeamOne) {
 			//if team is not null and name is not "" then throw exception
-			System.out.println(teamOne);
 			if (teamOne != null && !teamOne.getName().trim().equals("")) {
-				System.out.println("team one exception");
 				throw new IllegalStateException("Spot is already full.");
 			}
-			System.out.println("Setting teamOne");
 			teamOne = team;
 		}
 		else {
-			if (teamTwo != null && !teamTwo.getName().trim().equals("")) { 
-				System.out.println("team two exception");
+			if (teamTwo != null && !teamTwo.getName().trim().equals("")) {
 				throw new IllegalStateException("Spot is already full.");
 			}
-			System.out.println("Setting teamTwo");
 			teamTwo = team;
 		}
 	}
@@ -176,7 +171,6 @@ public class Match<S extends Comparable<S>> implements MatchADT <S>  {
 		if (teamOneScore.equals(teamTwoScore)) 
 		    throw new IllegalArgumentException ("Can not have ties in bracket");
 		if (this.teamOneScore != null || this.teamTwoScore != null) {
-			System.out.println("TeamOneScore = " + this.teamOneScore);
 		    throw new IllegalStateException("Cannot override existing score.");
 		}
 		this.teamOneScore = teamOneScore;

@@ -61,9 +61,11 @@ public class ChampPane<Score extends Comparable<Score>>
     private static final Integer MV_PANE_INSETS = 10; // Insets amount
     private static final Integer MV_PANE_VERT_GAP = 5; // Vertical gap
     private static final Integer MV_PANE_HORZ_GAP = 5; // Horizontal gap
+    
     /*------
      * Pane layout
      *-----*/
+    
     //Column Width details
     private static final Integer MV_COL_B_WIDTH = 160;
     private static final Integer MV_COL_C_WIDTH = 60;
@@ -150,7 +152,8 @@ public class ChampPane<Score extends Comparable<Score>>
     	 /*------
          * Team Name Information
          *-----*/       
-        //mX = col, colSpan, row, rowSpan
+        
+		//mX = col, colSpan, row, rowSpan
         // Instantiate Teams
 		//team 1
 		lblTeam1 = new Label();
@@ -158,33 +161,41 @@ public class ChampPane<Score extends Comparable<Score>>
         //team 2
         lblTeam2 = new Label();
         mvTeamTwo = new Integer[]{MV_COL_F, MV_SINGLE, MV_ROW_4, MV_DOUBLE};
+        
         /*------
          * Internal match information 
          *-----*/
+        
         // Add match info
         lblMatchHeader = new Label(); //Header
         mvMatchHeader = new Integer[]{MV_COL_D, MV_SINGLE, MV_ROW_1, MV_SINGLE};
         //add Match Number info
         lblMatchNumber = new Label(); //
         mvMatchNumber = new Integer[]{MV_COL_D, MV_SINGLE, MV_ROW_2, MV_SINGLE};
+        
         /*------
          * Border information 
          *-----*/
+        
         //Using match border to create border for entire pane
         lblMatchBorder = new Label();
         mvMatchBorder = new Integer[]{MV_COL_A, MV_COL_ALL, MV_ROW_3, MV_TRIPLE};
+        
         /*------
          * Status information 
          *-----*/
+        
         // Add Status Header
         lblStatusHeader = new Label();
         mvStatusHeader = new Integer[]{MV_COL_F, MV_SINGLE, MV_ROW_7, MV_SINGLE};
         //Add status itself
         lblMatchStatus = new Label();
         mvMatchStatus = new Integer[]{MV_COL_C, MV_TRIPLE , MV_ROW_7, MV_SINGLE};
+        
         /*------
          * Score and Submit 
          *-----*/
+        
         // Add team 1 score
         txtScore1 = new TextField();
         mvScore1 = new Integer[] {MV_COL_C, MV_SINGLE, MV_ROW_5, MV_SINGLE};
